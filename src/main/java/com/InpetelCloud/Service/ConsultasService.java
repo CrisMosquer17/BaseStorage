@@ -19,6 +19,26 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Usuarios() {
 		return dao.Usuarios();
 	}
+
+	@Override
+	public List<Map<String, Object>> Concentradores() {
+		return dao.Concentradores();
+	}
+
+	@Override
+	public List<Map<String, Object>> Transformadores() {
+		return dao.Transformadores();
+	}
+
+	@Override
+	public List<Map<String, Object>> Medidores() {
+		return dao.Medidores();
+	}
+
+	@Override
+	public List<Map<String, Object>> Medidas() {
+		return dao.Medidas();
+	}
 	
 	
 }

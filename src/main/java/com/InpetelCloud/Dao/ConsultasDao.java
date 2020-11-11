@@ -20,4 +20,28 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios");
 		return view;
 	}
+
+	@Override
+	public List<Map<String, Object>> Concentradores() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Transformadores() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Medidores() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Medidas() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidas");
+		return view;
+	}
 }

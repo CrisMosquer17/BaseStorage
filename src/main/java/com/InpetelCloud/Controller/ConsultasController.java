@@ -23,4 +23,42 @@ public class ConsultasController {
 	public List<Map<String, Object>> Usuarios(){
 		return service.Usuarios();
 	}
+	
+	@GetMapping("/verConcentradores")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Concentradores(){
+		return service.Concentradores();
+	}
+	
+	@GetMapping("/verTransformadores")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Transformadores(){
+		return service.Transformadores();
+	}
+	
+	@GetMapping("/verMedidores")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Medidores(){
+		return service.Medidores();
+	}
+	
+	@GetMapping("/verMedidas")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Medidas(){
+		return service.Medidas();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
