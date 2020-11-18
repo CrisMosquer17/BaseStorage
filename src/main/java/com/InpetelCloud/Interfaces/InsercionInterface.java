@@ -27,5 +27,7 @@ public interface InsercionInterface {
 	/*USUARIOS */
 	public Usuarios saveUsuario(Usuarios usuario); 
 
+	public int createSchema(String nameSchema);
+	public void schemaCreate(String name);
 	
 }

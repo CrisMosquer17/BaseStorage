@@ -40,4 +40,14 @@ public class InsercionService implements InsercionInterface {
 		return null;
 	}
 
+	@Override
+	public int createSchema(String nameSchema) {
+		return dao.createSchema(nameSchema);
+	}
+
+	@Override
+	public void schemaCreate(String name) {
+		dao.schemaCreate(name);
+	}
+
 }
