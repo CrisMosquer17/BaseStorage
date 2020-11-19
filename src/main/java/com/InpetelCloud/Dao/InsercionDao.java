@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.Concentrador;
 import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -36,25 +37,13 @@ public class InsercionDao implements InsercionInterface{
 		return null;
 	}
 
-	@Override
-	public int createSchema(String nameSchema) {
-
-	 String SQL = "CREATE SCHEMA `"+nameSchema+"`" ;
-	int x = 0;
-	try{
-	x = template.update(SQL);
-	}catch(Exception ex){
-	System.out.println(ex);
-	}
-	return x;
-	}
-
+	 /*INSERCION DE ESQEMA A BASE CON DIFERENTE NOMBRE */ 
 	@Override
 	public void schemaCreate(String name) {
 	  
 		try {
 			template.execute("CREATE SCHEMA IF NOT EXISTS `"+ name +"`");
-			template.execute("CREATE TABLE `"+ name +"`.`Estados` (\r\n"
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Estados` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre_Est` VARCHAR(120) NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
@@ -402,6 +391,14 @@ public class InsercionDao implements InsercionInterface{
 			System.out.println(ex);
 		}
 		
+	}
+
+	/* CREAR SISTEMA EXTERNO */ 
+	@Override
+	public int crearSistemaExterno(SistemExterno se) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.SistemaExteno (Nit, Nombre_SE, Telefono_SE, Direccion_SE, States_ID, Tipo_SistemaExterno_ID)\r\n"
+				+ "VALUES ('"+ se.getNit()+"', '"+se.getNombre()+"', '"+se.getTelefono()+"', '"+se.getDireccion()+"', 1, "+se.getTipoSistema()+")");
+		return value;
 	}
 	
 

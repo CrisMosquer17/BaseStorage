@@ -2,6 +2,7 @@ package com.InpetelCloud.Interfaces;
 
 import com.InpetelCloud.Model.Concentrador;
 import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -27,7 +28,8 @@ public interface InsercionInterface {
 	/*USUARIOS */
 	public Usuarios saveUsuario(Usuarios usuario); 
 
-	public int createSchema(String nameSchema);
 	public void schemaCreate(String name);
+	
+	public int crearSistemaExterno(SistemExterno se);
 	
 }

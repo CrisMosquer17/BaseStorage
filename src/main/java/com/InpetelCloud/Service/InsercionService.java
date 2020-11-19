@@ -7,6 +7,7 @@ import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.Concentrador;
 import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -41,13 +42,14 @@ public class InsercionService implements InsercionInterface {
 	}
 
 	@Override
-	public int createSchema(String nameSchema) {
-		return dao.createSchema(nameSchema);
+	public void schemaCreate(String name) {
+		dao.schemaCreate(name);
 	}
 
 	@Override
-	public void schemaCreate(String name) {
-		dao.schemaCreate(name);
+	public int crearSistemaExterno(SistemExterno se) {
+		dao.schemaCreate(se.getNombre());
+		return dao.crearSistemaExterno(se);
 	}
 
 }
