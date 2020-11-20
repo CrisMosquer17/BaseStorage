@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.EliminarInterface;
+import com.InpetelCloud.Model.SistemExterno;
 
 @Repository
 public class EliminarDao implements EliminarInterface {
@@ -36,6 +37,12 @@ public class EliminarDao implements EliminarInterface {
 	@Override
 	public boolean deleteMedidas(Long id) {
 		return false;
+	}
+
+	@Override
+	public int eliminarSistemaExterno(Long id) {
+		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set States_ID = 2 where ID="+ id +";");
+		return value;
 	}
 
 }

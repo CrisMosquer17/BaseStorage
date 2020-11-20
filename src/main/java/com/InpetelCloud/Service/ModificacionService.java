@@ -7,6 +7,7 @@ import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.Concentrador;
 import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -35,5 +36,11 @@ public class ModificacionService implements ModificacionInterface{
 	public Transformador updateTransformador(Long id, Transformador transformador) {
 		return null;
 	}
+
+	@Override
+	public int modificarSistemaExterno(Long id ,SistemExterno se) {
+		return dao.modificarSistemaExterno(id, se);
+	}
+
 
 }

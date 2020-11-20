@@ -44,4 +44,10 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidas");
 		return view;
 	}
+
+	@Override
+	public List<Map<String, Object>> SistemasExternos() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.SistemaExteno");
+		return view;
+	}
 }

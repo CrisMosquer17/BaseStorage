@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.EliminarDao;
 import com.InpetelCloud.Interfaces.EliminarInterface;
+import com.InpetelCloud.Model.SistemExterno;
 
 
 @Service
@@ -36,6 +37,11 @@ public class EliminarService implements EliminarInterface {
 	@Override
 	public boolean deleteMedidas(Long id) {
 		return false;
+	}
+
+	@Override
+	public int eliminarSistemaExterno(Long id) {
+		return dao.eliminarSistemaExterno(id);
 	}
 
 }

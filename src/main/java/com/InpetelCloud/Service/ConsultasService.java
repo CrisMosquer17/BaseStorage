@@ -39,6 +39,11 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Medidas() {
 		return dao.Medidas();
 	}
+
+	@Override
+	public List<Map<String, Object>> SistemasExternos() {
+		return dao.SistemasExternos();
+	}
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
+import com.InpetelCloud.Model.SistemExterno;
+
 public interface EliminarInterface {
 	
 	public boolean deleteUsuario(Long id);
@@ -11,6 +13,8 @@ public interface EliminarInterface {
 	public boolean deleteTransformador(Long id);
 	
 	public boolean deleteMedidas(Long id);
+	
+	public int eliminarSistemaExterno(Long id);
 
 
 

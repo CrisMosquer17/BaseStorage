@@ -48,6 +48,12 @@ public class ConsultasController {
 		return service.Medidas();
 	}
 	
+	@GetMapping("/verSistemasExternos")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> SistemasExternos(){
+		return service.SistemasExternos();
+	}
+	
 	
 	
 	

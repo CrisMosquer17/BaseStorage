@@ -29,10 +29,24 @@ public class SistemExterno {
 	}
 
 
+	//Para modificar un sistema externo
+	public SistemExterno(int id, String nit, String telefono, String direccion) {
+		super();
+		this.id = id;
+		this.nit = nit;
+		this.telefono = telefono;
+		this.direccion = direccion;
+	}
+
+
 
 	public int getId() {
 		return id;
 	}
+
+	
+
+
 
 	public void setId(int id) {
 		this.id = id;

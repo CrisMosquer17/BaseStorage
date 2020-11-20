@@ -61,7 +61,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "    FOREIGN KEY (`States_ID`)\r\n"
 					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 6");
+					+ "AUTO_INCREMENT = 1");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Usuarios` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
@@ -120,7 +120,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Descripcion` VARCHAR(150) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 4\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("\r\n"
@@ -129,7 +129,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Nombre_Tecnologia` VARCHAR(80) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 3\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Marca` (\r\n"
@@ -142,7 +142,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "    FOREIGN KEY (`TecnologiaComponente_ID`)\r\n"
 					+ "    REFERENCES `"+ name +"`.`TecnologiaComponente` (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 4\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Modem` (\r\n"
@@ -160,7 +160,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Nombre` VARCHAR(120) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 17\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Concentrador` (\r\n"
@@ -251,7 +251,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `NombreMedidor` VARCHAR(60) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 4\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoPuerto` (\r\n"
@@ -259,7 +259,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Nombre_Puerto` VARCHAR(80) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 4\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Medidor` (\r\n"

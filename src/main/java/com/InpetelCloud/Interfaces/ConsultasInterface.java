@@ -14,5 +14,7 @@ public interface ConsultasInterface {
 	public List<Map<String,Object>>Medidores();
 	
 	public List<Map<String,Object>>Medidas();
+	
+	public List<Map<String,Object>>SistemasExternos();
 
 }

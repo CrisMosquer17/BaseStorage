@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.Concentrador;
 import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -35,5 +36,14 @@ public class ModificacionDao implements ModificacionInterface{
 	public Transformador updateTransformador(Long id, Transformador transformador) {
 		return null;
 	}
+
+	@Override
+	public int modificarSistemaExterno(Long id, SistemExterno se) {
+		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set Nit='"+ se.getNit() + "', Telefono_SE='"+ se.getTelefono() + "', Direccion_SE='"+ se.getDireccion() + "' where ID="+ id +";");
+		return value;
+	}
+
+	
+
 
 }
