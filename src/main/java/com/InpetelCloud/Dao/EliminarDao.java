@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.EliminarInterface;
-import com.InpetelCloud.Model.SistemExterno;
 
 @Repository
 public class EliminarDao implements EliminarInterface {

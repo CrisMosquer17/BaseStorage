@@ -5,9 +5,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.InsercionInterface;
-import com.InpetelCloud.Model.Concentrador;
-import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
+import com.InpetelCloud.Model.TecnologiaComponente;
+import com.InpetelCloud.Model.TiempoConectado;
+import com.InpetelCloud.Model.TipoComunicacion;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -22,22 +26,22 @@ public class InsercionDao implements InsercionInterface{
 		return null;
 	}
 
-	@Override
+	/*@Override
 	public Medidor saveMedidor(Medidor medidor) {
 		return null;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public Concentrador saveConcentrador(Concentrador concentrador) {
 		return null;
-	}
+	}*/
 
 	@Override
 	public Transformador saveTransformador(Transformador transformador) {
 		return null;
 	}
 
-	 /*INSERCION DE ESQEMA A BASE CON DIFERENTE NOMBRE */ 
+	 /*INSERCION DE ESQUEMA A BASE CON DIFERENTE NOMBRE */ 
 	@Override
 	public void schemaCreate(String name) {
 	  
@@ -397,9 +401,58 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearSistemaExterno(SistemExterno se) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.SistemaExteno (Nit, Nombre_SE, Telefono_SE, Direccion_SE, States_ID, Tipo_SistemaExterno_ID)\r\n"
-				+ "VALUES ('"+ se.getNit()+"', '"+se.getNombre()+"', '"+se.getTelefono()+"', '"+se.getDireccion()+"', 1, "+se.getTipoSistema()+")");
+				+ "VALUES ('"+ se.getNit()+"', '"+ se.getNombre()+"', '"+se.getTelefono()+"', '"+se.getDireccion()+"', 1, "+se.getTipoSistema()+")");
 		return value;
 	}
+
+	/* CREAR UN ROL */
+	@Override
+	public int crearRol(Rol rol) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Roles (Nombre_Rol, Descripcion_Rol, States_ID)\r\n"
+				+ "VALUES ('" + rol.getNombre() + "', '"+ rol.getDescripcion() +"', " + rol.getEstadoId() + ")");
+		return value;
+	}
+
+	/* CREAR UNA MARCA */
+	@Override
+	public int crearMarca(Marca marca) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Marca (Nombre_Marca, TecnologiaComponente_ID)\r\n"
+				+ "VALUES ('"+ marca.getNombre() + "',  " + marca.getTecnologiaComponenteId() + ")");
+		return value;
+	}
+
+	/* CREAR UNA TECNOLOGIA DEL COMPONENTE */
+	@Override
+	public int crearTecnologiaComponente(TecnologiaComponente tecnologiaComponente) {
+		int value = template.update( "INSERT INTO Inpetel_Cloud.TecnologiaComponente (Nombre_Tecnologia)\r\n"
+				+ " VALUES ('" + tecnologiaComponente.getNombre() + "')");
+		return value;
+	}
+
+	/* CREAR UN MODEM */
+	@Override
+	public int crearModem(Modem modem) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Modem (Serial, Nombre, Imei, Marca)\r\n"
+				+ "VALUES ('" + modem.getSerial() + "', '" + modem.getNombre() + "', '" + modem.getImei() + "', " + modem.getMarca() + ")");
+		return value;
+	}
+
+	/* CREAR UN TIPO DE COMUNICACION */
+	@Override
+	public int crearTipoComunicacion(TipoComunicacion tipoComunicacion) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.TipoComunicacion (Nombre)\r\n"
+				+ " VALUES ('" + tipoComunicacion.getNombre() + "')");
+		return value;
+	}
+
+	@Override
+	public int crearTiempoConectado(TiempoConectado tiempoConectado) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.TiempoConectado (ComStatus, Descripcion)\r\n"
+				+ " VALUES ('" + tiempoConectado.getComStatus() + "', " + tiempoConectado.getDescripcion() + ")");
+		return value;
+	}
+
+	
 	
 
 }
