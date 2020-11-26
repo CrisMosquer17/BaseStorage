@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.InsercionInterface;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -271,7 +272,6 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `TipoMedidor_ID` INT NOT NULL,\r\n"
 					+ "  `Magnitud` INT NULL DEFAULT NULL,\r\n"
 					+ "  `NumCuadrantes` INT NULL DEFAULT NULL,\r\n"
-					+ "  `Medidorcol` VARCHAR(45) NULL DEFAULT NULL,\r\n"
 					+ "  `TipoPuerto_ID` INT NOT NULL,\r\n"
 					+ "  `Prepago` TINYINT NULL DEFAULT NULL,\r\n"
 					+ "  `Saldo_prepago` INT NULL DEFAULT NULL,\r\n"
@@ -450,6 +450,12 @@ public class InsercionDao implements InsercionInterface{
 		int value = template.update("INSERT INTO Inpetel_Cloud.TiempoConectado (ComStatus, Descripcion)\r\n"
 				+ " VALUES ('" + tiempoConectado.getComStatus() + "', " + tiempoConectado.getDescripcion() + ")");
 		return value;
+	}
+
+	@Override
+	public int crearFtp(Ftp f) {
+		
+		return template.update("INSERT INTO Inpetel_Cloud.");
 	}
 
 	

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -82,6 +83,12 @@ public class InsercionService implements InsercionInterface {
 	@Override
 	public int crearTiempoConectado(TiempoConectado tiempoConectado) {
 		return dao.crearTiempoConectado(tiempoConectado);
+	}
+
+	@Override
+	public int crearFtp(Ftp f) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

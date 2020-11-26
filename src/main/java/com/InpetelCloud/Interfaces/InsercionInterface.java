@@ -1,6 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -57,6 +58,7 @@ public interface InsercionInterface {
 	// puede estar activo, temporalmente por fuera, por fuera o una nueva que se crea a través de este metodo
 	public int crearTiempoConectado(TiempoConectado tiempoConectado);
 	
+	public int crearFtp(Ftp f);
 	
 	
 	
