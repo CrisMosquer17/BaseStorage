@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -16,6 +17,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Service.InsercionService;
 
 @RestController
@@ -73,5 +76,25 @@ public class InsercionController {
 	public int crearTiempoConectado(@RequestBody TiempoConectado tiempoConectado) {
 		return service.crearTiempoConectado(tiempoConectado);
 	}
+	
+	@PostMapping("/crearTipoMedidor/")
+	@CrossOrigin(origins = "*")
+	public int crearTipoMedidor(@RequestBody TipoMedidor tipoMedidor) {
+		return service.crearTipoMedidor(tipoMedidor);
+	}
+	
+	
+	@PostMapping("/crearTipoPuerto/")
+	@CrossOrigin(origins = "*")
+	public int crearTipoMedidor(@RequestBody TipoPuerto tipoPuerto) {
+		return service.crearTipoPuerto(tipoPuerto);
+	}
+	
+	@PostMapping("/crearEstado/")
+	@CrossOrigin(origins = "*")
+	public int crearEstado(@RequestBody Estados estado) {
+		return service.crearEstado(estado);
+	}
+
 	
 }

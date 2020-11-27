@@ -1,6 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
@@ -9,6 +10,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -58,6 +61,15 @@ public interface InsercionInterface {
 	// puede estar activo, temporalmente por fuera, por fuera o una nueva que se crea a través de este metodo
 	public int crearTiempoConectado(TiempoConectado tiempoConectado);
 	
+	// Metodo para crear un tipo de medidor
+	public int crearTipoMedidor(TipoMedidor tipoMedidor);
+		
+	// Metodo para crear un tipo de puerto
+	public int crearTipoPuerto(TipoPuerto tipoPuerto);
+		
+	// Metodo para crear un estado
+	public int crearEstado(Estados estado);
+		
 	public int crearFtp(Ftp f);
 	
 	

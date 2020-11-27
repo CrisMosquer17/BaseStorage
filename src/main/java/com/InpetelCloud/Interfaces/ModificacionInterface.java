@@ -1,6 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -8,6 +9,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -44,6 +47,15 @@ public interface ModificacionInterface {
 	
 	//Metodo para modificar un tiempo conectado
 	public int modificarTiempoConectado(Long id, TiempoConectado tiempoConectado);
+
+	//Metodo para modificar un tipo de medidor
+	public int modificarTipoMedidor(Long id, TipoMedidor tipoMedidor);
+		
+	//Metodo para modificar un tipo de puerto
+	public int modificarTipoPuerto(Long id, TipoPuerto tipoPuerto);
+		
+	//Metodo para modificar un estado
+	public int modificarEstado(Long id, Estados estado);
 
 
 

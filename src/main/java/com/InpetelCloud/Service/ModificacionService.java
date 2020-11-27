@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -12,6 +13,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -75,6 +78,22 @@ public class ModificacionService implements ModificacionInterface{
 	public int modificarTiempoConectado(Long id, TiempoConectado tiempoConectado) {
 		return dao.modificarTiempoConectado(id, tiempoConectado);
 	}
+	
+	@Override
+	public int modificarTipoMedidor(Long id, TipoMedidor tipoMedidor) {
+		return dao.modificarTipoMedidor(id, tipoMedidor);
+	}
+
+	@Override
+	public int modificarTipoPuerto(Long id, TipoPuerto tipoPuerto) {
+		return dao.modificarTipoPuerto(id, tipoPuerto);
+	}
+
+	@Override
+	public int modificarEstado(Long id, Estados estado) {
+		return dao.modificarEstado(id, estado);
+	}
+
 
 
 }

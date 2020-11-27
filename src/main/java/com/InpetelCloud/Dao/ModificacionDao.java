@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -12,6 +13,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -80,6 +83,24 @@ public class ModificacionDao implements ModificacionInterface{
 	@Override
 	public int modificarTiempoConectado(Long id, TiempoConectado tiempoConectado) {
 		int value = template.update("UPDATE Inpetel_Cloud.TiempoConectado set ComStatus='"+ tiempoConectado.getComStatus() + "', Descripcion='"+ tiempoConectado.getDescripcion() + "' where ID="+ id +";");
+		return value;
+	}
+	
+	@Override
+	public int modificarTipoMedidor(Long id, TipoMedidor tipoMedidor) {
+		int value = template.update("UPDATE Inpetel_Cloud.TipoMedidor set NombreMedidor='"+ tipoMedidor.getNombre() +  "' where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarTipoPuerto(Long id, TipoPuerto tipoPuerto) {
+		int value = template.update("UPDATE Inpetel_Cloud.TipoPuerto set Nombre_Puerto='"+ tipoPuerto.getNombre() +  "' where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarEstado(Long id, Estados estado) {
+		int value = template.update("UPDATE Inpetel_Cloud.Estados set Nombre_Est='"+ estado.getNombre() +  "' where ID="+ id +";");
 		return value;
 	}
 

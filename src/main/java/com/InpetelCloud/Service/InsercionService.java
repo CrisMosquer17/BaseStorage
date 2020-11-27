@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
@@ -13,6 +14,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -84,6 +87,22 @@ public class InsercionService implements InsercionInterface {
 	public int crearTiempoConectado(TiempoConectado tiempoConectado) {
 		return dao.crearTiempoConectado(tiempoConectado);
 	}
+	
+	@Override
+	public int crearTipoMedidor(TipoMedidor tipoMedidor) {
+		return dao.crearTipoMedidor(tipoMedidor);
+	}
+
+	@Override
+	public int crearTipoPuerto(TipoPuerto tipoPuerto) {
+		 return dao.crearTipoPuerto(tipoPuerto);
+	}
+
+	@Override
+	public int crearEstado(Estados estado) {
+		return dao.crearEstado(estado);
+	}
+
 
 	@Override
 	public int crearFtp(Ftp f) {

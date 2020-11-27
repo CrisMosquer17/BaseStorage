@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.InsercionInterface;
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
@@ -13,6 +14,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
@@ -451,6 +454,28 @@ public class InsercionDao implements InsercionInterface{
 				+ " VALUES ('" + tiempoConectado.getComStatus() + "', " + tiempoConectado.getDescripcion() + ")");
 		return value;
 	}
+	
+	@Override
+	public int crearTipoMedidor(TipoMedidor tipoMedidor) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.TipoMedidor (NombreMedidor)\r\n "
+				+ "VALUES ('" + tipoMedidor.getNombre() + "');");
+		return value;
+	}
+
+	@Override
+	public int crearTipoPuerto(TipoPuerto tipoPuerto) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.TipoPuerto (Nombre_Puerto)\r\n "
+				+ "VALUES ('" + tipoPuerto.getNombre() +  "');");
+		return value;
+	}
+
+	@Override
+	public int crearEstado(Estados estado) {
+		int value = template.update(" INSERT INTO Inpetel_Cloud.Estados (Nombre_Est)\r\n "
+				+ "VALUES ('" + estado.getNombre() + "');");
+		return value;
+	}
+
 
 	@Override
 	public int crearFtp(Ftp f) {

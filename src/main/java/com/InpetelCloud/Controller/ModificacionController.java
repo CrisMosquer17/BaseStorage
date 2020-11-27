@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -15,6 +16,8 @@ import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
 import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
+import com.InpetelCloud.Model.TipoMedidor;
+import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Service.ModificacionService;
 
 @RestController
@@ -65,5 +68,25 @@ public class ModificacionController {
 	public void modificarTiempoConectado(@PathVariable Long id, @RequestBody TiempoConectado tiempoConectado) {
 		service.modificarTiempoConectado(id, tiempoConectado);
 	}
+	
+	@PutMapping("modificarTipoMedidor/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarTipoMedidor(@PathVariable Long id, @RequestBody TipoMedidor tipoMedidor) {
+		service.modificarTipoMedidor(id, tipoMedidor);
+	}
+	
+	@PutMapping("modificarTipoPuerto/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarTipoPuerto(@PathVariable Long id, @RequestBody TipoPuerto tipoPuerto) {
+		service.modificarTipoPuerto(id, tipoPuerto);
+	}
+	
+	@PutMapping("modificarEstado/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarEstado(@PathVariable Long id, @RequestBody Estados estado) {
+		service.modificarEstado(id, estado);
+	}
+
+
 
 }
