@@ -44,6 +44,51 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> SistemasExternos() {
 		return dao.SistemasExternos();
 	}
+
+	@Override
+	public List<Map<String, Object>> Roles() {
+		return dao.Roles();
+	}
+
+	@Override
+	public List<Map<String, Object>> Marcas() {
+		return dao.Marcas();
+	}
+
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes() {
+		return dao.TecnologiasComponentes();
+	}
+
+	@Override
+	public List<Map<String, Object>> Modems() {
+		return dao.Modems();
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposComunicacion() {
+		return dao.TiposComunicacion();
+	}
+
+	@Override
+	public List<Map<String, Object>> TiemposConectado() {
+		return dao.TiemposConectado();
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposMedidor() {
+		return dao.TiposMedidor();
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposPuerto() {
+		return dao.TiposPuerto();
+	}
+
+	@Override
+	public List<Map<String, Object>> Estados() {
+		return dao.Estados();
+	}
 	
 	
 }

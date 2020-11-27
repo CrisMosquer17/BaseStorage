@@ -54,6 +54,65 @@ public class ConsultasController {
 		return service.SistemasExternos();
 	}
 	
+	@GetMapping("/verRoles")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Roles(){
+		return service.Roles();
+	}
+	
+	@GetMapping("/verMarcas")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Marcas(){
+		return service.Marcas();
+	}
+
+	@GetMapping("/verTecnologiasComponentes")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TecnologiasComponentes(){
+		return service.TecnologiasComponentes();
+	}
+	
+	@GetMapping("/verModems")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Modems(){
+		return service.Modems();
+	}
+	
+	@GetMapping("/verTiposComunicacion")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TiposComunicacion(){
+		return service.TiposComunicacion();
+	}
+	
+	@GetMapping("/verTiemposConectado")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TiemposConectado(){
+		return service.TiemposConectado();
+	}
+	
+	@GetMapping("/verTiposMedidor")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TiposMedidor(){
+		return service.TiposMedidor();
+	}
+
+	@GetMapping("/verTiposPuerto")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TiposPuerto(){
+		return service.TiposPuerto();
+	}
+	
+	@GetMapping("/verEstados")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Estados(){
+		return service.Estados();
+	}
+
+
+
+
+
+	
 	
 	
 	

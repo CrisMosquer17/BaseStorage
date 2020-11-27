@@ -50,4 +50,64 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.SistemaExteno");
 		return view;
 	}
+
+	@Override
+	public List<Map<String, Object>> Roles() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Roles");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Marcas() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Marca");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Modems() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Modem");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposComunicacion() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TipoComunicacion");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> TiemposConectado() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TiempoConectado");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposMedidor() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TipoMedidor");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> TiposPuerto() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TipoPuerto");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> Estados() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Estados");
+		return view;
+	}
+
+	/*@Override
+	public List<Map<String, Object>> Ftps() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");
+		return view;
+	}*/
 }
