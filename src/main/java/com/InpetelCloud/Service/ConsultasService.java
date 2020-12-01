@@ -26,11 +26,6 @@ public class ConsultasService implements ConsultasInterface {
 	}
 
 	@Override
-	public List<Map<String, Object>> Transformadores() {
-		return dao.Transformadores();
-	}
-
-	@Override
 	public List<Map<String, Object>> Medidores() {
 		return dao.Medidores();
 	}
@@ -89,6 +84,12 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Estados() {
 		return dao.Estados();
 	}
+
+	@Override
+	public List<Map<String, Object>> Transformadores() {
+		return dao.Transformadores();
+	}
+	
 	
 	
 }

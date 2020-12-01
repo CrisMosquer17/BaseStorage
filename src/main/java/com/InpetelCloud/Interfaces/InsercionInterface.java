@@ -5,6 +5,7 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -23,19 +24,9 @@ public interface InsercionInterface {
 	
 	/* CONCENTRADOR */
 	//public Concentrador saveConcentrador(Concentrador concentrador); 
-
-	
-	/* TRANSFORMADOR */
-	public Transformador saveTransformador(Transformador transformador); 
-
 	
 	/* MEDIDAS VALUES */
 	//public Medidas createMedidas(Medidas medidas);
-	
-
-	
-	/*USUARIOS */
-	public Usuarios saveUsuario(Usuarios usuario); 
 
 	public void schemaCreate(String name);
 	
@@ -69,8 +60,18 @@ public interface InsercionInterface {
 		
 	// Metodo para crear un estado
 	public int crearEstado(Estados estado);
-		
+	
+	//Metodo para crear un transformador
+	public int crearTransformador(Transformador transformador); 
+	
+	//Metodo para crear usuarios
+	public int crearUsuario(Usuarios usuario); 
+
+	//Metodo para crear un ftp
 	public int crearFtp(Ftp f);
+		
+	//Metodo para crear una medida
+	//public int crearMedida(ObjetoJson objetoJson);
 	
 	
 	

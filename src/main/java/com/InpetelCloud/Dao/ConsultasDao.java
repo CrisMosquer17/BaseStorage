@@ -17,19 +17,13 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> Usuarios() {
-		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Roles");
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios");
 		return view;
 	}
 
 	@Override
 	public List<Map<String, Object>> Concentradores() {
 		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador");
-		return view;
-	}
-
-	@Override
-	public List<Map<String, Object>> Transformadores() {
-		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador");
 		return view;
 	}
 
@@ -105,6 +99,12 @@ public class ConsultasDao implements ConsultasInterface{
 		return view;
 	}
 
+	@Override
+	public List<Map<String, Object>> Transformadores() {
+		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador");
+		return view;
+	}
+	
 	/*@Override
 	public List<Map<String, Object>> Ftps() {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");

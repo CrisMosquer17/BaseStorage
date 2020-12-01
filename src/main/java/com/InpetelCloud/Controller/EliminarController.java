@@ -5,11 +5,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Service.EliminarService;
 
 @RestController
@@ -79,6 +76,17 @@ public class EliminarController {
 		service.eliminarEstado(id);
 	}
 
+	@DeleteMapping("/eliminarTransformador/{id}")
+	@CrossOrigin(origins="*")
+	public void eliminarTransformador(@PathVariable Long id) {
+		service.eliminarTransformador(id);
+	}
+	
+	@DeleteMapping("/eliminarUsuario/{id}")
+	@CrossOrigin(origins="*")
+	public void eliminarUsuario(@PathVariable Long id) {
+		service.eliminarUsuario(id);
+	}
 
 
 }

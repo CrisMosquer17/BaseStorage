@@ -18,7 +18,7 @@ public class ConsultasController {
 	@Autowired
 	ConsultasService service;
 	
-	@GetMapping("/verUsers")
+	@GetMapping("/verUsuarios")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Usuarios(){
 		return service.Usuarios();
@@ -28,12 +28,6 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Concentradores(){
 		return service.Concentradores();
-	}
-	
-	@GetMapping("/verTransformadores")
-	@CrossOrigin(origins="*")
-	public List<Map<String, Object>> Transformadores(){
-		return service.Transformadores();
 	}
 	
 	@GetMapping("/verMedidores")
@@ -107,23 +101,12 @@ public class ConsultasController {
 	public List<Map<String, Object>> Estados(){
 		return service.Estados();
 	}
+	
+	@GetMapping("/verTransformadores")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Transformadores(){
+		return service.Transformadores();
+	}
 
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

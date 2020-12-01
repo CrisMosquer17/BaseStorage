@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -19,6 +21,8 @@ import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
 import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
+import com.InpetelCloud.Model.Transformador;
+import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Service.InsercionService;
 
 @RestController
@@ -95,6 +99,29 @@ public class InsercionController {
 	public int crearEstado(@RequestBody Estados estado) {
 		return service.crearEstado(estado);
 	}
+	
+	@PostMapping("/crearTransformador/")
+	@CrossOrigin(origins = "*")
+	public int crearTransformador(@RequestBody Transformador transformador) {
+		return service.crearTransformador(transformador);
+	}
+	
+	@PostMapping("/crearUsuario/")
+	@CrossOrigin(origins = "*")
+	public int crearUsuario(@RequestBody Usuarios usuario) {
+		return service.crearUsuario(usuario);
+	}
+	
+	@PostMapping("/crearFtp/")
+	@CrossOrigin(origins = "*")
+	public int crearFtp(@RequestBody Ftp f) {
+		return service.crearFtp(f);
+	}
 
+	/*@PostMapping("/objetoJson/")
+	@CrossOrigin(origins = "*")
+	public int objetoJson(@RequestBody ObjetoJson objetoJson) {
+		return service.crearMedida(objetoJson);
+	}*/
 	
 }

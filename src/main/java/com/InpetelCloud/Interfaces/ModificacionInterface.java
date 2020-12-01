@@ -15,15 +15,11 @@ import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 
 public interface ModificacionInterface {
-	
-	public Usuarios updateUser(Long id, Usuarios usuario);
-	
+		
 	//public Medidor updateMedidor(Long id, Medidor medidor);
 	
 	//public Concentrador updateConcentrador(Long id, Concentrador concentrador);
 	
-	public Transformador updateTransformador(Long id, Transformador transformador);
-
 	//public Medidas updateMedidas(Long id, Medidas medidas);
 	
 	
@@ -56,6 +52,14 @@ public interface ModificacionInterface {
 		
 	//Metodo para modificar un estado
 	public int modificarEstado(Long id, Estados estado);
+	
+	//Metodo para modificar un transformador
+	public int modificarTransformador(Long id, Transformador transformador);
+	
+	//Metodo para modificar un usuario
+	public int modificarUsuario(Long id, Usuarios usuario);
+
+
 
 
 

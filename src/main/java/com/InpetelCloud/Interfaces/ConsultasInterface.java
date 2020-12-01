@@ -35,6 +35,14 @@ public interface ConsultasInterface {
 	
 	public List<Map<String, Object>> Estados();
 	
+
+	
+	
+ 
+ 
+	
+	
+	
 	//public List<Map<String, Object>> Ftps();
 
 	

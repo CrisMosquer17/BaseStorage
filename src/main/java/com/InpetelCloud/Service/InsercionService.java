@@ -2,6 +2,7 @@ package com.InpetelCloud.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
@@ -9,6 +10,7 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -36,16 +38,6 @@ public class InsercionService implements InsercionInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}*/
-
-	@Override
-	public Transformador saveTransformador(Transformador transformador) {
-		return null;
-	}
-
-	@Override
-	public Usuarios saveUsuario(Usuarios usuario) {
-		return null;
-	}
 
 	@Override
 	public void schemaCreate(String name) {
@@ -106,12 +98,28 @@ public class InsercionService implements InsercionInterface {
 
 	@Override
 	public int crearFtp(Ftp f) {
-		// TODO Auto-generated method stub
-		return 0;
+		String passOrigin = DigestUtils.md5Hex(f.getPassword());
+		f.setPassword(passOrigin);
+		return dao.crearFtp(f);
 	}
 
-	
-	
-	
+	/*@Override
+	public int crearMedida(ObjetoJson objetoJson) {
+		return dao.crearMedida(objetoJson);
+	}*/
+
+	@Override
+	public int crearTransformador(Transformador transformador) {
+		return dao.crearTransformador(transformador);
+	}
+
+	@Override
+	public int crearUsuario(Usuarios usuario) {
+		String passOrigin = DigestUtils.md5Hex(usuario.getPassword());
+		String passSalt = DigestUtils.md5Hex(usuario.getPassword_salt());
+		usuario.setPassword(passOrigin);
+		usuario.setPassword_salt(passSalt);
+		return dao.crearUsuario(usuario);
+	}
 
 }

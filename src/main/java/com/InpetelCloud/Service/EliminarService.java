@@ -14,30 +14,21 @@ public class EliminarService implements EliminarInterface {
 	@Autowired
 	EliminarDao dao;
 
-	@Override
-	public boolean deleteUsuario(Long id) {
-		return false;
-	}
-
-	@Override
+	/*@Override
 	public boolean deleteMedidor(Long id) {
 		return false;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean deleteConcentrador(Long id) {
 		return false;
-	}
+	}*/
 
-	@Override
-	public boolean deleteTransformador(Long id) {
-		return false;
-	}
 
-	@Override
+	/*@Override
 	public boolean deleteMedidas(Long id) {
 		return false;
-	}
+	}*/
 
 	@Override
 	public int eliminarSistemaExterno(Long id) {
@@ -87,6 +78,16 @@ public class EliminarService implements EliminarInterface {
 	@Override
 	public int eliminarEstado(Long id) {
 		return dao.eliminarEstado(id);
+	}
+
+	@Override
+	public int eliminarTransformador(Long id) {
+		return dao.eliminarTransformador(id);
+	}
+
+	@Override
+	public int eliminarUsuario(Long id) {
+		return dao.eliminarUsuario(id);
 	}
 
 

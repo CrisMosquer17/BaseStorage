@@ -24,11 +24,6 @@ public class ModificacionDao implements ModificacionInterface{
 	@Autowired
 	JdbcTemplate template;
 
-	@Override
-	public Usuarios updateUser(Long id, Usuarios usuario) {
-		return null;
-	}
-
 	/*@Override
 	public Medidor updateMedidor(Long id, Medidor medidor) {
 		return null;
@@ -38,11 +33,6 @@ public class ModificacionDao implements ModificacionInterface{
 	public Concentrador updateConcentrador(Long id, Concentrador concentrador) {
 		return null;
 	}*/
-
-	@Override
-	public Transformador updateTransformador(Long id, Transformador transformador) {
-		return null;
-	}
 
 	@Override
 	public int modificarSistemaExterno(Long id, SistemExterno se) {
@@ -101,6 +91,18 @@ public class ModificacionDao implements ModificacionInterface{
 	@Override
 	public int modificarEstado(Long id, Estados estado) {
 		int value = template.update("UPDATE Inpetel_Cloud.Estados set Nombre_Est='"+ estado.getNombre() +  "' where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarTransformador(Long id, Transformador transformador) {
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Ip_real='"+ transformador.getIpReal() + "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarUsuario(Long id, Usuarios usuario) {
+		int value = template.update("UPDATE Inpetel_Cloud.Usuarios set Nombres='"+usuario.getNombres()+ "', Login='"+ usuario.getLogin()+ "', Password='"+ usuario.getPassword()+ "', Password_salt='"+ usuario.getPassword_salt()+ "', Correo='"+ usuario.getCorreo()+ "', Fecha_crea='"+ usuario.getFechaCreate() + "', Fecha_modifica='"+ usuario.getFechaModifica() + "' , SistemaExteno_ID='"+ usuario.getSistemaExternoId() + "' where ID="+ id +";");
 		return value;
 	}
 

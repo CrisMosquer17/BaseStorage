@@ -18,6 +18,8 @@ import com.InpetelCloud.Model.TiempoConectado;
 import com.InpetelCloud.Model.TipoComunicacion;
 import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
+import com.InpetelCloud.Model.Transformador;
+import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Service.ModificacionService;
 
 @RestController
@@ -87,6 +89,17 @@ public class ModificacionController {
 		service.modificarEstado(id, estado);
 	}
 
+	@PutMapping("modificarTransformador/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarTransformador(@PathVariable Long id, @RequestBody Transformador transformador) {
+		service.modificarTransformador(id, transformador);
+	}
+	
+	@PutMapping("modificarUsuario/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarUsuario(@PathVariable Long id, @RequestBody Usuarios usuario) {
+		service.modificarUsuario(id, usuario);
+	}
 
 
 }

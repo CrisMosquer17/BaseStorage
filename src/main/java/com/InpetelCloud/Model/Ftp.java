@@ -13,16 +13,25 @@ public class Ftp {
 	private String password;
 	private String Carpeta_En;
 	private String Carpeta_Pr;
+	private String fechaCreate;
 	private String Usu_crea;
+	private String fechaUpdate;
 	private String Usu_modifica;
 	private String Carpeta_Er;
+	
+	
+	
 	
 	public Ftp() {
 		super();
 	}
 
+
+
+
 	public Ftp(int id, String descripcion, String endPoint, String puerto, String usuario, String password,
-			String carpeta_En, String carpeta_Pr, String usu_crea, String usu_modifica, String carpeta_Er) {
+			String carpeta_En, String carpeta_Pr, String fechaCreate, String usu_crea, String fechaUpdate,
+			String usu_modifica, String carpeta_Er) {
 		super();
 		this.id = id;
 		this.descripcion = descripcion;
@@ -32,98 +41,196 @@ public class Ftp {
 		this.password = password;
 		Carpeta_En = carpeta_En;
 		Carpeta_Pr = carpeta_Pr;
+		this.fechaCreate = fechaCreate;
 		Usu_crea = usu_crea;
+		this.fechaUpdate = fechaUpdate;
 		Usu_modifica = usu_modifica;
 		Carpeta_Er = carpeta_Er;
 	}
+
+
+
 
 	public int getId() {
 		return id;
 	}
 
+
+
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
+
+
 
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+
+
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+
+
 
 	public String getEndPoint() {
 		return EndPoint;
 	}
 
+
+
+
 	public void setEndPoint(String endPoint) {
 		EndPoint = endPoint;
 	}
+
+
+
 
 	public String getPuerto() {
 		return puerto;
 	}
 
+
+
+
 	public void setPuerto(String puerto) {
 		this.puerto = puerto;
 	}
+
+
+
 
 	public String getUsuario() {
 		return Usuario;
 	}
 
+
+
+
 	public void setUsuario(String usuario) {
 		Usuario = usuario;
 	}
+
+
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+
 
 	public String getCarpeta_En() {
 		return Carpeta_En;
 	}
 
+
+
+
 	public void setCarpeta_En(String carpeta_En) {
 		Carpeta_En = carpeta_En;
 	}
+
+
+
 
 	public String getCarpeta_Pr() {
 		return Carpeta_Pr;
 	}
 
+
+
+
 	public void setCarpeta_Pr(String carpeta_Pr) {
 		Carpeta_Pr = carpeta_Pr;
 	}
+
+
+
+
+	public String getFechaCreate() {
+		return fechaCreate;
+	}
+
+
+
+
+	public void setFechaCreate(String fechaCreate) {
+		this.fechaCreate = fechaCreate;
+	}
+
+
+
 
 	public String getUsu_crea() {
 		return Usu_crea;
 	}
 
+
+
+
 	public void setUsu_crea(String usu_crea) {
 		Usu_crea = usu_crea;
 	}
+
+
+
+
+	public String getFechaUpdate() {
+		return fechaUpdate;
+	}
+
+
+
+
+	public void setFechaUpdate(String fechaUpdate) {
+		this.fechaUpdate = fechaUpdate;
+	}
+
+
+
 
 	public String getUsu_modifica() {
 		return Usu_modifica;
 	}
 
+
+
+
 	public void setUsu_modifica(String usu_modifica) {
 		Usu_modifica = usu_modifica;
 	}
+
+
+
 
 	public String getCarpeta_Er() {
 		return Carpeta_Er;
 	}
 
+
+
+
 	public void setCarpeta_Er(String carpeta_Er) {
 		Carpeta_Er = carpeta_Er;
 	}
+	
+	
 	
 	
 

@@ -12,31 +12,20 @@ public class EliminarDao implements EliminarInterface {
 	@Autowired
 	JdbcTemplate template;
 	
-
-	@Override
-	public boolean deleteUsuario(Long id) {
-		return false;
-	}
-
-	@Override
+	/*@Override
 	public boolean deleteMedidor(Long id) {
 		return false;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean deleteConcentrador(Long id) {
 		return false;
-	}
+	}*/
 
-	@Override
-	public boolean deleteTransformador(Long id) {
-		return false;
-	}
-
-	@Override
+	/*@Override
 	public boolean deleteMedidas(Long id) {
 		return false;
-	}
+	}*/
 
 	@Override
 	public int eliminarSistemaExterno(Long id) {
@@ -95,6 +84,18 @@ public class EliminarDao implements EliminarInterface {
 	@Override
 	public int eliminarEstado(Long id) {
 		int value = template.update("DELETE FROM  Inpetel_Cloud.Estados where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int eliminarTransformador(Long id) {
+		int value = template.update("DELETE FROM  Inpetel_Cloud.Transformador where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int eliminarUsuario(Long id) {
+		int value = template.update("DELETE FROM  Inpetel_Cloud.Usuarios where ID="+ id +";");
 		return value;
 	}
 
