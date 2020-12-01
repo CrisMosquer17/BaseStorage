@@ -39,7 +39,7 @@ public class InsercionController {
 		service.schemaCreate(name);
 	}
 	
-	@PostMapping("/cuatro/")
+	@PostMapping("/crearSistemaExterno/")
 	@CrossOrigin(origins="*")
 	public int crearSistemaExterno(@RequestBody SistemExterno se) {
 		return service.crearSistemaExterno(se);
