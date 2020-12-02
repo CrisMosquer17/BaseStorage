@@ -89,6 +89,11 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Transformadores() {
 		return dao.Transformadores();
 	}
+
+	@Override
+	public List<Map<String, Object>> Ftps() {
+		return dao.Ftps();
+	}
 	
 	
 	

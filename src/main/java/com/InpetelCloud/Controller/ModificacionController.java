@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -101,5 +102,9 @@ public class ModificacionController {
 		service.modificarUsuario(id, usuario);
 	}
 
-
+	@PutMapping("modificarFtp/")
+	@CrossOrigin(origins="*")
+	public void modificarFtp(@RequestBody Ftp f) {
+		service.modificarFtp(f);
+	}
 }

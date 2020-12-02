@@ -2,6 +2,7 @@ package com.InpetelCloud.Interfaces;
 
 
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -59,7 +60,7 @@ public interface ModificacionInterface {
 	//Metodo para modificar un usuario
 	public int modificarUsuario(Long id, Usuarios usuario);
 
-
+	public int modificarFtp( Ftp f);
 
 
 

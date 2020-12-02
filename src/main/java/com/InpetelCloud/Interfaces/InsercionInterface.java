@@ -74,7 +74,5 @@ public interface InsercionInterface {
 		
 	//Metodo para crear una medida
 	public int crearMedida(ObjetoJson objetoJson);
-	
-	
-	
+
 }
