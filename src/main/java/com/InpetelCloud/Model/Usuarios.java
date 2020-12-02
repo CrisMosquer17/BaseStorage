@@ -14,16 +14,15 @@ public class Usuarios {
 	private String fechaCreate;
 	private String fechaModifica;
 	private int sistemaExternoId;
+	private String estadoId;
 	
 	
-	
-		
 	public Usuarios() {
 		super();
 	}
 
 	public Usuarios(int id, String nombres, String login, String password, String password_salt, String correo,
-			String fechaCreate, String fechaModifica, int sistemaExternoId) {
+			String fechaCreate, String fechaModifica, int sistemaExternoId, String estadoId) {
 		super();
 		this.id = id;
 		this.nombres = nombres;
@@ -34,7 +33,10 @@ public class Usuarios {
 		this.fechaCreate = fechaCreate;
 		this.fechaModifica = fechaModifica;
 		this.sistemaExternoId = sistemaExternoId;
+		this.estadoId = estadoId;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -106,6 +108,14 @@ public class Usuarios {
 
 	public void setSistemaExternoId(int sistemaExternoId) {
 		this.sistemaExternoId = sistemaExternoId;
+	}
+
+	public String getEstadoId() {
+		return estadoId;
+	}
+
+	public void setEstadoId(String estadoId) {
+		this.estadoId = estadoId;
 	}
 	
 	

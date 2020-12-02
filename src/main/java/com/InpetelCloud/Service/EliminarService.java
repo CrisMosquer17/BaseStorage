@@ -41,8 +41,8 @@ public class EliminarService implements EliminarInterface {
 	}
 
 	@Override
-	public int eliminarMarca(Long id) {
-		return dao.eliminarMarca(id);
+	public int eliminarMarca(Long id, String nombre) {
+		return dao.eliminarMarca(id, nombre);
 	}
 
 	@Override

@@ -18,12 +18,6 @@ public class ConsultasController {
 	@Autowired
 	ConsultasService service;
 	
-	@GetMapping("/verUsuarios")
-	@CrossOrigin(origins="*")
-	public List<Map<String, Object>> Usuarios(){
-		return service.Usuarios();
-	}
-	
 	@GetMapping("/verConcentradores")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Concentradores(){
@@ -106,6 +100,12 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Transformadores(){
 		return service.Transformadores();
+	}
+	
+	@GetMapping("/verUsuarios")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Usuarios(){
+		return service.Usuarios();
 	}
 
 	

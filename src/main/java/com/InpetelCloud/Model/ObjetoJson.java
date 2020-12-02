@@ -1,5 +1,6 @@
 package com.InpetelCloud.Model;
 
+import org.json.JSONObject;
 
 public class ObjetoJson {
 	
@@ -11,11 +12,13 @@ public class ObjetoJson {
 	private String fecha;
 	private String nombreReporte;
 	private String encabezado;
+	private JSONObject json;
 	
 	
 	public ObjetoJson() {
 		super();
 	}
+
 
 
 	public ObjetoJson(String serialcnc, String serialmet, String nombreMedidas, String numValor, String fecha,
@@ -101,7 +104,16 @@ public class ObjetoJson {
 	}
 	
 	
-	
+
+	public JSONObject getJson() {
+		return json;
+	}
+
+
+	public void setJson(JSONObject json) {
+		this.json = json;
+	}
+
 	
 	
 

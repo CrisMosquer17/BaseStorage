@@ -28,10 +28,10 @@ public class EliminarController {
 		service.eliminarRol(id);
 	}
 	
-	@DeleteMapping("/eliminarMarca/{id}")
+	@DeleteMapping("/eliminarMarca/{id}/{nombre}")
 	@CrossOrigin(origins="*")
-	public void eliminarMarca(@PathVariable Long id) {
-		service.eliminarMarca(id);
+	public void eliminarMarca(@PathVariable Long id, @PathVariable String nombre) {
+		service.eliminarMarca(id, nombre);
 	}
 	
 	@DeleteMapping("/eliminarTecnologiaComponente/{id}")

@@ -1,6 +1,8 @@
 package com.InpetelCloud.Interfaces;
 
 
+import java.util.List;
+
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -71,7 +73,7 @@ public interface InsercionInterface {
 	public int crearFtp(Ftp f);
 		
 	//Metodo para crear una medida
-	//public int crearMedida(ObjetoJson objetoJson);
+	public int crearMedida(ObjetoJson objetoJson);
 	
 	
 	

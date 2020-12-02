@@ -17,7 +17,7 @@ public interface EliminarInterface {
 	public int eliminarRol(Long id);
 	
 	//Metodo para eliminar una marca
-	public int eliminarMarca(Long id);
+	public int eliminarMarca(Long id, String nombre);
 		
 	//Metodo para eliminar una tecnologia de componente
 	public int eliminarTeconologiaComponente(Long id);

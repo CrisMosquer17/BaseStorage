@@ -40,8 +40,8 @@ public class EliminarDao implements EliminarInterface {
 	}
 
 	@Override
-	public int eliminarMarca(Long id) {
-		int value = template.update("DELETE FROM  Inpetel_Cloud.Marca where ID="+ id +";");
+	public int eliminarMarca(Long id, String nombre) {
+		int value = template.update("DELETE FROM Inpetel_Cloud.Marca where ID="+ id +", and Nombre_Marca="+nombre+";");
 		return value;
 	}
 
@@ -95,7 +95,7 @@ public class EliminarDao implements EliminarInterface {
 
 	@Override
 	public int eliminarUsuario(Long id) {
-		int value = template.update("DELETE FROM  Inpetel_Cloud.Usuarios where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Usuarios set States_ID =3 where ID="+ id +";");
 		return value;
 	}
 

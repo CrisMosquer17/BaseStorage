@@ -102,7 +102,7 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarUsuario(Long id, Usuarios usuario) {
-		int value = template.update("UPDATE Inpetel_Cloud.Usuarios set Nombres='"+usuario.getNombres()+ "', Login='"+ usuario.getLogin()+ "', Password='"+ usuario.getPassword()+ "', Password_salt='"+ usuario.getPassword_salt()+ "', Correo='"+ usuario.getCorreo()+ "', Fecha_crea='"+ usuario.getFechaCreate() + "', Fecha_modifica='"+ usuario.getFechaModifica() + "' , SistemaExteno_ID='"+ usuario.getSistemaExternoId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Usuarios set Nombres='"+usuario.getNombres()+ "', Login='"+ usuario.getLogin()+ "', Password='"+ usuario.getPassword()+ "', Password_salt='"+ usuario.getPassword_salt()+ "', Correo='"+ usuario.getCorreo()+ "', Fecha_crea='"+ usuario.getFechaCreate() + "', Fecha_modifica='"+ usuario.getFechaModifica() + "' , SistemaExteno_ID='"+ usuario.getSistemaExternoId()  + "', States_ID='"+ usuario.getEstadoId() +"'  where ID="+ id +";");
 		return value;
 	}
 
