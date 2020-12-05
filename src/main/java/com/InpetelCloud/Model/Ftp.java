@@ -13,9 +13,7 @@ public class Ftp {
 	private String password;
 	private String Carpeta_En;
 	private String Carpeta_Pr;
-	private String fechaCreate;
 	private String Usu_crea;
-	private String fechaUpdate;
 	private String Usu_modifica;
 	private String Carpeta_Er;
 	
@@ -27,11 +25,24 @@ public class Ftp {
 	}
 
 
+	 //INSERT
+	public Ftp( String descripcion, String endPoint, String puerto, String usuario, String password,
+			String carpeta_En, String carpeta_Pr,  String usu_crea, String carpeta_Er) {
+		super();
+		this.descripcion = descripcion;
+		this.EndPoint = endPoint;
+		this.puerto = puerto;
+		this.Usuario = usuario;
+		this.password = password;
+		this.Carpeta_En = carpeta_En;
+		this.Carpeta_Pr = carpeta_Pr;
+		this.Usu_crea = usu_crea;
+		this.Carpeta_Er = carpeta_Er;
+	}
 
-
-	public Ftp(int id, String descripcion, String endPoint, String puerto, String usuario, String password,
-			String carpeta_En, String carpeta_Pr, String fechaCreate, String usu_crea, String fechaUpdate,
-			String usu_modifica, String carpeta_Er) {
+	//UPDATE
+	public Ftp( String descripcion, String endPoint, String puerto, String usuario, String password,
+			String carpeta_En, String carpeta_Pr, String usu_modifica, String carpeta_Er, int id) {
 		super();
 		this.id = id;
 		this.descripcion = descripcion;
@@ -41,14 +52,9 @@ public class Ftp {
 		this.password = password;
 		Carpeta_En = carpeta_En;
 		Carpeta_Pr = carpeta_Pr;
-		this.fechaCreate = fechaCreate;
-		Usu_crea = usu_crea;
-		this.fechaUpdate = fechaUpdate;
 		Usu_modifica = usu_modifica;
 		Carpeta_Er = carpeta_Er;
 	}
-
-
 
 
 	public int getId() {
@@ -56,13 +62,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 
 	public String getDescripcion() {
@@ -70,13 +72,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-
 
 
 	public String getEndPoint() {
@@ -84,13 +82,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setEndPoint(String endPoint) {
 		EndPoint = endPoint;
 	}
-
-
 
 
 	public String getPuerto() {
@@ -98,13 +92,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setPuerto(String puerto) {
 		this.puerto = puerto;
 	}
-
-
 
 
 	public String getUsuario() {
@@ -112,13 +102,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setUsuario(String usuario) {
 		Usuario = usuario;
 	}
-
-
 
 
 	public String getPassword() {
@@ -126,13 +112,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
 
 
 	public String getCarpeta_En() {
@@ -140,13 +122,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setCarpeta_En(String carpeta_En) {
 		Carpeta_En = carpeta_En;
 	}
-
-
 
 
 	public String getCarpeta_Pr() {
@@ -154,27 +132,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setCarpeta_Pr(String carpeta_Pr) {
 		Carpeta_Pr = carpeta_Pr;
 	}
-
-
-
-
-	public String getFechaCreate() {
-		return fechaCreate;
-	}
-
-
-
-
-	public void setFechaCreate(String fechaCreate) {
-		this.fechaCreate = fechaCreate;
-	}
-
-
 
 
 	public String getUsu_crea() {
@@ -182,27 +142,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setUsu_crea(String usu_crea) {
 		Usu_crea = usu_crea;
 	}
-
-
-
-
-	public String getFechaUpdate() {
-		return fechaUpdate;
-	}
-
-
-
-
-	public void setFechaUpdate(String fechaUpdate) {
-		this.fechaUpdate = fechaUpdate;
-	}
-
-
 
 
 	public String getUsu_modifica() {
@@ -210,13 +152,9 @@ public class Ftp {
 	}
 
 
-
-
 	public void setUsu_modifica(String usu_modifica) {
 		Usu_modifica = usu_modifica;
 	}
-
-
 
 
 	public String getCarpeta_Er() {
@@ -224,14 +162,8 @@ public class Ftp {
 	}
 
 
-
-
 	public void setCarpeta_Er(String carpeta_Er) {
 		Carpeta_Er = carpeta_Er;
 	}
-	
-	
-	
-	
 
 }

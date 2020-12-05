@@ -530,9 +530,11 @@ public class InsercionDao implements InsercionInterface{
 
 	@Override
 	public int crearFtp(Ftp f) {
+		 int val =  template.update("INSERT INTO Inpetel_Cloud.FTP (Descripcion, EndPoint, Puerto, Usuario, Password, Carpeta_Entrada, Carpeta_Procesad, Fh_create, Usu_create,  IDFTP, Carpeta_Errores)\r\n"
+		 		+ "VALUES ('"+f.getDescripcion()+"', '"+f.getEndPoint()+"', '"+f.getPuerto()+"', '"+f.getUsuario()+"', '"+f.getPassword()+"', '"+f.getCarpeta_En()+"', '"+f.getCarpeta_Pr()+"', now(), '"+f.getUsu_crea()+"', 1, '"+f.getCarpeta_Er()+"');");
+		 System.out.println(val);
+		 return val;
 		
-		return template.update("INSERT INTO Inpetel_Cloud.FTP (Descripcion, EndPoint, Puerto, Usuario, Password, Carpeta_Entrada, Carpeta_Procesad, Fh_create, Usu_create, Fh_update, Usu_update, IDFTP, Carpeta_Errores)\r\n"
-				+ " VALUES ('"+ f.getDescripcion()+ "', '"+ f.getEndPoint()+ "', '"+ f.getPuerto()+ "' , '"+ f.getPassword()+ "', '"+ f.getCarpeta_En()+" ', '"+ f.getCarpeta_Pr() +"', '"+ f.getCarpeta_Pr() + "', '"+ f.getFechaCreate() +"', 56  , '"+ f.getFechaUpdate() +"', 56 , 1 , '"+ f.getCarpeta_Er() + "' );");
 	}
 
 	/*
@@ -547,7 +549,8 @@ public class InsercionDao implements InsercionInterface{
 	
 	/*
 	 * Descripcion: Metodo que hace la creacion de la medida con todos los valores que necesita, se hace este
-	 * proceso 7 veces porque son 7 medidas que vienen en el arreglo de infomedidas
+	 * proceso 7 veces porque son 7 medidas que vienen en el arreglo de infomedidas, se pone que i <7 porque no
+	 * tomaba la ultima posicion del arreglo de Q.
 	 */
 	public int crearMedidaPrueba(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
 		int value=0;

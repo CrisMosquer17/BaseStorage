@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -103,6 +104,12 @@ public class ModificacionDao implements ModificacionInterface{
 	@Override
 	public int modificarUsuario(Long id, Usuarios usuario) {
 		int value = template.update("UPDATE Inpetel_Cloud.Usuarios set Nombres='"+usuario.getNombres()+ "', Login='"+ usuario.getLogin()+ "', Password='"+ usuario.getPassword()+ "', Password_salt='"+ usuario.getPassword_salt()+ "', Correo='"+ usuario.getCorreo()+ "', Fecha_crea='"+ usuario.getFechaCreate() + "', Fecha_modifica='"+ usuario.getFechaModifica() + "' , SistemaExteno_ID='"+ usuario.getSistemaExternoId()  + "', States_ID='"+ usuario.getEstadoId() +"'  where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarFtp( Ftp f) {
+		int value= template.update("UPDATE Inpetel_Cloud.FTP set Descripcion='"+f.getDescripcion()+"', EndPoint='"+f.getEndPoint()+"', Puerto='"+f.getPuerto()+"', Password='"+f.getPassword()+"', Carpeta_Entrada='"+f.getCarpeta_En()+"', Carpeta_Procesad='"+f.getCarpeta_Pr()+"', Fh_update=now(), Usu_update='"+f.getUsu_modifica()+"', Carpeta_Errores='"+f.getCarpeta_Er()+"' WHERE ID_FTP= "+f.getId()+";");
 		return value;
 	}
 

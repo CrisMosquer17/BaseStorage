@@ -105,9 +105,9 @@ public class ConsultasDao implements ConsultasInterface{
 		return view;
 	}
 	
-	/*@Override
+	@Override
 	public List<Map<String, Object>> Ftps() {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");
 		return view;
-	}*/
+	}
 }

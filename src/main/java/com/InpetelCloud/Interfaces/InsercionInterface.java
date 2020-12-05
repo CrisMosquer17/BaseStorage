@@ -1,6 +1,5 @@
 package com.InpetelCloud.Interfaces;
 
-import java.util.List;
 
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -74,8 +73,5 @@ public interface InsercionInterface {
 	
 	//Metodo para crear un concentrador
 	public int crearConcentrador(String concentrador); 
-	
-	
-	
 	
 }

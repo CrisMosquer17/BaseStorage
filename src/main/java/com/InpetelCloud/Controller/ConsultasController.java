@@ -107,6 +107,11 @@ public class ConsultasController {
 	public List<Map<String, Object>> Usuarios(){
 		return service.Usuarios();
 	}
-
+	
+	@GetMapping("/verFtp")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>> Ftps(){
+		return service.Ftps();
+	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
@@ -97,6 +98,13 @@ public class ModificacionService implements ModificacionInterface{
 		usuario.setPassword(passOrigin);
 		usuario.setPassword_salt(passSalt);
 		return dao.modificarUsuario(id, usuario);
+	}
+
+	@Override
+	public int modificarFtp(Ftp f) {
+		String pass = DigestUtils.md5Hex(f.getPassword());
+		f.setPassword(pass);
+		return dao.modificarFtp(f);
 	}
 
 
