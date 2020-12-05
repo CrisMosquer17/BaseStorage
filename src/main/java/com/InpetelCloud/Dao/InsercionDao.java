@@ -29,16 +29,6 @@ public class InsercionDao implements InsercionInterface{
 	
 	@Autowired
 	JdbcTemplate template;
-	
-	/*@Override
-	public Medidor saveMedidor(Medidor medidor) {
-		return null;
-	}*/
-
-	/*@Override
-	public Concentrador saveConcentrador(Concentrador concentrador) {
-		return null;
-	}*/
 
 	 /*INSERCION DE ESQUEMA A BASE CON DIFERENTE NOMBRE */ 
 	@Override
@@ -522,7 +512,21 @@ public class InsercionDao implements InsercionInterface{
 				+ " VALUES ('"+ usuario.getNombres()+ "', '"+ usuario.getLogin()+ "', '"+ usuario.getPassword()+"', '" + usuario.getPassword_salt()+  "', '"+ usuario.getCorreo() +"', '"+ usuario.getFechaCreate() +"', 56, '"+ usuario.getFechaModifica()+"', 56, '" + usuario.getSistemaExternoId()+"', '" + usuario.getEstadoId()+"' );");
 		return value;
 	}
-
+	
+	@Override
+	public int crearConcentrador(String concentrador) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID )\r\n"
+				+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + 1 + "','" + concentrador + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 56 + "', '" + 1 + "');");
+		return value;
+	}
+	
+	@Override
+	public int crearMedidor(String medidor) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, Medidorcol,  TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID )\r\n"
+				+ " VALUES ('"+ 1 + "', '" + 1 + "',  '" + 1 + "' , '" + 1 + "','" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor + "', '" + 1+ "');");
+		return value;
+	}
+	
 
 	@Override
 	public int crearFtp(Ftp f) {
@@ -531,161 +535,39 @@ public class InsercionDao implements InsercionInterface{
 				+ " VALUES ('"+ f.getDescripcion()+ "', '"+ f.getEndPoint()+ "', '"+ f.getPuerto()+ "' , '"+ f.getPassword()+ "', '"+ f.getCarpeta_En()+" ', '"+ f.getCarpeta_Pr() +"', '"+ f.getCarpeta_Pr() + "', '"+ f.getFechaCreate() +"', 56  , '"+ f.getFechaUpdate() +"', 56 , 1 , '"+ f.getCarpeta_Er() + "' );");
 	}
 
-//	public List<Object> validarCreacionMedidas(ObjetoJson objetoJson) {
-//		List<Object> resultado=new ArrayList<Object>();
-		
-//		boolean validarSerialMedidor = validarSerialMedidor(objetoJson);
-//		if(validarSerialMedidor == true) {
-//		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ objetoJson.getSerialmet() +"';");
-//		for (Map<String, Object> map : idMedidor) {
-//            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                Object value = entry.getValue();
-//                    resultado.add(value);
-//                    }
-//            }		
-//		}
-//		boolean validarSerialConcentrador = validarSerialConcentrador(objetoJson);
-//		if(validarSerialConcentrador == true) {
-//		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ objetoJson.getSerialcnc() +"';");
-//		for (Map<String, Object> map : idConcentrador) {
-//            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                Object value = entry.getValue();
-//                    resultado.add(value);
-//                    }
-//            }
-//		}
-		
-		//creacion de los ids de concentrador y medidor en la tabla de asociaciones
-//		template.update("INSERT INTO Inpetel_Cloud.Asoc_concen_medidor (Concentrador_ID, Medidor_ID) VALUES\r\n"
-//				+ "('" + resultado.get(1) + "', '" + resultado.get(0)+ "');");
-		
-		
-		//ingreso el valor de la medida al arreglo
-		//resultado.add(objetoJson.getNumValor());
-		
-		//ingresar la fecha
-		//resultado.add(objetoJson.getFecha().substring(0,10));
-		
-		//String horaInicio = (objetoJson.getFecha()).substring(11, 16);
-		//resultado.add(horaInicio);
-		
-		//String horaFin = "";
-		//resultado.add(horaFin);
-		
-		//encabezado y nombre para trazabilidad
-		
-//		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Encabezado, Nombre_reporte) VALUES\r\n"
-//				+ "('" + objetoJson.getEncabezado() + "', '" + objetoJson.getNombreReporte()+ "');");
-//		
-//		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ objetoJson.getNombreReporte() +"';");
-//		for (Map<String, Object> map : idTrazabilidad) {
-//            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                Object value = entry.getValue();
-//                    resultado.add(value);
-//                    }
-//            }
-		//id del nombre de la medida
-				//List<Map<String,Object>>nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ objetoJson.getNombreMedidas() +"';");
-//				for (Map<String, Object> map : nombreMedida) {
-//		            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//		                Object value = entry.getValue();
-//		                    resultado.add(value);
-//		                    }
-//		            }
-		
-//		return resultado;
-//	}
-
+	/*
+	 * Descripcion: Metodo que viene de la interfaz de insercion y es el que llama al metodo que crea la medida
+	 * Return: Entero el cual si su valor es 1, retorna que se creo, si es 0 quiere decir que no se creo.
+	 */
 	@Override
-	public int crearMedida(ObjetoJson objetoJson) {
-		int value=crearMedidaPrueba(null);
+	public int crearMedida(ObjetoJson json) {
+		int value=crearMedidaPrueba(null,null, null,null);
 		return value;
 	}
 	
-	public int crearMedidaPrueba(List<Object> resultado) {
-		int value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-				+ "VALUES ('" +  resultado.get(0) + "', '" + resultado.get(2) + "', '" + resultado.get(3) + "', '" + resultado.get(4) + "', '" + resultado.get(5) + "', '" + resultado.get(6) + "', '" + 60 + "','" + resultado.get(7)+ "', '" + 60 + "');");
+	/*
+	 * Descripcion: Metodo que hace la creacion de la medida con todos los valores que necesita, se hace este
+	 * proceso 7 veces porque son 7 medidas que vienen en el arreglo de infomedidas
+	 */
+	public int crearMedidaPrueba(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
+		int value=0;
+		for (int i = 0; i < 7; i++) {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+		}
 		return value;
 	}
 
-	
-	
-	
-	
-	//Metodo que sirve para validar si el serial pasado por parametro, existe y es un serial de medidor
-	//public boolean validarSerialMedidor(ObjetoJson objetoJson) {
-//		String serialMet = objetoJson.getSerialmet();
-//		boolean resultado = false;
-//			List<String> serialesMedidores=new ArrayList<String>();
-//			List<Map<String,Object>>medidores = template.queryForList("SELECT Serial FROM Inpetel_Cloud.Medidor");
-//			for (Map<String, Object> map : medidores) {
-//	            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//	                //String key = entry.getKey();
-//	                Object value = entry.getValue();
-//	                    serialesMedidores.add((String) value);
-//	                    }
-//	            }
-			
-//			for (int i = 0; i < serialesMedidores.size(); i++) {
-//				if(serialesMedidores.get(i).equals(serialMet)) {
-//					resultado = true;
-//				}
-//			}
-//			if(resultado == false) {
-//				template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, TipoPuerto_ID, Serial , Marca_ID )\r\n"
-//						+ " VALUES ('" + 1 + "', '" + 1 + "', '" + serialMet + "' , '" + 1 + "');");
-//				
-//				resultado = true;
-//			}
-//		
-//		
-//		
-//		return resultado;
-//	}
-	
-	
-	
-	//Metodo que sirve para validar si el serial pasado por parametro, existe y es un serial de concentrador
-//	public boolean validarSerialConcentrador(ObjetoJson objetoJson) {
-		//String serialCnc = objetoJson.getSerialcnc();
-		//boolean resultado = false;
-		//List<String> serialesConcentradores=new ArrayList<String>();
-			//List<Map<String,Object>>concentradores = template.queryForList("SELECT Serial FROM Inpetel_Cloud.Concentrador");
-			
-//			for (Map<String, Object> map : concentradores) {
-//	            for (Map.Entry<String, Object> entry : map.entrySet()) {
-//	                //String key = entry.getKey();
-//	                Object value = entry.getValue();
-//	                    serialesConcentradores.add((String) value);
-//	                    }
-//	            }
-//			for (int i = 0; i < serialesConcentradores.size(); i++) {
-//				if(serialesConcentradores.get(i).equals(serialCnc)) {
-//					resultado = true;
-//				}
-//			}
-//			
-//			if( resultado == false) {
-//				template.update("INSERT INTO Inpetel_Cloud.Concentrador (TipoComunicacion_ID, Serial , TiempoConectado_ID, Modem_ID,  Marca_ID )\r\n"
-//						+ " VALUES ('"+ 1 + "', '" + serialCnc + "', '" + 1 + "' , '" + 56 + "', '" + 1 + "');");
-//				
-//				
-//				resultado = true;
-//			}	
-//		
-//		
-//		return resultado;
-	//}
 	public List<Map<String,Object>> serialMedidores(){
 		List<Map<String,Object>>medidores = template.queryForList("SELECT Serial FROM Inpetel_Cloud.Medidor");
 		return medidores;
 	}
 	
-	public void crearMedidor(ObjetoJson objetoJson) {
-		String serialMet = objetoJson.getSerialmet();
-		template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, TipoPuerto_ID, Serial , Marca_ID )\r\n"
-				+ " VALUES ('" + 1 + "', '" + 1 + "', '" + serialMet + "' , '" + 1 + "');");
-	}
+//	public void crearMedidor(Medida medida) {
+//		//String serialMet = medidor.getSerial();
+//		template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, TipoPuerto_ID, Serial , Marca_ID )\r\n"
+//				+ " VALUES ('" + 1 + "', '" + 1 + "', '" + medida.getSerialmet() + "' , '" + 1 + "');");
+//	}
 	
 	
 	public List<Map<String,Object>> serialConcentradores(){
@@ -693,20 +575,20 @@ public class InsercionDao implements InsercionInterface{
 		return concentradores;
 	}
 	
-	public void crearConcentrador(ObjetoJson objetoJson) {
-		String serialCnc = objetoJson.getSerialcnc();
-		template.update("INSERT INTO Inpetel_Cloud.Concentrador (TipoComunicacion_ID, Serial , TiempoConectado_ID, Modem_ID,  Marca_ID )\r\n"
-				+ " VALUES ('"+ 1 + "', '" + serialCnc + "', '" + 1 + "' , '" + 56 + "', '" + 1 + "');");
-
-	}
+//	public void crearConcentrador(Medida medida) {
+//		//String serialCnc = concentrador.getSerial();
+//		template.update("INSERT INTO Inpetel_Cloud.Concentrador (TipoComunicacion_ID, Serial , TiempoConectado_ID, Modem_ID,  Marca_ID )\r\n"
+//				+ " VALUES ('"+ 1 + "', '" + medida.getSerialcnc() + "', '" + 1 + "' , '" + 56 + "', '" + 1 + "');");
+//
+//	}
 	
-	public List<Map<String,Object>> obtenerIdMedidor(ObjetoJson objetoJson) {
-		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ objetoJson.getSerialmet() +"';");
+	public List<Map<String,Object>> obtenerIdMedidor(ObjetoJson json) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ json.getMeter() +"';");
 		return idMedidor;
 	}
-	
-	public List<Map<String,Object>> obtenerIdConcentrador(ObjetoJson objetoJson) {
-		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ objetoJson.getSerialcnc() +"';");
+//	
+	public List<Map<String,Object>> obtenerIdConcentrador(ObjetoJson json) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ json.getConcentrator() +"';");
 		return idConcentrador;
 	}
 	
@@ -716,23 +598,69 @@ public class InsercionDao implements InsercionInterface{
 		
 	}
 	
-	public void crearTrazabilidad(ObjetoJson objetoJson) {
-		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Encabezado, Nombre_reporte) VALUES\r\n"
-				+ "('" + objetoJson.getEncabezado() + "', '" + objetoJson.getNombreReporte()+ "');");
-		
-	}
+	public void crearTrazabilidad(ObjetoJson json) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + json.getNameFile() + "');");
+		}
 	
-	public List<Map<String,Object>> obtenerIdTrazabilidad(ObjetoJson objetoJson) {
-		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ objetoJson.getNombreReporte() +"';");
+	public List<Map<String,Object>> obtenerIdTrazabilidad(ObjetoJson json) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ json.getNameFile() +"';");
 		return idTrazabilidad;
 	}
 
-	public List<Map<String,Object>> obtenerIdInfoMedida(ObjetoJson objetoJson) {
-		List<Map<String,Object>>nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ objetoJson.getNombreMedidas() +"';");
+	public List<Map<String,Object>> obtenerIdInfoMedida(ObjetoJson json) {
+		List<Map<String,Object>> nombreMedida=null;
+		for (int i = 0; i < json.getInfoMeasure().size(); i++) {
+			nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ json.getInfoMeasure().get(i) +"';");			
+		}
+		return nombreMedida;
+	}
+	
+	public List<Map<String,Object>> obtenerIdInfoMedidaActivaImportada() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="AI";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaActivaExportada() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="AE";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaBitCalidad() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="BC";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaQ0() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="R1";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaQ1() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="R2";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaQ2() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="R3";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
+		return nombreMedida;
+	}
+	public List<Map<String,Object>> obtenerIdInfoMedidaQ3() {
+		List<Map<String,Object>> nombreMedida=null;
+		String medida ="R4";
+		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
 		return nombreMedida;
 	}
 
 	
+
 	
 
 }

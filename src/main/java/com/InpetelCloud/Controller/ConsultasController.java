@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.InpetelCloud.Service.ConsultasService;
 
 @RestController
-@RequestMapping(path= "/consulta")
+@RequestMapping(path="/consulta/")
 public class ConsultasController {
 
 	@Autowired

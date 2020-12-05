@@ -1,6 +1,5 @@
 package com.InpetelCloud.Interfaces;
 
-
 import java.util.List;
 
 import com.InpetelCloud.Model.Estados;
@@ -21,11 +20,6 @@ import com.InpetelCloud.Model.Usuarios;
 public interface InsercionInterface {
 
 	/*MEDIDORES */ 
-	
-	//public Medidor saveMedidor(Medidor medidor); 
-	
-	/* CONCENTRADOR */
-	//public Concentrador saveConcentrador(Concentrador concentrador); 
 	
 	/* MEDIDAS VALUES */
 	//public Medidas createMedidas(Medidas medidas);
@@ -73,7 +67,14 @@ public interface InsercionInterface {
 	public int crearFtp(Ftp f);
 		
 	//Metodo para crear una medida
-	public int crearMedida(ObjetoJson objetoJson);
+	public int crearMedida(ObjetoJson json);
+	
+	//Metodo para crear un medidor
+	public int crearMedidor(String medidor); 
+	
+	//Metodo para crear un concentrador
+	public int crearConcentrador(String concentrador); 
+	
 	
 	
 	
