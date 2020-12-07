@@ -72,6 +72,9 @@ public interface InsercionInterface {
 	public int crearMedidor(String medidor); 
 	
 	//Metodo para crear un concentrador
-	public int crearConcentrador(String concentrador); 
+	public int crearConcentrador(String concentrador);
+	
+
+
 	
 }

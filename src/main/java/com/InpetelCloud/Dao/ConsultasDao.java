@@ -110,4 +110,24 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");
 		return view;
 	}
+
+	@Override
+	public boolean validarSerialConcentrador(String cnc) {
+		return false;
+	}
+	
+	public List<Map<String,Object>> serialConcentradores(){
+		List<Map<String,Object>>medidores = template.queryForList("SELECT Serial FROM Inpetel_Cloud.Concentrador");
+		return medidores;
+	}
+	
+	public List<Map<String,Object>> serialMedidores(){
+		List<Map<String,Object>>medidores = template.queryForList("SELECT Serial FROM Inpetel_Cloud.Medidor");
+		return medidores;
+	}
+
+	@Override
+	public boolean validarSerialMedidor(String met) {
+		return false;
+	}
 }

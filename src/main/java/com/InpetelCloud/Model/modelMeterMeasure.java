@@ -51,5 +51,7 @@ public class modelMeterMeasure {
 	public ArrayList<String> getQ() {
 		return Q;
 	}
+	
+	
 
 }

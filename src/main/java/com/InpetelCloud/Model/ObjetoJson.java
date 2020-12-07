@@ -9,7 +9,11 @@ public class ObjetoJson {
     private String nameFile;
     private ArrayList<modelMeterMeasure> infoMeasure = new ArrayList<>();
     
-    private ArrayList<ObjetoJson> arreglo = new ArrayList<>();	
+    
+    
+    
+    
+    private ArrayList<ObjetoJson> Hours = new ArrayList<>();	
 	private String serialcnc;
 	private String serialmet;
 	private String nombreMedidas;
@@ -23,19 +27,19 @@ public class ObjetoJson {
 		super();
 	}
 
-	public ObjetoJson(String concentrator, String meter, String nameFile, ArrayList<modelMeterMeasure> infoMeasure, ArrayList<ObjetoJson> arreglo) {
+	public ObjetoJson(String concentrator, String meter, String nameFile, ArrayList<modelMeterMeasure> infoMeasure, ArrayList<ObjetoJson> hh) {
         super();
         this.concentrator = concentrator;
         this.meter = meter;
         this.nameFile = nameFile;
         this.infoMeasure = infoMeasure;
-        this.arreglo = arreglo;
+        this.Hours = hh;
     }
 
 
 
-	public ArrayList<ObjetoJson> getArreglo() {
-		return arreglo;
+	public ArrayList<ObjetoJson> getHours() {
+		return Hours;
 	}
 
 
@@ -114,8 +118,12 @@ public class ObjetoJson {
 	@Override
 	public String toString() {
 		return "ObjetoJson [concentrator=" + concentrator + ", meter=" + meter + ", nameFile=" + nameFile
-				+ ", infoMeasure=" + infoMeasure + ", arreglo=" + arreglo + "]";
+				+ ", infoMeasure=" + infoMeasure + ", hours=" + Hours + "]";
 	}
+
+
+
+	
 	
 	
 

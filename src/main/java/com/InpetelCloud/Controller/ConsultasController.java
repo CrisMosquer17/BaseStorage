@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -112,6 +113,18 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String,Object>> Ftps(){
 		return service.Ftps();
+	}
+	
+	@GetMapping("/validarSerialCnc/{cnc}")
+	@CrossOrigin(origins="*")
+	public boolean validarSerialConcentrador(@PathVariable String cnc) {
+		return service.validarSerialConcentrador(cnc);
+	}
+	
+	@GetMapping("/validarSerialMet/{met}")
+	@CrossOrigin(origins="*")
+	public boolean validarSerialMedidor(@PathVariable String met) {
+		return service.validarSerialMedidor(met);
 	}
 	
 }

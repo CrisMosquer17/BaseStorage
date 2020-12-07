@@ -147,7 +147,7 @@ public class InsercionService implements InsercionInterface {
 		int medidaCreada = 0;
 		// se recorre el arreglo de objetoJson (objetoJson tiene un arreglo de tipo
 		// objetoJson)
-		for (int j = 0; j < json.getArreglo().size(); j++) {
+		for (int j = 0; j < json.getHours().size(); j++) {
 
 			// recorro los arreglos de infomedida que contenga un objeto json y le saco sus
 			// valores, es decir recorro lo siguiente
@@ -157,14 +157,14 @@ public class InsercionService implements InsercionInterface {
 			// "date":"20201202190000000W", "Q":[0, 0, 0, 0]
 			// }
 			resultado = validarCreacionMedidas(json, j);
-			for (int i = 0; i < json.getArreglo().get(j).getInfoMeasure().size(); i++) {
-				numValorActiveImport = json.getArreglo().get(j).getInfoMeasure().get(i).getActiveImport();
-				numValorActiveExport = json.getArreglo().get(j).getInfoMeasure().get(i).getActiveExpor();
-				numValorBitOfQuality = json.getArreglo().get(j).getInfoMeasure().get(i).getBitOfQuality();
-				numValorQ1 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(0);
-				numValorQ2 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(1);
-				numValorQ3 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(2);
-				numValorQ4 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(3);
+			for (int i = 0; i < json.getHours().get(j).getInfoMeasure().size(); i++) {
+				numValorActiveImport = json.getHours().get(j).getInfoMeasure().get(i).getActiveImport();
+				numValorActiveExport = json.getHours().get(j).getInfoMeasure().get(i).getActiveExpor();
+				numValorBitOfQuality = json.getHours().get(j).getInfoMeasure().get(i).getBitOfQuality();
+				numValorQ1 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(0);
+				numValorQ2 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(1);
+				numValorQ3 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(2);
+				numValorQ4 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(3);
 				// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
 				// luego se mandara al dao para crear la medida
 				valorInfomedida.add(numValorActiveImport);
@@ -178,7 +178,7 @@ public class InsercionService implements InsercionInterface {
 				// parseFecha y obtengo de igual manera
 				// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
 				// enviarse al dao en el cual se crea la medida
-				fecha = parserFecha(json.getArreglo().get(j).getInfoMeasure().get(i).getDate());
+				fecha = parserFecha(json.getHours().get(j).getInfoMeasure().get(i).getDate());
 				horaInicio = fecha.substring(11, 16);
 				horaFin = agregarHora(horaInicio);
 				fechas.add(fecha);
@@ -433,14 +433,14 @@ public class InsercionService implements InsercionInterface {
 			if (serialesMedidores.size() == 0) {
 
 			} else {
-				if (serialesMedidores.get(i).equals(json.getArreglo().get(j).getMeter())) {
+				if (serialesMedidores.get(i).equals(json.getHours().get(j).getMeter())) {
 					resultado = true;
 				}
 
 			}
 		}
 		if (resultado == false) {
-			dao.crearMedidor(json.getArreglo().get(j).getMeter());
+			dao.crearMedidor(json.getHours().get(j).getMeter());
 			resultado = true;
 		}
 
@@ -473,17 +473,21 @@ public class InsercionService implements InsercionInterface {
 
 			} else {
 
-				if (serialesConcentradores.get(i).equals(json.getArreglo().get(j).getConcentrator())) {
+				if (serialesConcentradores.get(i).equals(json.getHours().get(j).getConcentrator())) {
 					resultado = true;
 				}
 			}
 		}
 
 		if (resultado == false) {
-			dao.crearConcentrador(json.getArreglo().get(j).getConcentrator());
+			dao.crearConcentrador(json.getHours().get(j).getConcentrator());
 			resultado = true;
 		}
 		return resultado;
+	}
+	
+	public int recibej(int j) {
+		return j;
 	}
 
 	@Override
@@ -499,5 +503,8 @@ public class InsercionService implements InsercionInterface {
 		usuario.setPassword_salt(passSalt);
 		return dao.crearUsuario(usuario);
 	}
+
+	
+	
 
 }
