@@ -585,13 +585,13 @@ public class InsercionDao implements InsercionInterface{
 //
 //	}
 	
-	public List<Map<String,Object>> obtenerIdMedidor(ObjetoJson json) {
-		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ json.getMeter() +"';");
+	public List<Map<String,Object>> obtenerIdMedidor(ObjetoJson json, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ json.getArreglo().get(j).getMeter() +"';");
 		return idMedidor;
 	}
 //	
-	public List<Map<String,Object>> obtenerIdConcentrador(ObjetoJson json) {
-		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ json.getConcentrator() +"';");
+	public List<Map<String,Object>> obtenerIdConcentrador(ObjetoJson json, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ json.getArreglo().get(j).getConcentrator() +"';");
 		return idConcentrador;
 	}
 	
@@ -601,13 +601,13 @@ public class InsercionDao implements InsercionInterface{
 		
 	}
 	
-	public void crearTrazabilidad(ObjetoJson json) {
+	public void crearTrazabilidad(ObjetoJson json, int j) {
 		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
-				+ "('" + json.getNameFile() + "');");
+				+ "('" + json.getArreglo().get(j).getNameFile() + "');");
 		}
 	
-	public List<Map<String,Object>> obtenerIdTrazabilidad(ObjetoJson json) {
-		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ json.getNameFile() +"';");
+	public List<Map<String,Object>> obtenerIdTrazabilidad(ObjetoJson json, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ json.getArreglo().get(j).getNameFile() +"';");
 		return idTrazabilidad;
 	}
 

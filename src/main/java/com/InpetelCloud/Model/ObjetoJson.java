@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class ObjetoJson {
 	
-
-
     private String concentrator;
     private String meter;
     private String nameFile;
@@ -25,12 +23,13 @@ public class ObjetoJson {
 		super();
 	}
 
-	public ObjetoJson(String concentrator, String meter, String nameFile, ArrayList<modelMeterMeasure> infoMeasure) {
+	public ObjetoJson(String concentrator, String meter, String nameFile, ArrayList<modelMeterMeasure> infoMeasure, ArrayList<ObjetoJson> arreglo) {
         super();
         this.concentrator = concentrator;
         this.meter = meter;
         this.nameFile = nameFile;
         this.infoMeasure = infoMeasure;
+        this.arreglo = arreglo;
     }
 
 
@@ -110,6 +109,12 @@ public class ObjetoJson {
 
 	public void setEncabezado(String encabezado) {
 		this.encabezado = encabezado;
+	}
+
+	@Override
+	public String toString() {
+		return "ObjetoJson [concentrator=" + concentrator + ", meter=" + meter + ", nameFile=" + nameFile
+				+ ", infoMeasure=" + infoMeasure + ", arreglo=" + arreglo + "]";
 	}
 	
 	

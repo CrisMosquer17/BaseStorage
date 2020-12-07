@@ -118,8 +118,9 @@ public class InsercionService implements InsercionInterface {
 		// array que va a contener el id del medidor y el id de la trazabilidad para
 		// crear la medida.
 		List<String> resultado = new ArrayList<>();
-		// -- - - - - - - -- - - - - - - - -- - - - -- - - - - -- - - - valores medidas parciales
 		
+		// -- - - - - - - -- - - - - - - - -- - - - -- - - - - -- - - - valores medidas parciales
+
 		// esta parte realiza el guardado por arreglo de infomedidas del json, es decir
 		// toma cada valor del arreglo de infomedida del json y es para cada arreglo,
 		// para cuando se vaya a recorrer
@@ -134,7 +135,7 @@ public class InsercionService implements InsercionInterface {
 		String numValorQ3 = "";
 		String numValorQ4 = "";
 		// -- - - - - - - -- - - - - - - - -- - - - -- - - - - -- - - - valores medidas parciales
-		
+
 		// -- - - - - - - -- - - - - - - - -- - - - -- - - - - -- - - - fechas
 		// Lo mismo de los valores de las medidas aplica para las fechas
 		List<String> fechas = new ArrayList<>();
@@ -144,76 +145,86 @@ public class InsercionService implements InsercionInterface {
 		// -- - - - - - - -- - - - - - - - -- - - - -- - - - - -- - - - fechas
 
 		int medidaCreada = 0;
-		//recorro los arreglos de infomedida que contenga un objeto json y le saco sus valores, es decir recorro lo siguiente
-		//"infoMeasure": [
-		//{
-		//"activeImport":"0", "activeExpor":"0", "bitOfQuality":"00", "date":"20201202190000000W", "Q":[0, 0, 0, 0]
-		//}
-		resultado = validarCreacionMedidas(json);
-		for (int i = 0; i < json.getInfoMeasure().size(); i++) {
-			numValorActiveImport = json.getInfoMeasure().get(i).getActiveImport();
-			numValorActiveExport = json.getInfoMeasure().get(i).getActiveExpor();
-			numValorBitOfQuality = json.getInfoMeasure().get(i).getBitOfQuality();
-			numValorQ1 = json.getInfoMeasure().get(i).Q.get(0);
-			numValorQ2 = json.getInfoMeasure().get(i).Q.get(1);
-			numValorQ3 = json.getInfoMeasure().get(i).Q.get(2);
-			numValorQ4 = json.getInfoMeasure().get(i).Q.get(3);
-			// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
-			// luego se mandara al dao para crear la medida
-			valorInfomedida.add(numValorActiveImport);
-			valorInfomedida.add(numValorActiveExport);
-			valorInfomedida.add(numValorBitOfQuality);
-			valorInfomedida.add(numValorQ1);
-			valorInfomedida.add(numValorQ2);
-			valorInfomedida.add(numValorQ3);
-			valorInfomedida.add(numValorQ4);
-			// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
-			// parseFecha y obtengo de igual manera
-			// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
-			// enviarse al dao en el cual se crea la medida
-			fecha = parserFecha(json.getInfoMeasure().get(i).getDate());
-			horaInicio = fecha.substring(11, 16);
-			horaFin = agregarHora(horaInicio);
-			fechas.add(fecha);
-			fechas.add(horaInicio);
-			fechas.add(horaFin);
-			try {
-				// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
-				// resultado y se envia al dao
-				// para la creacion de la medida
-				// obtengo los id de los nombres de las medidas de la tabla infomedida
-				// tomandolos directamente de la base de datos
-				// ir a ver el metodo para entender
-				idInfomedidas = nombreMedidas();
-				medidaCreada = dao.crearMedidaPrueba(resultado, valorInfomedida, fechas, idInfomedidas);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				valorInfomedida.remove(0);
-				fechas.remove(0);
-				fechas.remove(0);
-				fechas.remove(0);
+		// se recorre el arreglo de objetoJson (objetoJson tiene un arreglo de tipo
+		// objetoJson)
+		for (int j = 0; j < json.getArreglo().size(); j++) {
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			// recorro los arreglos de infomedida que contenga un objeto json y le saco sus
+			// valores, es decir recorro lo siguiente
+			// "infoMeasure": [
+			// {
+			// "activeImport":"0", "activeExpor":"0", "bitOfQuality":"00",
+			// "date":"20201202190000000W", "Q":[0, 0, 0, 0]
+			// }
+			resultado = validarCreacionMedidas(json, j);
+			for (int i = 0; i < json.getArreglo().get(j).getInfoMeasure().size(); i++) {
+				numValorActiveImport = json.getArreglo().get(j).getInfoMeasure().get(i).getActiveImport();
+				numValorActiveExport = json.getArreglo().get(j).getInfoMeasure().get(i).getActiveExpor();
+				numValorBitOfQuality = json.getArreglo().get(j).getInfoMeasure().get(i).getBitOfQuality();
+				numValorQ1 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(0);
+				numValorQ2 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(1);
+				numValorQ3 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(2);
+				numValorQ4 = json.getArreglo().get(j).getInfoMeasure().get(i).Q.get(3);
+				// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
+				// luego se mandara al dao para crear la medida
+				valorInfomedida.add(numValorActiveImport);
+				valorInfomedida.add(numValorActiveExport);
+				valorInfomedida.add(numValorBitOfQuality);
+				valorInfomedida.add(numValorQ1);
+				valorInfomedida.add(numValorQ2);
+				valorInfomedida.add(numValorQ3);
+				valorInfomedida.add(numValorQ4);
+				// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
+				// parseFecha y obtengo de igual manera
+				// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
+				// enviarse al dao en el cual se crea la medida
+				fecha = parserFecha(json.getArreglo().get(j).getInfoMeasure().get(i).getDate());
+				horaInicio = fecha.substring(11, 16);
+				horaFin = agregarHora(horaInicio);
+				fechas.add(fecha);
+				fechas.add(horaInicio);
+				fechas.add(horaFin);
+				try {
+					// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
+					// resultado y se envia al dao
+					// para la creacion de la medida
+					// obtengo los id de los nombres de las medidas de la tabla infomedida
+					// tomandolos directamente de la base de datos
+					// ir a ver el metodo para entender
+					idInfomedidas = nombreMedidas();
+					medidaCreada = dao.crearMedidaPrueba(resultado, valorInfomedida, fechas, idInfomedidas);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					valorInfomedida.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return medidaCreada;
 	}
-	
+
 	/*
-	 * Descripcion: Metodo que obtiene el id del medidor y el id de la trazabilidad para la creacion de la medida
-	 * Return: Lista con el id del medidor y el id de la trazabilidad.
+	 * Parametros:Objeto json y un entero j, que es la posicion del arreglo que
+	 * tiene el json, es decir json.getArreglo.get(j) para poder tener la referencia
+	 * a que objeto del arreglo json estoy apuntando. Descripcion: Metodo que
+	 * obtiene el id del medidor y el id de la trazabilidad para la creacion de la
+	 * medida Return: Lista con el id del medidor y el id de la trazabilidad.
 	 */
-	public List<String> validarCreacionMedidas(ObjetoJson json) {
+	public List<String> validarCreacionMedidas(ObjetoJson json, int j) {
 		List<Object> resultado = new ArrayList<Object>();
 		List<String> medidaResultado = new ArrayList<>();
 
-		boolean validarSerialMedidor = validarSerialMedidor(json);
-		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidor(json);
+		boolean validarSerialMedidor = validarSerialMedidor(json, j);
+		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidor(json, j);
 		if (validarSerialMedidor == true) {
 			for (Map<String, Object> map : idMedidor) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -225,8 +236,8 @@ public class InsercionService implements InsercionInterface {
 
 		medidaResultado.add(resultado.get(0).toString());
 
-		boolean validarSerialConcentrador = validarSerialConcentrador(json);
-		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentrador(json);
+		boolean validarSerialConcentrador = validarSerialConcentrador(json, j);
+		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentrador(json, j);
 		if (validarSerialConcentrador == true) {
 			for (Map<String, Object> map : idConcentrador) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -241,9 +252,9 @@ public class InsercionService implements InsercionInterface {
 		dao.crearAsociacionCncMet(resultado);
 
 		// creo tabla de trazabilidad con el nameFile
-		dao.crearTrazabilidad(json);
+		dao.crearTrazabilidad(json, j);
 
-		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidad(json);
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidad(json, j);
 		for (Map<String, Object> map : idTrazabilidad) {
 			for (Map.Entry<String, Object> entry : map.entrySet()) {
 				Object value = entry.getValue();
@@ -399,12 +410,14 @@ public class InsercionService implements InsercionInterface {
 	}
 
 	/*
-	 * Metodo que valida el serial del medidor que viene en el json. En caso de que
-	 * no se encuentre el medidor en la base de datos, se crea este con su serial.
-	 * Return: True si encuentra el medidor en la base de datos, false en caso
-	 * contrario.
+	 * Parametros: Objeto json y un entero j, que es la posicion del arreglo que
+	 * tiene el json, es decir json.getArreglo.get(j) para poder tener la referencia
+	 * a que objeto del arreglo json estoy apuntando. Descripcion: Metodo que valida
+	 * el serial del medidor que viene en el json. En caso de que no se encuentre el
+	 * medidor en la base de datos, se crea este con su serial. Return: True si
+	 * encuentra el medidor en la base de datos, false en caso contrario.
 	 */
-	public boolean validarSerialMedidor(ObjetoJson json) {
+	public boolean validarSerialMedidor(ObjetoJson json, int j) {
 		boolean resultado = false;
 		List<String> serialesMedidores = new ArrayList<String>();
 		// dao.serialMedidores: se trae todos los seriales de los medidores que estan en
@@ -417,12 +430,17 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		for (int i = 0; i < serialesMedidores.size(); i++) {
-			if (serialesMedidores.get(i).equals(json.getMeter())) {
-				resultado = true;
+			if (serialesMedidores.size() == 0) {
+
+			} else {
+				if (serialesMedidores.get(i).equals(json.getArreglo().get(j).getMeter())) {
+					resultado = true;
+				}
+
 			}
 		}
 		if (resultado == false) {
-			dao.crearMedidor(json.getMeter());
+			dao.crearMedidor(json.getArreglo().get(j).getMeter());
 			resultado = true;
 		}
 
@@ -430,12 +448,15 @@ public class InsercionService implements InsercionInterface {
 	}
 
 	/*
-	 * Descripcion: Metodo que valida el serial del concentrador que viene en json.
-	 * En caso en que el concentrador no se encuentre en la base de datos, se crea
-	 * con su serial. Return: True si el serial del concentrador se encuentra en la
-	 * base de datos, false en caso contrario.
+	 * Parametros: Objeto json y un entero j, que es la posicion del arreglo que
+	 * tiene el json, es decir json.getArreglo.get(j) para poder tener la referencia
+	 * a que objeto del arreglo json estoy apuntando. Descripcion: Metodo que valida
+	 * el serial del concentrador que viene en json. En caso en que el concentrador
+	 * no se encuentre en la base de datos, se crea con su serial. Return: True si
+	 * el serial del concentrador se encuentra en la base de datos, false en caso
+	 * contrario.
 	 */
-	public boolean validarSerialConcentrador(ObjetoJson json) {
+	public boolean validarSerialConcentrador(ObjetoJson json, int j) {
 		boolean resultado = false;
 		List<String> serialesConcentradores = new ArrayList<String>();
 		// dao.serialConcentradores: se trae todos los seriales de los concentradores
@@ -448,13 +469,18 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		for (int i = 0; i < serialesConcentradores.size(); i++) {
-			if (serialesConcentradores.get(i).equals(json.getConcentrator())) {
-				resultado = true;
+			if (serialesConcentradores.size() == 0) {
+
+			} else {
+
+				if (serialesConcentradores.get(i).equals(json.getArreglo().get(j).getConcentrator())) {
+					resultado = true;
+				}
 			}
 		}
 
 		if (resultado == false) {
-			dao.crearConcentrador(json.getConcentrator());
+			dao.crearConcentrador(json.getArreglo().get(j).getConcentrator());
 			resultado = true;
 		}
 		return resultado;
