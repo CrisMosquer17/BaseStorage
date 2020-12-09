@@ -9,11 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.InsercionInterface;
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -77,6 +80,35 @@ public class InsercionDao implements InsercionInterface{
 					+ "    FOREIGN KEY (`Usu_modifica`)\r\n"
 					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Asoc_concen_medidor` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Concentrador_ID` INT NOT NULL,\r\n"
+					+ "  `Medidor_ID` INT NOT NULL,\r\n"
+					+ "  `Fh_create` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  `Usu_crea` INT NULL DEFAULT NULL,\r\n"
+					+ "  `Fh_update` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  `Usu_update` INT NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`),\r\n"
+					+ "  INDEX `fk_Asoc_concen_medidor_Concentrador1_idx` (`Concentrador_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Asoc_concen_medidor_Medidor1_idx` (`Medidor_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Asoc_concen_medidor_Usuariosc_idx` (`Usu_crea` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Asoc_concen_medidor_Usuariosp_idx` (`Usu_update` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `fk_Asoc_concen_medidor_Concentrador1`\r\n"
+					+ "    FOREIGN KEY (`Concentrador_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Concentrador` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Asoc_concen_medidor_Medidor1`\r\n"
+					+ "    FOREIGN KEY (`Medidor_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Medidor` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Asoc_concen_medidor_Usuariosc`\r\n"
+					+ "    FOREIGN KEY (`Usu_crea`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Asoc_concen_medidor_Usuariosp`\r\n"
+					+ "    FOREIGN KEY (`Usu_update`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 2\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Asoc_usu_roles` (\r\n"
@@ -513,17 +545,53 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	/*
+	 * Descripcion: Metodo que crea un concentrador dentro del metodo que crea una medida
+	 */
 	@Override
-	public int crearConcentrador(String concentrador) {
+	public int crearConcentradorMedida(String concentrador) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID )\r\n"
 				+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + 1 + "','" + concentrador + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 56 + "', '" + 1 + "');");
 		return value;
 	}
 	
+	/*
+	 * Descripcion: Metodo que crea un medidor dentro del metodo que crea una medida
+	 */
 	@Override
-	public int crearMedidor(String medidor) {
+	public int crearMedidorMedida(String medidor) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, Medidorcol,  TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID )\r\n"
 				+ " VALUES ('"+ 1 + "', '" + 1 + "',  '" + 1 + "' , '" + 1 + "','" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor + "', '" + 1+ "');");
+		return value;
+	}
+	
+	/*
+	 * Descripcion: Metodo para crear un medidor a través de un crud. ( por aparte  de la medida)
+	 */
+	@Override
+	public int crearMedidor(modelMeter medidor) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, Medidorcol,  TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID )\r\n"
+				+ " VALUES ('"+ medidor.getTypeMeter() + "', '" + medidor.getMang() + "',  '" + medidor.getNumberQuadrants() + "' , '" + 1 + "','" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + medidor.getBrand()+ "');");
+		return value;
+	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorMedida(modelMeter medidor) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ medidor.getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
+	public List<Map<String,Object>> obtenerIdMedidorMedida(modelMeter medidor) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ medidor.getMeter() +"';");
+		return idMedidor;
+	}
+
+	/*
+	 * Descripcion: Metodo para crear un concentrador a través de un crud. ( por aparte de la medida)
+	 */
+	@Override
+	public int crearConcentrador(modelConcentrator concentrador) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID )\r\n"
+				+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + 1 + "','" + concentrador.getSerial() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + concentrador.getMarca() + "');");
 		return value;
 	}
 	
@@ -661,8 +729,33 @@ public class InsercionDao implements InsercionInterface{
 		nombreMedida = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Nombre='"+ medida+"';");			
 		return nombreMedida;
 	}
-	
 
+	@Override
+	public int crearMedidaS03(ObjetoJsonS03 jsons03) {
+		int value=crearMedidaPrueba(null,null, null,null);
+		return value;
+	}
 	
+	public List<Map<String,Object>> obtenerIdMedidorS03(ObjetoJsonS03 jsons03, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ jsons03.getDays().get(j).getMeter() +"';");
+		return idMedidor;
+	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorS03(ObjetoJsonS03 jsons03, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ jsons03.getDays().get(j).getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
+	public void crearTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + jsons03.getDays().get(j).getNameFile() + "');");
+		}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ jsons03.getDays().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+
+
 
 }

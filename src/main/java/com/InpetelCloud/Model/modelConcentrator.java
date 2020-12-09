@@ -2,45 +2,41 @@ package com.InpetelCloud.Model;
 
 import javax.persistence.Id;
 
-public class Concentrador {
+public class modelConcentrator {
 
 	@Id
 	private int id;
 	private String ipReal;
-	private String nombreConcentrador;
+	private String concentrator;
 	private String tipoComunicacionId;
 	private String imei;
-	private String serialcnc;
+	private String serial;
 	private String tiempoConectadoId;
 	private String modemEmbebidoId;
 	private String ioModule;
-	private String modemId;
-	private String marcaId;
+	private String modemId;	
+	private String marca;
 	
 	
-	public Concentrador( String ipReal, String nombreConcentrador, String tipoComunicacionId, String imei,
-			String serialcnc, String tiempoConectadoId, String modemEmbebidoId, String ioModule, String modemId,
-			String marcaId) {
+	public modelConcentrator() {
+		super();
+	}
+
+
+	public modelConcentrator(String ipReal, String concentrator, String tipoComunicacionId, String imei, String serial,
+			String tiempoConectadoId, String modemEmbebidoId, String ioModule, String modemId, String marca) {
 		super();
 		this.ipReal = ipReal;
-		this.nombreConcentrador = nombreConcentrador;
+		this.concentrator = concentrator;
 		this.tipoComunicacionId = tipoComunicacionId;
 		this.imei = imei;
-		this.serialcnc = serialcnc;
+		this.serial = serial;
 		this.tiempoConectadoId = tiempoConectadoId;
 		this.modemEmbebidoId = modemEmbebidoId;
 		this.ioModule = ioModule;
 		this.modemId = modemId;
-		this.marcaId = marcaId;
+		this.marca = marca;
 	}
-
-
-	public Concentrador() {
-		super();
-	}
-
-
-
 
 
 	public int getId() {
@@ -53,8 +49,8 @@ public class Concentrador {
 	}
 
 
-	public String getNombreConcentrador() {
-		return nombreConcentrador;
+	public String getConcentrator() {
+		return concentrator;
 	}
 
 
@@ -69,7 +65,7 @@ public class Concentrador {
 
 
 	public String getSerial() {
-		return serialcnc;
+		return serial;
 	}
 
 
@@ -93,20 +89,12 @@ public class Concentrador {
 	}
 
 
-	public String getMarcaId() {
-		return marcaId;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Concentrador [serialcnc=" + serialcnc + "]";
+	public String getMarca() {
+		return marca;
 	}
 	
 	
 	
 	
 	
-	
-
 }

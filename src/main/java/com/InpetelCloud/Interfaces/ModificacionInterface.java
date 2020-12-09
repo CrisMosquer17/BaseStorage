@@ -1,9 +1,11 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -59,8 +61,15 @@ public interface ModificacionInterface {
 	
 	//Metodo para modificar un usuario
 	public int modificarUsuario(Long id, Usuarios usuario);
-
+	
+	//Metodo para modificar un ftp
 	public int modificarFtp( Ftp f);
+	
+	//Metodo para modificar un concentrador
+	public int modificarConcentrador(Long id, modelConcentrator concentrador);
+
+	//Metodo para modificar un medidor
+	public int modificarMedidor(Long id, modelMeter medidor);
 
 
 

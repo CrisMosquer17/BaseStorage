@@ -1,11 +1,14 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -68,11 +71,17 @@ public interface InsercionInterface {
 	//Metodo para crear una medida
 	public int crearMedida(ObjetoJson json);
 	
+	public int crearMedidaS03(ObjetoJsonS03 jsons03);
+	
 	//Metodo para crear un medidor
-	public int crearMedidor(String medidor); 
+	public int crearMedidorMedida(String medidor); 
 	
 	//Metodo para crear un concentrador
-	public int crearConcentrador(String concentrador);
+	public int crearConcentradorMedida(String concentrador);
+	
+	public int crearMedidor(modelMeter medidor);
+	
+	public int crearConcentrador(modelConcentrator concentrador);
 	
 
 

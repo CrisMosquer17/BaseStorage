@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.InpetelCloud.Model.Concentrador;
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
-import com.InpetelCloud.Model.Medidor;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.TecnologiaComponente;
@@ -130,6 +131,29 @@ public class InsercionController {
 			
 //	}
 		return value;
+	}
+	
+	@PostMapping("/crearMedidaS03/")
+	@CrossOrigin(origins = "*")
+	public int crearMedidaS03(@RequestBody ObjetoJsonS03 jsons03) {
+		int value=0;
+		//for (int i = 0; i < json.getArreglo().size(); i++) {
+			value=service.crearMedidaS03(jsons03);
+			
+//	}
+		return value;
+	}
+	
+	@PostMapping("/crearMedidor/")
+	@CrossOrigin(origins = "*")
+	public int crearMedidor(@RequestBody modelMeter medidor) {
+		return service.crearMedidor(medidor);
+	}
+	
+	@PostMapping("/crearConcentrador/")
+	@CrossOrigin(origins = "*")
+	public int crearConcentrador(@RequestBody modelConcentrator concentrador) {
+		return service.crearConcentrador(concentrador);
 	}
 	
 	

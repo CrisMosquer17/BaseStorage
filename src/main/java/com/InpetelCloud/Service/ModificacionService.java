@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -105,6 +107,16 @@ public class ModificacionService implements ModificacionInterface{
 		String pass = DigestUtils.md5Hex(f.getPassword());
 		f.setPassword(pass);
 		return dao.modificarFtp(f);
+	}
+
+	@Override
+	public int modificarConcentrador(Long id, modelConcentrator concentrador) {
+		return dao.modificarConcentrador(id, concentrador);
+	}
+
+	@Override
+	public int modificarMedidor(Long id, modelMeter medidor) {
+		return dao.modificarMedidor(id, medidor);
 	}
 
 

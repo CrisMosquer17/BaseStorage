@@ -5,9 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -110,6 +112,18 @@ public class ModificacionDao implements ModificacionInterface{
 	@Override
 	public int modificarFtp( Ftp f) {
 		int value= template.update("UPDATE Inpetel_Cloud.FTP set Descripcion='"+f.getDescripcion()+"', EndPoint='"+f.getEndPoint()+"', Puerto='"+f.getPuerto()+"', Password='"+f.getPassword()+"', Carpeta_Entrada='"+f.getCarpeta_En()+"', Carpeta_Procesad='"+f.getCarpeta_Pr()+"', Fh_update=now(), Usu_update='"+f.getUsu_modifica()+"', Carpeta_Errores='"+f.getCarpeta_Er()+"' WHERE ID_FTP= "+f.getId()+";");
+		return value;
+	}
+
+	@Override
+	public int modificarConcentrador(Long id, modelConcentrator concentrador) {
+		int value= template.update("UPDATE Inpetel_Cloud.FTP set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+concentrador.getMarca()+"'  where ID="+ id +";");
+		return value;
+	}
+
+	@Override
+	public int modificarMedidor(Long id, modelMeter medidor) {
+		int value= template.update("UPDATE Inpetel_Cloud.FTP set TipoMedidor_ID='"+ medidor.getTypeMeter() +"', Magnitud='"+medidor.getMang()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', Medidorcol='"+medidor.getMedidorCol()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Saldo_prepago='"+medidor.getSaldoPrepago()+"', Recarga_prepago='"+medidor.getRecargaPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+medidor.getBrand()+"'  where ID="+ id +";");
 		return value;
 	}
 

@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -106,5 +108,17 @@ public class ModificacionController {
 	@CrossOrigin(origins="*")
 	public void modificarFtp(@RequestBody Ftp f) {
 		service.modificarFtp(f);
+	}
+	
+	@PutMapping("modificarConcentrador/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarConcentrador(@PathVariable Long id, @RequestBody modelConcentrator concentrador) {
+		service.modificarConcentrador(id, concentrador);
+	}
+	
+	@PutMapping("modificarMedidor/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarMedidor(@PathVariable Long id, @RequestBody modelMeter medidor) {
+		service.modificarMedidor(id, medidor);
 	}
 }
