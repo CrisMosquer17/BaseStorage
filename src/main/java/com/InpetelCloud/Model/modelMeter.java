@@ -7,9 +7,8 @@ public class modelMeter {
 	@Id
 	private int id;
 	private String typeMeter;
-	private String mang;
+	private String magnitud;
 	private int numberQuadrants;
-	private String medidorCol;
 	private String tipoPuertoId;
 	private int prepago;
 	private int saldoPrepago;
@@ -18,7 +17,6 @@ public class modelMeter {
 	private String model;
 	private String meter;
 	private String brand;
-	private String technology;
 	private String concentrator;
 	
 	
@@ -28,15 +26,14 @@ public class modelMeter {
 	}
 
 
-	public modelMeter(String concentrator, String typeMeter, String mang, int numberQuadrants, String medidorCol, String tipoPuertoId,
+	public modelMeter(String concentrator, String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId,
 			int prepago, int saldoPrepago, int recargaPrepago, int syncReloj, String model, String meter, String brand,
 			String technology) {
 		super();
 		this.concentrator=concentrator;
 		this.typeMeter = typeMeter;
-		this.mang = mang;
+		this.magnitud = magnitud;
 		this.numberQuadrants = numberQuadrants;
-		this.medidorCol = medidorCol;
 		this.tipoPuertoId = tipoPuertoId;
 		this.prepago = prepago;
 		this.saldoPrepago = saldoPrepago;
@@ -45,7 +42,6 @@ public class modelMeter {
 		this.model = model;
 		this.meter = meter;
 		this.brand = brand;
-		this.technology = technology;
 	}
 
 
@@ -59,18 +55,13 @@ public class modelMeter {
 	}
 
 
-	public String getMang() {
-		return mang;
+	public String getMagnitud() {
+		return magnitud;
 	}
 
 
 	public int getNumberQuadrants() {
 		return numberQuadrants;
-	}
-
-
-	public String getMedidorCol() {
-		return medidorCol;
 	}
 
 
@@ -111,11 +102,6 @@ public class modelMeter {
 
 	public String getBrand() {
 		return brand;
-	}
-
-
-	public String getTechnology() {
-		return technology;
 	}
 
 
