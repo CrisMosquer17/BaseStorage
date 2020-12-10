@@ -109,31 +109,67 @@ public class InsercionService implements InsercionInterface {
 	
 	@Override
 	public int crearMedidor(modelMeter medidor) {
-		int crearMedidor = dao.crearMedidor(medidor);
-		List<Object> resultado = new ArrayList<Object>();
+		int validate=0;
+		ArrayList<String> idMet = dao.serialesMedidor(medidor);
+		//validaciones para el medidor
+		if(idMet.size() == 1) {
+			validate= dao.updateMedidor(medidor, idMet.get(0));
+		}
+		else if(idMet.equals("medidor duplicado")) {
+			validate=2;
+		}
+		else {
+			validate = dao.crearMedidor(medidor);
 
-		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
-		for (Map<String, Object> map : idMedidor) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
-			}
-		}
-		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
-		for (Map<String, Object> map : idConcentrador) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
-			}
-		}
-		dao.crearAsociacionCncMet(resultado);
+		}		
 		
-		return crearMedidor;
+		//validar si ese concentrador existe en la tabla asociacion
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
+
+		List<Object> resultado = new ArrayList<Object>();
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
+		}
+		else {
+
+			List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
+			for (Map<String, Object> map : idMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
+			for (Map<String, Object> map : idConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			
+			dao.crearAsociacionCncMet(resultado);
+			
+			
+		}
+	
+		return validate;
 	}
 
 	@Override
 	public int crearConcentrador(modelConcentrator concentrador) {
-		return dao.crearConcentrador(concentrador);
+		int validate=0;
+		ArrayList<String> idcnc= dao.serialesCnc(concentrador);
+		if(idcnc.size() == 1) {
+			validate = dao.updateConcentrador(concentrador, idcnc.get(0));
+		}
+		else if(idcnc.equals("Concentrador duplicado")){
+			validate = 2;
+		}
+		else {
+			validate= dao.crearConcentrador(concentrador);
+		}
+		
+		return validate;
 	}
 
 	@Override

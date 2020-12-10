@@ -351,6 +351,44 @@ public class InsercionDao implements InsercionInterface{
 					+ "ENGINE = InnoDB\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name + "`.`FTP` (\r\n"
+					+ "  `ID_FTP` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
+					+ "  `EndPoint` VARCHAR(200) NULL DEFAULT NULL,\r\n"
+					+ "  `Puerto` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Usuario` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  `Password` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  `Carpeta_Entrada` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  `Carpeta_Procesad` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  `Fh_create` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  `Usu_create` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Fh_update` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  `Usu_update` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `IDFTP` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Carpeta_Errores` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID_FTP`),\r\n"
+					+ "  INDEX `ff_idx` (`Usu_create` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_ftp_fk_usuariop_idx` (`Usu_update` ASC) VISIBLE,\r\n"
+					+ "  INDEX `FK_FTP_FK_IDFTP_idx` (`IDFTP` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `FK_FTP_FK_USUARIOC`\r\n"
+					+ "    FOREIGN KEY (`Usu_create`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `FK_FTP_FK_USUARIOP`\r\n"
+					+ "    FOREIGN KEY (`Usu_update`)\r\n"
+					+ "    REFERENCES `" + name + "`.`Usuarios` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `FK_FTP_FK_IDFTP`\r\n"
+					+ "    FOREIGN KEY (`IDFTP`)\r\n"
+					+ "    REFERENCES `" + name + "`.`FTP` (`ID_FTP`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION)\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`InfoMedidas` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre` VARCHAR(50) NULL DEFAULT NULL,\r\n"
@@ -413,43 +451,6 @@ public class InsercionDao implements InsercionInterface{
 					+ "ENGINE = InnoDB\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
-			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name + "`.`FTP` (\r\n"
-					+ "  `ID_FTP` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
-					+ "  `EndPoint` VARCHAR(200) NULL DEFAULT NULL,\r\n"
-					+ "  `Puerto` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `Usuario` VARCHAR(100) NULL DEFAULT NULL,\r\n"
-					+ "  `Password` VARCHAR(100) NULL DEFAULT NULL,\r\n"
-					+ "  `Carpeta_Entrada` VARCHAR(100) NULL DEFAULT NULL,\r\n"
-					+ "  `Carpeta_Procesad` VARCHAR(100) NULL DEFAULT NULL,\r\n"
-					+ "  `Fh_create` TIMESTAMP NULL DEFAULT NULL,\r\n"
-					+ "  `Usu_create` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `Fh_update` TIMESTAMP NULL DEFAULT NULL,\r\n"
-					+ "  `Usu_update` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `IDFTP` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `Carpeta_Errores` VARCHAR(100) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID_FTP`),\r\n"
-					+ "  INDEX `ff_idx` (`Usu_create` ASC) VISIBLE,\r\n"
-					+ "  INDEX `fk_ftp_fk_usuariop_idx` (`Usu_update` ASC) VISIBLE,\r\n"
-					+ "  INDEX `FK_FTP_FK_IDFTP_idx` (`IDFTP` ASC) VISIBLE,\r\n"
-					+ "  CONSTRAINT `FK_FTP_FK_USUARIOC`\r\n"
-					+ "    FOREIGN KEY (`Usu_create`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION,\r\n"
-					+ "  CONSTRAINT `FK_FTP_FK_USUARIOP`\r\n"
-					+ "    FOREIGN KEY (`Usu_update`)\r\n"
-					+ "    REFERENCES `" + name + "`.`Usuarios` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION,\r\n"
-					+ "  CONSTRAINT `FK_FTP_FK_IDFTP`\r\n"
-					+ "    FOREIGN KEY (`IDFTP`)\r\n"
-					+ "    REFERENCES `" + name + "`.`FTP` (`ID_FTP`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION)\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
 		}catch(Exception ex) {
 			System.out.println(ex);
 		}
@@ -542,7 +543,7 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearUsuario(Usuarios usuario) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.Usuarios ( Nombres, Login, Password, Password_salt, Correo, Fecha_crea, Usu_crea, Fecha_modifica, Usu_modifica, SistemaExteno_ID, States_ID)\r\n"
-				+ " VALUES ('"+ usuario.getNombres()+ "', '"+ usuario.getLogin()+ "', '"+ usuario.getPassword()+"', '" + usuario.getPassword_salt()+  "', '"+ usuario.getCorreo() +"', '"+ usuario.getFechaCreate() +"', 56, '"+ usuario.getFechaModifica()+"', 56, '" + usuario.getSistemaExternoId()+"', '" + usuario.getEstadoId()+"' );");
+				+ " VALUES ('"+ usuario.getNombres()+ "', '"+ usuario.getLogin()+ "', '"+ usuario.getPassword()+"', '" + usuario.getPassword_salt()+  "', '"+ usuario.getCorreo() +"', '"+ usuario.getFechaCreate() +"', 56, '"+ usuario.getFechaModifica()+"', 56, '" + usuario.getSistemaExternoId()+"', '" + 2+"' );");
 		return value;
 	}
 	
@@ -566,14 +567,82 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	public ArrayList<String> serialesConcentrador(modelMeter medidor) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>serialConcentrador = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where Serial='"+ medidor.getConcentrator() +"';");
+		if(serialConcentrador.size() == 1) {
+			for (int i = 0; i < serialConcentrador.size(); i++) {
+				resultado.add(serialConcentrador.get(i).get("ID").toString());
+			}
+			}
+		else {
+			resultado.add("Concentrador duplicado");
+		}
+		
+		return resultado;
+	}
+	
+	public ArrayList<String> serialesMedidor(modelMeter medidor) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>serialMedidor = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor where Serial='"+ medidor.getMeter() +"';");
+		if(serialMedidor.size() == 1) {
+			for (int i = 0; i < serialMedidor.size(); i++) {
+				resultado.add(serialMedidor.get(i).get("ID").toString());
+				}
+			}
+		
+		else {
+			resultado.add("medidor duplicado");
+		}
+		
+		return resultado;
+	}
+	
+	
+	
+	public ArrayList<String> validarSerialCncTablaAsociacion(modelMeter medidor) {
+		ArrayList<String> idAsociacionmed = new ArrayList<String>();
+		ArrayList<String> concentrador = serialesConcentrador(medidor);
+		ArrayList<String> medidorS = serialesMedidor(medidor);
+
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Asoc_concen_medidor where Concentrador_ID='"+ concentrador.get(0) +"' and Medidor_ID='"+ medidorS.get(0) +"' ;");
+		if(asociacion.size() == 1) {
+			for (int i = 0; i < asociacion.size(); i++) {
+				idAsociacionmed.add(asociacion.get(i).get("ID").toString());
+			}
+		}
+		return idAsociacionmed;
+	}
+	
+	
+	
+	
+	
+	public ArrayList<String> serialesCnc(modelConcentrator concentrador) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>serialConcentrador = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where Serial='"+ concentrador.getConcentrator() +"';");
+		if(serialConcentrador.size() == 1) {
+			for (int i = 0; i < serialConcentrador.size(); i++) {
+				resultado.add(serialConcentrador.get(i).get("ID").toString());
+			}
+			}
+		else {
+			resultado.add("Concentrador duplicado");
+		}
+		
+		return resultado;
+	}
+	
+	
+	
+	
 	/*
 	 * Descripcion: Metodo para crear un medidor a través de un crud. ( por aparte  de la medida)
 	 */
 	@Override
 	public int crearMedidor(modelMeter medidor) {
 		List<String> tipoMet = tipoMedidor(medidor);
-		List<String> marcaId = marcaMedidor(medidor);
-
+		List<String> marcaId = marcaMedidor(medidor);		
 		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID )\r\n"
 				+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "');");
 		return value;
@@ -600,6 +669,36 @@ public class InsercionDao implements InsercionInterface{
 				+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "');");
 		return value;
 	}
+	
+	public int updateConcentrador(modelConcentrator concentrador, String id) {
+		List<String> marca = marcaConcentrador(concentrador);
+		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"'  where ID="+ id +";");
+
+		return value;
+	}
+	
+	public int updateMedidor(modelMeter medidor, String id) {
+		List<String> marca = marcaMedidor(medidor);
+		List<String> tipoMedidor = tipoMedidor(medidor);
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMedidor.get(0) +"',  Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marca.get(0)+"'  where ID="+ id +";");
+		return value;
+	}
+	
+	public int updateAsoCncMet(modelMeter medidor, String id) {
+		ArrayList<String> concentrador = serialesConcentrador(medidor);
+		ArrayList<String> medidorS = serialesMedidor(medidor);
+		System.out.println(medidorS.get(0));
+		int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+concentrador.get(0)+"', Medidor_ID='"+medidorS.get(0)+"', Fh_update=now(), Usu_update='"+56+"'   where ID="+ id +";");
+
+		return value;
+	}
+	
+//	public int updateAsociacionCncMet(modelMeter medidor, String id) {
+//		List<String> validar= validarSerialCncTablaAsociacion(medidor);
+//		//int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+validar.get(0)+"', Medidor_ID='"+concentrador.getImei()+"' where ID="+ id +";");
+//
+//		return value;
+//	}
 	
 
 	@Override
@@ -670,10 +769,11 @@ public class InsercionDao implements InsercionInterface{
 	}
 	
 	public void crearAsociacionCncMet(List<Object> resultado) {
-		template.update("INSERT INTO Inpetel_Cloud.Asoc_concen_medidor (Concentrador_ID, Medidor_ID) VALUES\r\n"
-				+ "('" + resultado.get(1) + "', '" + resultado.get(0)+ "');");
+		template.update("INSERT INTO Inpetel_Cloud.Asoc_concen_medidor (Concentrador_ID, Medidor_ID, Fh_create, Usu_crea) VALUES\r\n"
+				+ "('" + resultado.get(1) + "', '" + resultado.get(0)+ "', now(), '" + 56 + "');");
 		
 	}
+	
 	
 	public void crearTrazabilidad(ObjetoJson json, int j) {
 		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
@@ -815,7 +915,7 @@ public class InsercionDao implements InsercionInterface{
 		String meter="METER AND CONTROL";
 		String add="ADD";
 		
-		switch (medidor.getBrand()) {
+		switch (medidor.getBrand().toUpperCase()) {
 		case "CIRCUTOR":
 			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ circutor +"';");			
 			for (Map<String, Object> map : tipoMedidor) {
@@ -861,7 +961,8 @@ public class InsercionDao implements InsercionInterface{
 		String meter="METER AND CONTROL";
 		String add="ADD";
 		
-		switch (concentrador.getBrand()) {
+		
+		switch (concentrador.getBrand().toUpperCase()) {
 		case "CIRCUTOR":
 			tipoConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ circutor +"';");			
 			for (Map<String, Object> map : tipoConcentrador) {
@@ -896,8 +997,5 @@ public class InsercionDao implements InsercionInterface{
 
 		return tipoMarca;
 	}
-
-
-
-
+	
 }

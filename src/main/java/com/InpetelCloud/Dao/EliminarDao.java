@@ -41,7 +41,7 @@ public class EliminarDao implements EliminarInterface {
 
 	@Override
 	public int eliminarMarca(Long id, String nombre) {
-		int value = template.update("DELETE FROM Inpetel_Cloud.Marca where ID="+ id +", and Nombre_Marca="+nombre+";");
+		int value = template.update("DELETE FROM Inpetel_Cloud.Marca where ID="+ id +" and Nombre_Marca='"+nombre+"';");
 		return value;
 	}
 
