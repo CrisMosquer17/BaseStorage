@@ -115,9 +115,6 @@ public class InsercionService implements InsercionInterface {
 		if(idMet.size() == 1) {
 			validate= dao.updateMedidor(medidor, idMet.get(0));
 		}
-		else if(idMet.equals("medidor duplicado")) {
-			validate=2;
-		}
 		else {
 			validate = dao.crearMedidor(medidor);
 
@@ -162,9 +159,6 @@ public class InsercionService implements InsercionInterface {
 		if(idcnc.size() == 1) {
 			validate = dao.updateConcentrador(concentrador, idcnc.get(0));
 		}
-		else if(idcnc.equals("Concentrador duplicado")){
-			validate = 2;
-		}
 		else {
 			validate= dao.crearConcentrador(concentrador);
 		}
@@ -177,6 +171,30 @@ public class InsercionService implements InsercionInterface {
 		String passOrigin = DigestUtils.md5Hex(f.getPassword());
 		f.setPassword(passOrigin);
 		return dao.crearFtp(f);
+	}
+	
+	@Override
+	public int crearTransformador(Transformador transformador) {
+		return dao.crearTransformador(transformador);
+	}
+
+	@Override
+	public int crearUsuario(Usuarios usuario) {
+		int crea=0;
+		String passOrigin = DigestUtils.md5Hex(usuario.getPassword());
+		String passSalt = DigestUtils.md5Hex(usuario.getPassword_salt());
+		usuario.setPassword(passOrigin);
+		usuario.setPassword_salt(passSalt);
+		List<Map<String,Object>> validacion=dao.validarUsuario(usuario);
+		if(validacion.size() >= 1) {
+			//ya existe ese usuario en la base de datos
+			crea = 2;
+		}
+		else {
+			crea = dao.crearUsuario(usuario);
+			}
+		
+		return crea;
 	}
 	
 	
@@ -566,19 +584,7 @@ public class InsercionService implements InsercionInterface {
 	 * FIN DE METODOS PARA CREAR UNA MEDIDA PARA EL REPORTE S02
 	 */
 
-	@Override
-	public int crearTransformador(Transformador transformador) {
-		return dao.crearTransformador(transformador);
-	}
 
-	@Override
-	public int crearUsuario(Usuarios usuario) {
-		String passOrigin = DigestUtils.md5Hex(usuario.getPassword());
-		String passSalt = DigestUtils.md5Hex(usuario.getPassword_salt());
-		usuario.setPassword(passOrigin);
-		usuario.setPassword_salt(passSalt);
-		return dao.crearUsuario(usuario);
-	}
 
 	/**
 	 * INICIO DE METODOS PARA CREAR UNA MEDIDA PARA EL REPORTE S03

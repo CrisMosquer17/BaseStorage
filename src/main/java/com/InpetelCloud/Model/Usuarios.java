@@ -15,14 +15,31 @@ public class Usuarios {
 	private String fechaModifica;
 	private int sistemaExternoId;
 	private String estadoId;
+	private String usuCrea;
+	private String usuModifica;
 	
 	
 	public Usuarios() {
 		super();
 	}
 
+	//CREATE
+	public Usuarios(String nombres, String login, String password, String password_salt, String correo,
+			int sistemaExternoId, String estadoId, String usuCrea) {
+		super();
+		this.nombres = nombres;
+		this.login = login;
+		this.password = password;
+		this.password_salt = password_salt;
+		this.correo = correo;
+		this.sistemaExternoId = sistemaExternoId;
+		this.estadoId = estadoId;
+		this.usuCrea = usuCrea;
+	}
+	
+	//UPDATE
 	public Usuarios(int id, String nombres, String login, String password, String password_salt, String correo,
-			String fechaCreate, String fechaModifica, int sistemaExternoId, String estadoId) {
+			int sistemaExternoId, String estadoId, String usuModifica) {
 		super();
 		this.id = id;
 		this.nombres = nombres;
@@ -30,13 +47,10 @@ public class Usuarios {
 		this.password = password;
 		this.password_salt = password_salt;
 		this.correo = correo;
-		this.fechaCreate = fechaCreate;
-		this.fechaModifica = fechaModifica;
 		this.sistemaExternoId = sistemaExternoId;
 		this.estadoId = estadoId;
+		this.usuModifica = usuModifica;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -116,6 +130,22 @@ public class Usuarios {
 
 	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
+	}
+
+	public String getUsuCrea() {
+		return usuCrea;
+	}
+
+	public void setUsuCrea(String usuCrea) {
+		this.usuCrea = usuCrea;
+	}
+
+	public String getUsuModifica() {
+		return usuModifica;
+	}
+
+	public void setUsuModifica(String usuModifica) {
+		this.usuModifica = usuModifica;
 	}
 	
 	
