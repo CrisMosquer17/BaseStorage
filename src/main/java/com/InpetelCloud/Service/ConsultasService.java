@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ConsultasDao;
 import com.InpetelCloud.Interfaces.ConsultasInterface;
-
+import com.InpetelCloud.Model.Usuarios;
 @Service
 public class ConsultasService implements ConsultasInterface {
 
@@ -134,6 +134,21 @@ public class ConsultasService implements ConsultasInterface {
 			}
 		}
 		return resultado;
+	}
+
+	@Override
+	public List<Map<String, Object>> cncSerial(String cnsS) {
+		return dao.cncSerial(cnsS);
+	}
+
+	@Override
+	public List<Map<String, Object>> metSerial(String metS) {
+		return dao.metSerial(metS);
+	}
+
+	@Override
+	public boolean login(Usuarios u) {
+		return false;
 	}
 	
 	

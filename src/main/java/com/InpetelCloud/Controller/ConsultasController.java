@@ -127,4 +127,15 @@ public class ConsultasController {
 		return service.validarSerialMedidor(met);
 	}
 	
+	@GetMapping("/verConcentrador/{cncS}")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>>cncSerial(@PathVariable String cnsS){
+		return service.cncSerial(cnsS);
+	}
+	
+	@GetMapping("/verMedidor/{metS}")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>>metSerial(String metS){
+		return service.metSerial(metS);
+	}
 }

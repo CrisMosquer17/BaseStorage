@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
 
+import com.InpetelCloud.Model.Usuarios;
 @Repository
 public class ConsultasDao implements ConsultasInterface{
 
@@ -129,5 +130,22 @@ public class ConsultasDao implements ConsultasInterface{
 	@Override
 	public boolean validarSerialMedidor(String met) {
 		return false;
+	}
+
+	@Override
+	public List<Map<String, Object>> cncSerial(String cnsS) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE Serial='"+ cnsS +"';");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> metSerial(String metS) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor WHERE Serial='"+ metS+"';");
+		return view;
+	}
+
+	@Override
+	public boolean login(Usuarios u) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where States_ID = 1 and Login='"+u.getLogin()+"'and Password_salt='"+u.getPassword()+"';").size()>0;
 	}
 }

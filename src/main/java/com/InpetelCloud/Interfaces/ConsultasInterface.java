@@ -3,6 +3,7 @@ package com.InpetelCloud.Interfaces;
 import java.util.List;
 import java.util.Map;
 
+import com.InpetelCloud.Model.Usuarios;
 public interface ConsultasInterface {
 
 	public List<Map<String,Object>>Usuarios();
@@ -41,8 +42,14 @@ public interface ConsultasInterface {
 	
 	public boolean validarSerialMedidor(String met);
 
-
+	/*CNC Y MET SERIAL */
 	
+	public List<Map<String,Object>> cncSerial(String cnsS);
+	
+	public List<Map<String,Object>>metSerial(String metS);
+	
+	/* USUARIOS */
+	public boolean login(Usuarios u);
 	
 
 
