@@ -19,6 +19,9 @@ public class modelMeter {
 	private String brand;
 	private String concentrator;
 	private String logicalName;
+	private String estadoId;
+	private String observacion;
+
 	
 	
 	
@@ -27,9 +30,10 @@ public class modelMeter {
 	}
 
 
+	//CREATE
 	public modelMeter(String concentrator, String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId,
 			int prepago, int saldoPrepago, int recargaPrepago, int syncReloj, String model, String meter, String brand,
-			String technology, String logicalName) {
+			String technology, String logicalName, String estadoId) {
 		super();
 		this.concentrator=concentrator;
 		this.typeMeter = typeMeter;
@@ -44,6 +48,7 @@ public class modelMeter {
 		this.meter = meter;
 		this.brand = brand;
 		this.logicalName=logicalName;
+		this.estadoId= estadoId;
 	}
 
 
@@ -115,6 +120,19 @@ public class modelMeter {
 	public String getLogicalName() {
 		return logicalName;
 	}
+
+
+	public String getEstadoId() {
+		return estadoId;
+	}
+
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+
+	
 	
 	
 	

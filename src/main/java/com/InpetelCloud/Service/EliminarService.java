@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.EliminarDao;
 import com.InpetelCloud.Interfaces.EliminarInterface;
-import com.InpetelCloud.Model.SistemExterno;
+import com.InpetelCloud.Model.Transformador;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 
 
 @Service
@@ -81,13 +83,23 @@ public class EliminarService implements EliminarInterface {
 	}
 
 	@Override
-	public int eliminarTransformador(Long id) {
-		return dao.eliminarTransformador(id);
+	public int eliminarTransformador(Transformador transformador, Long id) {
+		return dao.eliminarTransformador(transformador, id);
 	}
 
 	@Override
 	public int eliminarUsuario(Long id) {
 		return dao.eliminarUsuario(id);
+	}
+
+	@Override
+	public int eliminarMedidor(modelMeter medidor,Long id) {
+		return dao.eliminarMedidor(medidor, id);
+	}
+
+	@Override
+	public int eliminarConcentrador(modelConcentrator concentrador, Long id) {
+		return dao.eliminarConcentrador(concentrador, id);
 	}
 
 

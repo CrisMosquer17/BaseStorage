@@ -9,12 +9,14 @@ public class Transformador {
 	@Id
 	private int id;
 	private String nombre;
-	private String ipReal;
+	private String address;
 	private int capacidad;
 	private int nodo;
 	private int cargaAforada;
 	private int tipoTrafo;
 	private int concentradorId;
+	private String estadoId;
+	private String observacion;
 	
 	
 	
@@ -23,18 +25,21 @@ public class Transformador {
 		super();
 	}
 
-	public Transformador(int id, String nombre, String ipReal, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
-			int concentradorId) {
+	public Transformador(int id, String nombre, String address, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
+			int concentradorId, String estadoId) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		this.ipReal = ipReal;
+		this.address = address;
 		this.capacidad = capacidad;
 		this.nodo = nodo;
 		this.cargaAforada = cargaAforada;
 		this.tipoTrafo = tipoTrafo;
 		this.concentradorId = concentradorId;
+		this.estadoId=estadoId;
 	}
+	
+	
 	
 	//METODOS GETTERS Y SETTERS	
 
@@ -55,12 +60,12 @@ public class Transformador {
 		this.nombre = nombre;
 	}
 
-	public String getIpReal() {
-		return ipReal;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setIpReal(String ipReal) {
-		this.ipReal = ipReal;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public int getCapacidad() {
@@ -102,6 +107,23 @@ public class Transformador {
 	public void setConcentradorId(int concentradorId) {
 		this.concentradorId = concentradorId;
 	}
+
+	public String getEstadoId() {
+		return estadoId;
+	}
+
+	public void setEstadoId(String estadoId) {
+		this.estadoId = estadoId;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
 	
 	
 	

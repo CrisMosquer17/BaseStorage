@@ -69,7 +69,18 @@ public class InsercionService implements InsercionInterface {
 
 	@Override
 	public int crearModem(Modem modem) {
-		return dao.crearModem(modem);
+		int crea=0;
+		
+		List<Map<String,Object>> validacion=dao.validarModem(modem);
+		if(validacion.size() >= 1) {
+			//ya existe ese modem en la base de datos
+			crea = 2;
+		}
+		else {
+			crea = dao.crearModem(modem);
+			}
+		
+		return crea;
 	}
 
 	@Override
@@ -175,7 +186,27 @@ public class InsercionService implements InsercionInterface {
 	
 	@Override
 	public int crearTransformador(Transformador transformador) {
-		return dao.crearTransformador(transformador);
+		int crea=0;
+
+		List<Map<String,Object>> validacion=dao.validarTransformador(transformador);
+		List<Map<String,Object>> validacionAsociacion=dao.validarAsoTransformadorCnc(transformador);
+		ArrayList<String> id = new ArrayList<String>();
+		
+		if(validacionAsociacion.size() == 1) {
+			for (int i = 0; i < validacionAsociacion.size(); i++) {
+				id.add(validacionAsociacion.get(i).get("ID").toString());
+			}
+			crea=dao.updateTransformador(transformador, id.get(0));
+		}
+		
+		if(validacion.size()==1) {
+			crea= dao.crearTransformador(transformador);
+			}
+		else {
+			crea=0;
+		}
+
+		return crea;
 	}
 
 	@Override

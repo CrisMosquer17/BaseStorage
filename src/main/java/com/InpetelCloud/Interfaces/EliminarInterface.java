@@ -1,15 +1,11 @@
 package com.InpetelCloud.Interfaces;
 
+import com.InpetelCloud.Model.Transformador;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 
 public interface EliminarInterface {
-	
-	
-	//public boolean deleteMedidor(Long id);
-	
-	//public boolean deleteConcentrador(Long id);
-		
-	//public boolean deleteMedidas(Long id);
-	
+				
 	//Metodo para eliminar un sistema externo( en realidad, pasa su estado a inhabilitado)
 	public int eliminarSistemaExterno(Long id);
 	
@@ -41,10 +37,14 @@ public interface EliminarInterface {
 	public int eliminarEstado(Long id);
 	
 	//Metodo para eliminar un transformador
-	public int eliminarTransformador(Long id);
+	public int eliminarTransformador(Transformador transformador, Long id);
 	
 	//Metodo para eliminar un usuario
 	public int eliminarUsuario(Long id);
+
+	public int eliminarMedidor(modelMeter medidor,Long id);
+	
+	public int eliminarConcentrador(modelConcentrator concentrador, Long id);
 
 
 

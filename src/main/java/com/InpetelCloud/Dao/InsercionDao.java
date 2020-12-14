@@ -493,7 +493,7 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearModem(Modem modem) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.Modem (Serial, Nombre, Imei, Marca)\r\n"
-				+ "VALUES ('" + modem.getSerial() + "', '" + modem.getNombre() + "', '" + modem.getImei() + "', " + modem.getMarca() + ")");
+				+ "VALUES ('" + modem.getSerial() + "', '" + modem.getNombre() + "', '" + modem.getImei() + "', '" + modem.getMarca() + "')");
 		return value;
 	}
 
@@ -535,10 +535,12 @@ public class InsercionDao implements InsercionInterface{
 	
 	@Override
 	public int crearTransformador(Transformador transformador) {
-		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Ip_real, Capacidad, Nodo, CargaAforada, Tipo_Trafo, Concentrador_ID )\r\n"
-				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getIpReal() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ");");
+		
+		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Capacidad, Nodo, CargaAforada, Tipo_Trafo, Concentrador_ID, States_ID)\r\n"
+				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getAddress() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
 		return value;
 	}
+	
 	
 	@Override
 	public int crearUsuario(Usuarios usuario) {
@@ -551,6 +553,23 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where Login='"+ usuario.getLogin() +"';");
 		return validacion;
 	}
+	
+	public List<Map<String,Object>> validarModem(Modem modem) {
+		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Modem where Imei='"+ modem.getImei() +"';");
+		return validacion;
+	}
+	
+	public List<Map<String,Object>> validarAsoTransformadorCnc(Transformador transformador) {
+		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador where Concentrador_ID='"+transformador.getConcentradorId() +"';");
+		return validacion;
+	}
+	
+	
+	public List<Map<String,Object>> validarTransformador(Transformador transformador) {
+		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where ID='"+ transformador.getConcentradorId() +"';");
+		return validacion;
+	}
+	
 	
 	/*
 	 * Descripcion: Metodo que crea un concentrador dentro del metodo que crea una medida
@@ -594,6 +613,18 @@ public class InsercionDao implements InsercionInterface{
 		return resultado;
 	}
 	
+	public ArrayList<String> idTransformador(Transformador transformador) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>idTransformador = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador where ID='"+ transformador.getConcentradorId() +"';");
+		if(idTransformador.size() == 1) {
+			for (int i = 0; i < idTransformador.size(); i++) {
+				resultado.add(idTransformador.get(i).get("ID").toString());
+			}
+			}
+		
+		return resultado;
+	}
+	
 	
 	
 	public ArrayList<String> validarSerialCncTablaAsociacion(modelMeter medidor) {
@@ -629,6 +660,8 @@ public class InsercionDao implements InsercionInterface{
 	
 	
 	
+	
+	
 	/*
 	 * Descripcion: Metodo para crear un medidor a través de un crud. ( por aparte  de la medida)
 	 */
@@ -638,13 +671,13 @@ public class InsercionDao implements InsercionInterface{
 		List<String> tipoMet = tipoMedidor(medidor);
 		List<String> marcaId = marcaMedidor(medidor);
 		if(marcaId.get(0).equals("1")) {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName )\r\n"
-					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', 'NA');");
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName, States_ID )\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', 'NA', '1');");
 			
 			 }
 		else {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName )\r\n"
-					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '" + medidor.getLogicalName()+ "');");	 
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName , States_ID)\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '" + medidor.getLogicalName()+ "', '1');");	 
 		}
 		return value;
 	}
@@ -667,21 +700,23 @@ public class InsercionDao implements InsercionInterface{
 		int value=0;
 		List<String> marcaId = marcaConcentrador(concentrador);
 		if(marcaId.get(0).equals("1")) {
-			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user )\r\n"
-						+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA');");
+			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
+						+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
 		}
 		else {
-			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user )\r\n"
-					+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "');");
+			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
+					+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "', '1');");
 			
 		}
 
 		return value;
 	}
 	
+	
+	
 	public int updateConcentrador(modelConcentrator concentrador, String id) {
 		List<String> marca = marcaConcentrador(concentrador);
-		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"'  where ID="+ id +";");
+		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
 
 		return value;
 	}
@@ -689,7 +724,7 @@ public class InsercionDao implements InsercionInterface{
 	public int updateMedidor(modelMeter medidor, String id) {
 		List<String> marca = marcaMedidor(medidor);
 		List<String> tipoMedidor = tipoMedidor(medidor);
-		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMedidor.get(0) +"',  Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marca.get(0)+"', logicalName='"+medidor.getLogicalName()+"'  where ID="+ id +";");
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMedidor.get(0) +"',  Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marca.get(0)+"', logicalName='"+medidor.getLogicalName()+"', States_ID='"+ medidor.getEstadoId() + "'  where ID="+ id +";");
 		return value;
 	}
 	
@@ -699,6 +734,13 @@ public class InsercionDao implements InsercionInterface{
 		System.out.println(medidorS.get(0));
 		int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+concentrador.get(0)+"', Medidor_ID='"+medidorS.get(0)+"', Fh_update=now(), Usu_update='"+56+"'   where ID="+ id +";");
 
+		return value;
+	}
+	
+	public int updateTransformador(Transformador transformador, String id) {
+		System.out.println(id);
+		System.out.println(transformador.getEstadoId());
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "', States_ID='"+ transformador.getEstadoId() + "' where ID="+ id +";");
 		return value;
 	}
 	
