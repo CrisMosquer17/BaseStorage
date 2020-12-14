@@ -8,6 +8,7 @@ import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -23,9 +24,6 @@ public interface InsercionInterface {
 
 	/*MEDIDORES */ 
 	
-	/* MEDIDAS VALUES */
-	//public Medidas createMedidas(Medidas medidas);
-
 	public void schemaCreate(String name);
 	
 	//Metodo para crear un sistema externo
@@ -82,6 +80,9 @@ public interface InsercionInterface {
 	public int crearMedidor(modelMeter medidor);
 	
 	public int crearConcentrador(modelConcentrator concentrador);
+	
+//	public int crearEventoConcentrador(ObjetoJsonEventos evento);
+
 	
 
 

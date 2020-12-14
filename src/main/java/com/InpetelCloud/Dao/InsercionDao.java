@@ -17,6 +17,7 @@ import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -716,7 +717,7 @@ public class InsercionDao implements InsercionInterface{
 	
 	public int updateConcentrador(modelConcentrator concentrador, String id) {
 		List<String> marca = marcaConcentrador(concentrador);
-		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"'  where ID="+ id +";");
 
 		return value;
 	}
@@ -724,7 +725,7 @@ public class InsercionDao implements InsercionInterface{
 	public int updateMedidor(modelMeter medidor, String id) {
 		List<String> marca = marcaMedidor(medidor);
 		List<String> tipoMedidor = tipoMedidor(medidor);
-		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMedidor.get(0) +"',  Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marca.get(0)+"', logicalName='"+medidor.getLogicalName()+"', States_ID='"+ medidor.getEstadoId() + "'  where ID="+ id +";");
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMedidor.get(0) +"',  Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marca.get(0)+"', logicalName='"+medidor.getLogicalName()+"'  where ID="+ id +";");
 		return value;
 	}
 	
@@ -740,7 +741,7 @@ public class InsercionDao implements InsercionInterface{
 	public int updateTransformador(Transformador transformador, String id) {
 		System.out.println(id);
 		System.out.println(transformador.getEstadoId());
-		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "', States_ID='"+ transformador.getEstadoId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
 		return value;
 	}
 	
@@ -1048,5 +1049,20 @@ public class InsercionDao implements InsercionInterface{
 
 		return tipoMarca;
 	}
+
+//	@Override
+//	public int crearEventoConcentrador(ObjetoJsonEventos evento) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//	
+//	public int crearEventoPrueba(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
+//		int value=0;
+//		for (int i = 0; i < 7; i++) {
+//			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+//					+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+//		}
+//		return value;
+//	}
 	
 }

@@ -20,6 +20,7 @@ import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
+import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -835,10 +836,56 @@ public class InsercionService implements InsercionInterface {
 		}
 		return resultado;
 	}
+
 	
 	/**
-	 * FIN DE METODOS PARA CREAR UNA MEDIDA PARA EL REPORTE S02
+	 * FIN DE METODOS PARA CREAR UNA MEDIDA PARA EL REPORTE S03
 	 */
+	
+	
+	
+	/**
+	 * COMIENZO DE METODOS PARA CREAR UN EVENTO PARA EL CONCENTRADOR
+	 */
+//	
+//	@Override
+//	public int crearEventoConcentrador(ObjetoJsonEventos evento) {
+//		return 0;
+//	}
+	
+	
+	
+	
+//	public boolean validarSerialConcentradorEvento(ObjetoJsonEventos evento, int j) {
+//		boolean resultado = false;
+//		List<String> serialesConcentradores = new ArrayList<String>();
+//		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+//		// que estan en la base de datos.
+//		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+//		for (Map<String, Object> map : concentradores) {
+//			for (Map.Entry<String, Object> entry : map.entrySet()) {
+//				Object value = entry.getValue();
+//				serialesConcentradores.add((String) value);
+//			}
+//		}
+//		for (int i = 0; i < serialesConcentradores.size(); i++) {
+//			if (serialesConcentradores.size() == 0) {
+//
+//			} else {
+//
+//				if (serialesConcentradores.get(i).equals(evento.getEventos().get(j).getConcentrator())) {
+//					resultado = true;
+//				}
+//			}
+//		}
+//
+//		if (resultado == false) {
+//			dao.crearConcentradorMedida(evento.getEventos().get(j).getConcentrator());
+//			resultado = true;
+//		}
+//		return resultado;
+//	}
+	
 
 
 

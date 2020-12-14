@@ -113,7 +113,7 @@ public class EliminarDao implements EliminarInterface {
 			value=0;
 		}
 		else {
-			value = template.update("UPDATE Inpetel_Cloud.Concentrador set States_ID =3, Observacion='"+ concentrador.getObservacion() + "' where ID="+ id +";");
+			value = template.update("UPDATE Inpetel_Cloud.Concentrador set States_ID =2, Observacion='"+ concentrador.getObservacion() + "' where ID="+ id +";");
 			}
 		return value;
 	}
