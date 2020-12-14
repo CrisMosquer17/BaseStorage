@@ -51,6 +51,13 @@ public class Usuarios {
 		this.estadoId = estadoId;
 		this.usuModifica = usuModifica;
 	}
+	
+    //LOGIN
+	public Usuarios(String login, String password) {
+		super();
+		this.login = login;
+		this.password = password;
+	}
 
 	public int getId() {
 		return id;

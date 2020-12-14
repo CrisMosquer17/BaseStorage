@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Service.ConsultasService;
 
 @RestController
@@ -137,5 +140,10 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String,Object>>metSerial(@PathVariable String metS){
 		return service.metSerial(metS);
+	}
+	@PostMapping("/users/login")
+	@CrossOrigin(origins="*")
+	public boolean login(@RequestBody Usuarios u) {
+		return service.login(u);
 	}
 }

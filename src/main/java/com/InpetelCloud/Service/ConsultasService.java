@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -148,7 +149,8 @@ public class ConsultasService implements ConsultasInterface {
 
 	@Override
 	public boolean login(Usuarios u) {
-		return false;
+		u.setPassword(DigestUtils.md5Hex(DigestUtils.md5Hex(u.getPassword())));
+		return dao.login(u);
 	}
 	
 	
