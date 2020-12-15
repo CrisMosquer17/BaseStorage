@@ -18,6 +18,7 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonEventos;
@@ -122,6 +123,8 @@ public class InsercionService implements InsercionInterface {
 	@Override
 	public int crearMedidor(modelMeter medidor) {
 		int validate=0;
+		
+		List<Map<String, Object>> existeCnc= new ArrayList<Map<String,Object>>();
 		ArrayList<String> idMet = dao.serialesMedidor(medidor);
 		//validaciones para el medidor
 		if(idMet.size() == 1) {
@@ -130,36 +133,47 @@ public class InsercionService implements InsercionInterface {
 		else {
 			validate = dao.crearMedidor(medidor);
 
-		}		
+		}	
 		
-		//validar si ese concentrador existe en la tabla asociacion
-		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
-
-		List<Object> resultado = new ArrayList<Object>();
-		if(idAsoCncMet.size() ==1) {
-			dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
+		existeCnc = dao.cncSerial(medidor.getConcentrator().toString());
+		if(existeCnc.size() == 0) {
+			dao.crearConcentradorMedida(medidor.getConcentrator().toString());
 		}
 		else {
+			
+			//validar si ese concentrador existe en la tabla asociacion
+			ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
 
-			List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
-			for (Map<String, Object> map : idMedidor) {
-				for (Map.Entry<String, Object> entry : map.entrySet()) {
-					Object value = entry.getValue();
-					resultado.add(value);
-				}
+			List<Object> resultado = new ArrayList<Object>();
+			if(idAsoCncMet.size() ==1) {
+				dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
 			}
-			List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
-			for (Map<String, Object> map : idConcentrador) {
-				for (Map.Entry<String, Object> entry : map.entrySet()) {
-					Object value = entry.getValue();
-					resultado.add(value);
+			else {
+
+				List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
+				for (Map<String, Object> map : idMedidor) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
 				}
+				List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
+				for (Map<String, Object> map : idConcentrador) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+				
+				dao.crearAsociacionCncMet(resultado);
+				
+				
 			}
-			
-			dao.crearAsociacionCncMet(resultado);
-			
 			
 		}
+		
+		
+		
 	
 		return validate;
 	}
@@ -887,6 +901,123 @@ public class InsercionService implements InsercionInterface {
 //	}
 	
 
+	@Override
+	public int crearMedidaG3(objetoJsonG3 jsong3) {
+		int medidaCreada = 0;
+		List<String> resultado = new ArrayList<>();
+		
+		List<String> valorRegister = new ArrayList<>();
+		List<String> idRegister = new ArrayList<>();
+		ArrayList<String> idRegisterValidado = new ArrayList<>();
+
+
+		String value="";
+		String status="";
+		String unit="";
+
+
+		
+		List<String> fechas = new ArrayList<>();
+		String fecha = "";
+		String horaInicio = "";
+		String horaFin = "";
+		
+		for (int j = 0; j < jsong3.getG3().size(); j++) {
+			resultado=validarCreacionMedidasG3(jsong3, j);
+			for (int i = 0; i < jsong3.getG3().get(j).getRegister().size(); i++) {
+				idRegisterValidado= dao.obtenerIdRegister(jsong3.getG3().get(j).getRegister().get(i).getIdRegister().toString());
+				value=jsong3.getG3().get(j).getRegister().get(i).getValue();
+				status=jsong3.getG3().get(j).getRegister().get(i).getStatus();
+				unit=jsong3.getG3().get(j).getRegister().get(i).getUnit();
+				idRegister.add(idRegisterValidado.get(0));
+				valorRegister.add(value);
+				valorRegister.add(status);
+				//valorRegister.add(unit);
+				fecha = parserFecha(jsong3.getG3().get(j).getRegister().get(i).getDate());
+				horaInicio = fecha.substring(11, 16);
+				horaFin = agregarHora(horaInicio);
+				fechas.add(fecha);
+				fechas.add(horaInicio);
+				fechas.add(horaFin);
+				medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
+
+				idRegister.remove(0);
+				valorRegister.remove(0);
+				valorRegister.remove(0);
+				fechas.remove(0);
+				fechas.remove(0);
+				fechas.remove(0);
+				}
+			}
+
+		
+		
+
+
+		return medidaCreada;
+	}
+	
+	public List<String> validarCreacionMedidasG3(objetoJsonG3 jsong3, int j) {
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> medidaResultado = new ArrayList<>();
+
+		boolean validarSerialMedidor = validarSerialMedidorG3(jsong3, j);
+		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorG3(jsong3, j);
+		if (validarSerialMedidor == true) {
+			for (Map<String, Object> map : idMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		//serial medidor
+		medidaResultado.add(resultado.get(0).toString());
+
+		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
+		for (Map<String, Object> map : idProfile) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				resultado.add(value);
+			}
+		}
+		
+
+		
+
+		return medidaResultado;
+	}
+	
+	
+	public boolean validarSerialMedidorG3(objetoJsonG3 jsons03, int j) {
+		boolean resultado = false;
+		List<String> serialesMedidores = new ArrayList<String>();
+		// dao.serialMedidores: se trae todos los seriales de los medidores que estan en
+		// la base de datos
+		List<Map<String, Object>> medidores = dao.serialMedidores();
+		for (Map<String, Object> map : medidores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesMedidores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesMedidores.size(); i++) {
+			if (serialesMedidores.size() == 0) {
+
+			} else {
+				if (serialesMedidores.get(i).equals(jsons03.getG3().get(j).getMeter())) {
+					resultado = true;
+				}
+
+			}
+		}
+		if (resultado == false) {
+			dao.crearMedidorMedida(jsons03.getG3().get(j).getMeter());
+			resultado = true;
+		}
+
+		return resultado;
+	}
 
 
 

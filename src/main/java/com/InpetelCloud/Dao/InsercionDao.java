@@ -15,6 +15,7 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonEventos;
@@ -577,8 +578,8 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	@Override
 	public int crearConcentradorMedida(String concentrador) {
-		int value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID )\r\n"
-				+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + 1 + "','" + concentrador + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 56 + "', '" + 1 + "');");
+		int value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, States_ID)\r\n"
+				+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + 1 + "','" + concentrador + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 56 + "', '" + 1 + "', '" + 1 + "');");
 		return value;
 	}
 	
@@ -601,6 +602,11 @@ public class InsercionDao implements InsercionInterface{
 			}
 			}
 		return resultado;
+	}
+	
+	public List<Map<String, Object>> cncSerial(String cnsS) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE Serial='"+ cnsS +"';");
+		return view;
 	}
 	
 	public ArrayList<String> serialesMedidor(modelMeter medidor) {
@@ -692,6 +698,7 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ medidor.getMeter() +"';");
 		return idMedidor;
 	}
+	
 
 	/*
 	 * Descripcion: Metodo para crear un concentrador a través de un crud. ( por aparte de la medida)
@@ -782,6 +789,16 @@ public class InsercionDao implements InsercionInterface{
 		for (int i = 0; i < 7; i++) {
 			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+		}
+		return value;
+	}
+	
+	public int crearMedidaG3(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
+		int value=0;
+		
+		for (int i = 0; i < 2; i++) {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + valorRegister.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + 239 + "', '" + 60 + "','" + idRegister.get(0)+ "', '" + 60 + "');");
 		}
 		return value;
 	}
@@ -899,6 +916,11 @@ public class InsercionDao implements InsercionInterface{
 		return idMedidor;
 	}
 	
+	public List<Map<String,Object>> obtenerIdMedidorG3(objetoJsonG3 jsons03, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ jsons03.getG3().get(j).getMeter() +"';");
+		return idMedidor;
+	}
+	
 	public List<Map<String,Object>> obtenerIdConcentradorS03(ObjetoJsonS03 jsons03, int j) {
 		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ jsons03.getDays().get(j).getConcentrator() +"';");
 		return idConcentrador;
@@ -912,6 +934,22 @@ public class InsercionDao implements InsercionInterface{
 	public List<Map<String,Object>> obtenerIdTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
 		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ jsons03.getDays().get(j).getNameFile() +"';");
 		return idTrazabilidad;
+	}
+	
+	public List<Map<String,Object>> obtenerIdProfile(objetoJsonG3 jsons03, int j) {
+		List<Map<String,Object>>idProfile = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ jsons03.getG3().get(j).getIdProfile() +"';");
+		return idProfile;
+	}
+	
+	public ArrayList<String> obtenerIdRegister(String obi) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>idRegister = new ArrayList<Map<String,Object>>();
+		idRegister = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ obi +"';");
+			//for (int k = 0; k < idRegister.size(); k++) {
+				resultado.add(idRegister.get(0).get("ID").toString());
+			//}
+		
+		return resultado;
 	}
 	
 	public List<String> tipoMedidor(modelMeter medidor){
@@ -1049,6 +1087,11 @@ public class InsercionDao implements InsercionInterface{
 
 		return tipoMarca;
 	}
+
+	@Override
+	public int crearMedidaG3(objetoJsonG3 jsong3) {
+		int value=crearMedidaG3(null,null, null,null);
+		return value;	}
 
 //	@Override
 //	public int crearEventoConcentrador(ObjetoJsonEventos evento) {

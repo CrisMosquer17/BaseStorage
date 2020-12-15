@@ -14,6 +14,7 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonS03;
@@ -154,6 +155,17 @@ public class InsercionController {
 	@CrossOrigin(origins = "*")
 	public int crearConcentrador(@RequestBody modelConcentrator concentrador) {
 		return service.crearConcentrador(concentrador);
+	}
+	
+	@PostMapping("/crearMedidaG3/")
+	@CrossOrigin(origins = "*")
+	public int crearMedidaG3(@RequestBody objetoJsonG3 jsons03) {
+		int value=0;
+		//for (int i = 0; i < json.getArreglo().size(); i++) {
+			value=service.crearMedidaG3(jsons03);
+			
+//	}
+		return value;
 	}
 	
 	
