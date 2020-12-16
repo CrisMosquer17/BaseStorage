@@ -202,8 +202,6 @@ public class InsercionService implements InsercionInterface {
 	@Override
 	public int crearTransformador(Transformador transformador) {
 		int crea=0;
-
-		List<Map<String,Object>> validacion=dao.validarTransformador(transformador);
 		List<Map<String,Object>> validacionAsociacion=dao.validarAsoTransformadorCnc(transformador);
 		ArrayList<String> id = new ArrayList<String>();
 		
@@ -214,11 +212,9 @@ public class InsercionService implements InsercionInterface {
 			crea=dao.updateTransformador(transformador, id.get(0));
 		}
 		
-		if(validacion.size()==1) {
-			crea= dao.crearTransformador(transformador);
-			}
 		else {
-			crea=0;
+			crea= dao.crearTransformador(transformador);
+			
 		}
 
 		return crea;
