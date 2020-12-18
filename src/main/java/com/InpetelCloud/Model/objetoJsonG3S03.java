@@ -2,27 +2,22 @@ package com.InpetelCloud.Model;
 
 import java.util.ArrayList;
 
-public class objetoJsonG3 {
+public class objetoJsonG3S03 {
 
 	private String meter;
 	private String idProfile;
 	private ArrayList<modelRegister> register = new ArrayList<modelRegister>();
 	//nombre del arreglo para medidas de g3 por horas
-	private ArrayList<objetoJsonG3> g3 = new ArrayList<>();
-
+	private ArrayList<objetoJsonG3> daysg3 = new ArrayList<>();
 	
 	
-	public objetoJsonG3(String meter, String idProfile, ArrayList<modelRegister> register, ArrayList<objetoJsonG3> g3) {
+	public objetoJsonG3S03(String meter, String idProfile, ArrayList<modelRegister> register,
+			ArrayList<objetoJsonG3> daysg3) {
 		super();
 		this.meter = meter;
 		this.idProfile = idProfile;
 		this.register = register;
-		this.g3=g3;
-	}
-
-
-	public objetoJsonG3() {
-		super();
+		this.daysg3 = daysg3;
 	}
 
 
@@ -39,23 +34,18 @@ public class objetoJsonG3 {
 	public ArrayList<modelRegister> getRegister() {
 		return register;
 	}
-	
-	
 
 
-	public ArrayList<objetoJsonG3> getG3() {
-		return g3;
+	public ArrayList<objetoJsonG3> getDaysg3() {
+		return daysg3;
 	}
 
 
 	@Override
 	public String toString() {
-		return "objetoJsonG3 [meter=" + meter + ", idProfile=" + idProfile + ", register=" + register + ", g3=" + g3
-				+ "]";
+		return "objetoJsonG3S03 [meter=" + meter + ", idProfile=" + idProfile + ", register=" + register + ", daysg3="
+				+ daysg3 + "]";
 	}
-
-
-	
 	
 	
 	

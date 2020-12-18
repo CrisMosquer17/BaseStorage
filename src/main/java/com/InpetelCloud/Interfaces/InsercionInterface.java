@@ -7,6 +7,7 @@ import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonEventos;
@@ -82,7 +83,9 @@ public interface InsercionInterface {
 	
 	public int crearConcentrador(modelConcentrator concentrador);
 	
-	public int crearMedidaG3(objetoJsonG3 jsong3);
+	public int crearMedidaG3Horaria(objetoJsonG3 jsong3);
+	
+	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3);
 	
 //	public int crearEventoConcentrador(ObjetoJsonEventos evento);
 

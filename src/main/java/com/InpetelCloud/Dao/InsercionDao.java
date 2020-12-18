@@ -16,6 +16,7 @@ import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonEventos;
@@ -820,7 +821,7 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	@Override
 	public int crearMedida(ObjetoJson json) {
-		int value=crearMedidaPrueba(null,null, null,null);
+		int value=crearMedidaPrime(null,null, null,null);
 		return value;
 	}
 	
@@ -829,7 +830,7 @@ public class InsercionDao implements InsercionInterface{
 	 * proceso 7 veces porque son 7 medidas que vienen en el arreglo de infomedidas, se pone que i <7 porque no
 	 * tomaba la ultima posicion del arreglo de Q.
 	 */
-	public int crearMedidaPrueba(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
+	public int crearMedidaPrime(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
 		int value=0;
 		for (int i = 0; i < 7; i++) {
 			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
@@ -952,7 +953,7 @@ public class InsercionDao implements InsercionInterface{
 
 	@Override
 	public int crearMedidaS03(ObjetoJsonS03 jsons03) {
-		int value=crearMedidaPrueba(null,null, null,null);
+		int value=crearMedidaPrime(null,null, null,null);
 		return value;
 	}
 	
@@ -963,6 +964,11 @@ public class InsercionDao implements InsercionInterface{
 	
 	public List<Map<String,Object>> obtenerIdMedidorG3(objetoJsonG3 jsons03, int j) {
 		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ jsons03.getG3().get(j).getMeter() +"';");
+		return idMedidor;
+	}
+	
+	public List<Map<String,Object>> obtenerIdMedidorG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ jsong3s03.getDaysg3().get(j).getMeter() +"';");
 		return idMedidor;
 	}
 	
@@ -983,6 +989,11 @@ public class InsercionDao implements InsercionInterface{
 	
 	public List<Map<String,Object>> obtenerIdProfile(objetoJsonG3 jsons03, int j) {
 		List<Map<String,Object>>idProfile = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ jsons03.getG3().get(j).getIdProfile() +"';");
+		return idProfile;
+	}
+	
+	public List<Map<String,Object>> obtenerIdProfileG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		List<Map<String,Object>>idProfile = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ jsong3s03.getDaysg3().get(j).getIdProfile() +"';");
 		return idProfile;
 	}
 	
@@ -1139,9 +1150,16 @@ public class InsercionDao implements InsercionInterface{
 	}
 
 	@Override
-	public int crearMedidaG3(objetoJsonG3 jsong3) {
+	public int crearMedidaG3Horaria(objetoJsonG3 jsong3) {
 		int value=crearMedidaG3(null,null, null,null);
-		return value;	}
+		return value;
+	}
+
+	@Override
+	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3) {
+		int value=crearMedidaG3(null,null, null,null);
+		return value;
+	}
 
 //	@Override
 //	public int crearEventoConcentrador(ObjetoJsonEventos evento) {

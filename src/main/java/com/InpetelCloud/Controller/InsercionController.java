@@ -15,6 +15,7 @@ import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonS03;
@@ -27,7 +28,6 @@ import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
-import com.InpetelCloud.Model.jsonWrapper;
 import com.InpetelCloud.Service.InsercionService;
 
 @RestController
@@ -126,23 +126,13 @@ public class InsercionController {
 	@PostMapping("/crearMedida/")
 	@CrossOrigin(origins = "*")
 	public int crearMedida(@RequestBody ObjetoJson json) {
-		int value=0;
-		//for (int i = 0; i < json.getArreglo().size(); i++) {
-			value=service.crearMedida(json);
-			
-//	}
-		return value;
+		return service.crearMedida(json);
 	}
 	
 	@PostMapping("/crearMedidaS03/")
 	@CrossOrigin(origins = "*")
 	public int crearMedidaS03(@RequestBody ObjetoJsonS03 jsons03) {
-		int value=0;
-		//for (int i = 0; i < json.getArreglo().size(); i++) {
-			value=service.crearMedidaS03(jsons03);
-			
-//	}
-		return value;
+		return service.crearMedidaS03(jsons03);
 	}
 	
 	@PostMapping("/crearMedidor/")
@@ -159,14 +149,14 @@ public class InsercionController {
 	
 	@PostMapping("/crearMedidaG3/")
 	@CrossOrigin(origins = "*")
-	public int crearMedidaG3(@RequestBody objetoJsonG3 jsons03) {
-		int value=0;
-		//for (int i = 0; i < json.getArreglo().size(); i++) {
-			value=service.crearMedidaG3(jsons03);
-			
-//	}
-		return value;
+	public int crearMedidaG3Horaria(@RequestBody objetoJsonG3 jsons03) {
+		return service.crearMedidaG3Horaria(jsons03);
 	}
 	
+	@PostMapping("/crearMedidaG3Diaria/")
+	@CrossOrigin(origins = "*")
+	public int crearMedidaG3Diaria(@RequestBody objetoJsonG3S03 jsong3s03) {
+		return service.crearMedidaG3Diaria(jsong3s03);
+	}	
 	
 }

@@ -20,6 +20,7 @@ import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonEventos;
@@ -325,7 +326,7 @@ public class InsercionService implements InsercionInterface {
 					// tomandolos directamente de la base de datos
 					// ir a ver el metodo para entender
 					idInfomedidas = nombreMedidas();
-					medidaCreada = dao.crearMedidaPrueba(resultado, valorInfomedida, fechas, idInfomedidas);
+					medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
 					valorInfomedida.remove(0);
 					valorInfomedida.remove(0);
 					valorInfomedida.remove(0);
@@ -759,7 +760,7 @@ public class InsercionService implements InsercionInterface {
 							// tomandolos directamente de la base de datos
 							// ir a ver el metodo para entender
 							idInfomedidas = nombreMedidas();
-							medidaCreada = dao.crearMedidaPrueba(resultado, valorInfomedida, fechas, idInfomedidas);
+							medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
 							valorInfomedida.remove(0);
 							valorInfomedida.remove(0);
 							valorInfomedida.remove(0);
@@ -944,8 +945,11 @@ public class InsercionService implements InsercionInterface {
 //	}
 	
 
+	/**
+	 * INICIO DE CREACION DE MEDIDAS PARA G3 HORARIA -------------------------------------------------------------------------------------------------------
+	 */
 	@Override
-	public int crearMedidaG3(objetoJsonG3 jsong3) {
+	public int crearMedidaG3Horaria(objetoJsonG3 jsong3) {
 		int medidaCreada = 0;
 		List<String> resultado = new ArrayList<>();
 		
@@ -953,12 +957,8 @@ public class InsercionService implements InsercionInterface {
 		List<String> idRegister = new ArrayList<>();
 		ArrayList<String> idRegisterValidado = new ArrayList<>();
 
-
 		String value="";
 		String status="";
-		String unit="";
-
-
 		
 		List<String> fechas = new ArrayList<>();
 		String fecha = "";
@@ -972,7 +972,6 @@ public class InsercionService implements InsercionInterface {
 				if(idRegisterValidado.size() > 0) {
 					value=jsong3.getG3().get(j).getRegister().get(i).getValue();
 					status=jsong3.getG3().get(j).getRegister().get(i).getStatus();
-					unit=jsong3.getG3().get(j).getRegister().get(i).getUnit();
 					idRegister.add(idRegisterValidado.get(0));
 					valorRegister.add(value);
 					valorRegister.add(status);
@@ -1062,6 +1061,133 @@ public class InsercionService implements InsercionInterface {
 		}
 		if (resultado == false) {
 			dao.crearMedidorMedida(jsons03.getG3().get(j).getMeter());
+			resultado = true;
+		}
+
+		return resultado;
+	}
+	
+	/**
+	 * FIN DE CREACION DE MEDIDAS PARA G3 HORARIA -------------------------------------------------------------------------------------------------------
+	 */
+
+	@Override
+	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3s03) {
+		int medidaCreada = 0;
+		List<String> resultado = new ArrayList<>();
+		
+		List<String> valorRegister = new ArrayList<>();
+		List<String> idRegister = new ArrayList<>();
+		ArrayList<String> idRegisterValidado = new ArrayList<>();
+
+		String value="";
+		String status="";
+		
+		List<String> fechas = new ArrayList<>();
+		String fecha = "";
+		String horaInicio = "";
+		String horaFin = "";
+		
+		for (int j = 0; j < jsong3s03.getDaysg3().size(); j++) {
+			resultado=validarCreacionMedidasG3Diaria(jsong3s03, j);
+			for (int i = 0; i < jsong3s03.getDaysg3().get(j).getRegister().size(); i++) {
+				idRegisterValidado= dao.obtenerIdRegister(jsong3s03.getDaysg3().get(j).getRegister().get(i).getIdRegister().toString());
+				if(idRegisterValidado.size() > 0) {
+					value=jsong3s03.getDaysg3().get(j).getRegister().get(i).getValue();
+					status=jsong3s03.getDaysg3().get(j).getRegister().get(i).getStatus();
+					idRegister.add(idRegisterValidado.get(0));
+					valorRegister.add(value);
+					valorRegister.add(status);
+					//valorRegister.add(unit);
+					fecha = formatFecha(restarCinco(jsong3s03.getDaysg3().get(j).getRegister().get(i).getDate()));
+					horaInicio = fecha.substring(11,15);
+					horaFin = agregarHora(horaInicio);
+					fechas.add(fecha);
+					fechas.add(horaInicio);
+					fechas.add(horaFin);
+					medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
+					
+					idRegister.remove(0);
+					valorRegister.remove(0);
+					valorRegister.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+					
+				}
+				else {
+					medidaCreada=0;
+				}
+				}
+			}
+
+		
+		
+
+
+		return medidaCreada;
+	}
+	
+	
+	
+	public List<String> validarCreacionMedidasG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> medidaResultado = new ArrayList<>();
+
+		boolean validarSerialMedidor = validarSerialMedidorG3Diaria(jsong3s03, j);
+		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorG3Diaria(jsong3s03, j);
+		if (validarSerialMedidor == true) {
+			for (Map<String, Object> map : idMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		//serial medidor
+		medidaResultado.add(resultado.get(0).toString());
+
+		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
+		for (Map<String, Object> map : idProfile) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				resultado.add(value);
+			}
+		}
+		
+
+		
+
+		return medidaResultado;
+	}
+	
+	
+	
+	
+	public boolean validarSerialMedidorG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		boolean resultado = false;
+		List<String> serialesMedidores = new ArrayList<String>();
+		// dao.serialMedidores: se trae todos los seriales de los medidores que estan en
+		// la base de datos
+		List<Map<String, Object>> medidores = dao.serialMedidores();
+		for (Map<String, Object> map : medidores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesMedidores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesMedidores.size(); i++) {
+			if (serialesMedidores.size() == 0) {
+
+			} else {
+				if (serialesMedidores.get(i).equals(jsong3s03.getDaysg3().get(j).getMeter())) {
+					resultado = true;
+				}
+
+			}
+		}
+		if (resultado == false) {
+			dao.crearMedidorMedida(jsong3s03.getDaysg3().get(j).getMeter());
 			resultado = true;
 		}
 
