@@ -1,5 +1,6 @@
 package com.InpetelCloud.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -507,10 +508,24 @@ public class InsercionService implements InsercionInterface {
 	 * Metodo que parsea la fecha que viene en el json al formato de yyyy/MM/dd
 	 * HH:mm Return: fecha parseada.
 	 */
+	//2020-12-16T00:00:00-05:00
 	public String parserFecha(String fecha) {
 		String fechaHora = "";
 		try {
 			SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+			SimpleDateFormat ndate = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+			Date fechan = date.parse(fecha.trim());
+			fechaHora = ndate.format(fechan);
+		} catch (Exception e) {
+			fechaHora = null;
+		}
+		return fechaHora;
+	}
+	
+	public String parserFechaUtc(String fecha) {
+		String fechaHora = "";
+		try {
+			SimpleDateFormat date = new SimpleDateFormat("yyyyMMddTHHmmssSSS");
 			SimpleDateFormat ndate = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 			Date fechan = date.parse(fecha.trim());
 			fechaHora = ndate.format(fechan);
@@ -539,6 +554,38 @@ public class InsercionService implements InsercionInterface {
 		}
 
 		return horaFormateada;
+	}
+	
+	public String restarCinco(String horaInicio) {
+		String horaFormateada = "";
+		horaInicio = horaInicio.substring(0,19);
+		try {
+
+			SimpleDateFormat hora = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			Date horaI = hora.parse(horaInicio);
+			java.util.Calendar cal = GregorianCalendar.getInstance();
+			cal.setTime(horaI);
+			cal.add(GregorianCalendar.HOUR, -5);
+			horaFormateada = hora.format(cal.getTime());
+						
+		} catch (Exception e) {
+			horaFormateada = null;
+		}
+
+		return horaFormateada;
+	}
+	
+	public String formatFecha(String horaFormateada) {
+		String fechaFin = "";
+		SimpleDateFormat hora = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date fecha = hora.parse(horaFormateada);
+			 fechaFin = outputFormat.format(fecha);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return fechaFin;
 	}
 
 	/*
@@ -922,27 +969,33 @@ public class InsercionService implements InsercionInterface {
 			resultado=validarCreacionMedidasG3(jsong3, j);
 			for (int i = 0; i < jsong3.getG3().get(j).getRegister().size(); i++) {
 				idRegisterValidado= dao.obtenerIdRegister(jsong3.getG3().get(j).getRegister().get(i).getIdRegister().toString());
-				value=jsong3.getG3().get(j).getRegister().get(i).getValue();
-				status=jsong3.getG3().get(j).getRegister().get(i).getStatus();
-				unit=jsong3.getG3().get(j).getRegister().get(i).getUnit();
-				idRegister.add(idRegisterValidado.get(0));
-				valorRegister.add(value);
-				valorRegister.add(status);
-				//valorRegister.add(unit);
-				fecha = parserFecha(jsong3.getG3().get(j).getRegister().get(i).getDate());
-				horaInicio = fecha.substring(11, 16);
-				horaFin = agregarHora(horaInicio);
-				fechas.add(fecha);
-				fechas.add(horaInicio);
-				fechas.add(horaFin);
-				medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
-
-				idRegister.remove(0);
-				valorRegister.remove(0);
-				valorRegister.remove(0);
-				fechas.remove(0);
-				fechas.remove(0);
-				fechas.remove(0);
+				if(idRegisterValidado.size() > 0) {
+					value=jsong3.getG3().get(j).getRegister().get(i).getValue();
+					status=jsong3.getG3().get(j).getRegister().get(i).getStatus();
+					unit=jsong3.getG3().get(j).getRegister().get(i).getUnit();
+					idRegister.add(idRegisterValidado.get(0));
+					valorRegister.add(value);
+					valorRegister.add(status);
+					//valorRegister.add(unit);
+					fecha = formatFecha(restarCinco(jsong3.getG3().get(j).getRegister().get(i).getDate()));
+					horaInicio = fecha.substring(11,15);
+					horaFin = agregarHora(horaInicio);
+					fechas.add(fecha);
+					fechas.add(horaInicio);
+					fechas.add(horaFin);
+					medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
+					
+					idRegister.remove(0);
+					valorRegister.remove(0);
+					valorRegister.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+					fechas.remove(0);
+					
+				}
+				else {
+					medidaCreada=0;
+				}
 				}
 			}
 

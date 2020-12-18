@@ -988,10 +988,15 @@ public class InsercionDao implements InsercionInterface{
 	
 	public ArrayList<String> obtenerIdRegister(String obi) {
 		ArrayList<String> resultado = new ArrayList<String>();
-		List<Map<String,Object>>idRegister = new ArrayList<Map<String,Object>>();
-		idRegister = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ obi +"';");
+		List<Map<String,Object>>idRegister = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ obi +"';");
+		
 			//for (int k = 0; k < idRegister.size(); k++) {
-				resultado.add(idRegister.get(0).get("ID").toString());
+		if(idRegister.size() > 0) {
+			resultado.add(idRegister.get(0).get("ID").toString());
+			}
+		else {
+			
+		}
 			//}
 		
 		return resultado;
