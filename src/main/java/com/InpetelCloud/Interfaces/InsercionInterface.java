@@ -1,16 +1,11 @@
 package com.InpetelCloud.Interfaces;
 
 
-import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
-import com.InpetelCloud.Model.modelMeter;
-import com.InpetelCloud.Model.objetoJsonG3;
-import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
-import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -21,6 +16,13 @@ import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
+import com.InpetelCloud.Model.objetoJsonEventoMedidor;
+import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
+import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 
 public interface InsercionInterface {
 
@@ -86,6 +88,15 @@ public interface InsercionInterface {
 	public int crearMedidaG3Horaria(objetoJsonG3 jsong3);
 	
 	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3);
+	
+	public int crearEventoConcentrador(objetoJsonEventoConcentrador evento);
+	
+	public int crearEventoMedidor(objetoJsonEventoMedidor evento);
+
+	
+	public int crearEventoMedidorG3(objetoJsonEventoMedidorG3 evento);
+
+
 	
 //	public int crearEventoConcentrador(ObjetoJsonEventos evento);
 

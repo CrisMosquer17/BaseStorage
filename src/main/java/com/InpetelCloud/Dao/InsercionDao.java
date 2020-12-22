@@ -15,11 +15,13 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
+import com.InpetelCloud.Model.objetoJsonEventoMedidor;
+import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
 import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
-import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -967,6 +969,11 @@ public class InsercionDao implements InsercionInterface{
 		return idMedidor;
 	}
 	
+	public List<Map<String,Object>> obtenerIdEventoMedidorG3(objetoJsonEventoMedidorG3 evento, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ evento.getG3EventoMedidor().get(j).getMeter() +"';");
+		return idMedidor;
+	}
+	
 	public List<Map<String,Object>> obtenerIdMedidorG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
 		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ jsong3s03.getDaysg3().get(j).getMeter() +"';");
 		return idMedidor;
@@ -976,6 +983,18 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ jsons03.getDays().get(j).getConcentrator() +"';");
 		return idConcentrador;
 	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorEvento(objetoJsonEventoConcentrador evento, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ evento.getEventoConcentrador().get(j).getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
+	public List<Map<String,Object>> obtenerIdMedidorEvento(objetoJsonEventoMedidor evento, int j) {
+		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ evento.getEventoMedidor().get(j).getMeter() +"';");
+		return idMedidor;
+	}
+	
+	
 	
 	public void crearTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
 		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
@@ -992,6 +1011,11 @@ public class InsercionDao implements InsercionInterface{
 		return idProfile;
 	}
 	
+	public List<Map<String,Object>> obtenerIdProfileEventoMedidorG3(objetoJsonEventoMedidorG3 evento, int j) {
+		List<Map<String,Object>>idProfile = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoEventos where Codigo='"+ evento.getG3EventoMedidor().get(j).getIdProfile() +"';");
+		return idProfile;
+	}
+	
 	public List<Map<String,Object>> obtenerIdProfileG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
 		List<Map<String,Object>>idProfile = template.queryForList("SELECT ID FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ jsong3s03.getDaysg3().get(j).getIdProfile() +"';");
 		return idProfile;
@@ -1001,9 +1025,37 @@ public class InsercionDao implements InsercionInterface{
 		ArrayList<String> resultado = new ArrayList<String>();
 		List<Map<String,Object>>idRegister = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoMedidas where Codigo='"+ obi +"';");
 		
-			//for (int k = 0; k < idRegister.size(); k++) {
 		if(idRegister.size() > 0) {
 			resultado.add(idRegister.get(0).get("ID").toString());
+			}
+		else {
+			
+		}
+		
+		return resultado;
+	}
+	
+	public ArrayList<String> obtenerIdRegisterEventoMedidorG3(String obi) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>idRegister = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoEventos where Codigo='"+ obi +"';");
+		
+		if(idRegister.size() > 0) {
+			resultado.add(idRegister.get(0).get("ID").toString());
+			}
+		else {
+			
+		}
+		
+		return resultado;
+	}
+	
+	public ArrayList<String> obtenerGrupoEvento(String grupoEvento) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>idGrupoEvento = template.queryForList("SELECT * FROM Inpetel_Cloud.InfoEventos where GrupoEvento='"+ grupoEvento +"';");
+		
+			//for (int k = 0; k < idRegister.size(); k++) {
+		if(idGrupoEvento.size() > 0) {
+			resultado.add(idGrupoEvento.get(0).get("ID").toString());
 			}
 		else {
 			
@@ -1161,19 +1213,48 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 
-//	@Override
-//	public int crearEventoConcentrador(ObjetoJsonEventos evento) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//	
-//	public int crearEventoPrueba(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
-//		int value=0;
-//		for (int i = 0; i < 7; i++) {
-//			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-//					+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
-//		}
-//		return value;
-//	}
+	@Override
+	public int crearEventoConcentrador(objetoJsonEventoConcentrador evento) {
+		int value = crearEventoC(null, null, null,  null, "", evento, 0);
+		return value;
+	}
+
+	public int crearEventoC(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
+		int value=0;			
+		value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+	
+		return value;
+	}
+
+	@Override
+	public int crearEventoMedidorG3(objetoJsonEventoMedidorG3 evento) {
+		int value=crearEventoMedidorG3Prueba(null,null, null,null);
+		return value;
+	}
+	
+	public int crearEventoMedidorG3Prueba(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
+		int value=0;
+		System.out.println(fechas.get(0));
+		//for (int i = 0; i < 2; i++) {
+			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 239 + "','" + 60 + "', '" + idRegister.get(0)+ "', '" + valorRegister.get(0) + "');");
+		//}
+		return value;
+	}
+
+	@Override
+	public int crearEventoMedidor(objetoJsonEventoMedidor evento) {
+		int value = crearEventoM(null, null, null,  null, "", evento, 0);
+		return value;
+	}
+	
+	public int crearEventoM(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
+		int value=0;			
+		value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+	
+		return value;
+	}
 	
 }

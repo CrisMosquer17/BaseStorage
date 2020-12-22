@@ -19,11 +19,13 @@ import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
+import com.InpetelCloud.Model.objetoJsonEventoMedidor;
+import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
 import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
-import com.InpetelCloud.Model.ObjetoJsonEventos;
 import com.InpetelCloud.Model.ObjetoJsonS03;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -1070,6 +1072,10 @@ public class InsercionService implements InsercionInterface {
 	/**
 	 * FIN DE CREACION DE MEDIDAS PARA G3 HORARIA -------------------------------------------------------------------------------------------------------
 	 */
+	
+	/**
+	 * COMIENZO DE CREACION DE MEDIDAS PARA G3 DIARIA -------------------------------------------------------------------------------------------------------
+	 */
 
 	@Override
 	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3s03) {
@@ -1193,6 +1199,349 @@ public class InsercionService implements InsercionInterface {
 
 		return resultado;
 	}
+
+	/**
+	 * FIN DE CREACION DE MEDIDAS PARA G3 HORARIA -------------------------------------------------------------------------------------------------------
+	 */
+	
+	/**
+	 * COMIENZO DE CREACION DE EVENTOS CONCENTRADOR CIRCUTOR -------------------------------------------------------------------------------------------------------
+	 */
+	@Override
+	public int crearEventoConcentrador(objetoJsonEventoConcentrador evento) {
+		int medidaCreada = 0;
+		List<String> resultado = new ArrayList<>();
+		
+		ArrayList<String> et = new ArrayList<>();
+		List<String> eventGroup = new ArrayList<>();
+		List<String> eventoC = new ArrayList<>();
+		
+		String c="";
+		String observacion="";
+		List<String> fechas = new ArrayList<>();
+		String fecha = "";
+			
+		for (int j = 0; j < evento.getEventoConcentrador().size(); j++) {
+			//serial concentrador
+			resultado = validarCreacionEventoConcentrador(evento, j);
+			if(resultado.size() != 0) {
+				for (int i = 0; i < evento.getEventoConcentrador().get(j).getEventos().size(); i++) {
+					//id del grupo del evento de la tabla infoevento
+					et = dao.obtenerGrupoEvento(evento.getEventoConcentrador().get(j).getEventos().get(i).getEventGroup().toString());
+					if(et.size() > 0) {
+						//codigo del evento
+						c = evento.getEventoConcentrador().get(j).getEventos().get(i).getEventCode();
+						eventGroup.add(et.get(0));
+						eventoC.add(c);
+						fecha = parserFecha(evento.getEventoConcentrador().get(j).getEventos().get(i).getDate());
+						fechas.add(fecha);
+						for (int k = 0; k < evento.getEventoConcentrador().get(j).getEventos().get(i).getObservaciones().size(); k++) {
+							observacion = evento.getEventoConcentrador().get(j).getEventos().get(i).getObservaciones().get(k);
+							medidaCreada = dao.crearEventoC(resultado, eventoC, fechas, eventGroup, observacion, evento, j);
+							
+						}
+						
+						eventGroup.remove(0);
+						eventoC.remove(0);
+						fechas.remove(0);
+						
+						
+						
+						
+					}
+					else {
+						medidaCreada = 0;
+					}
+					
+				}
+				
+			}
+			else {
+				medidaCreada = 0;
+			}
+		
+		}
+		
+		return medidaCreada;
+	}
+	
+	
+	public List<String> validarCreacionEventoConcentrador(objetoJsonEventoConcentrador evento, int j) {
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> medidaResultado = new ArrayList<>();
+
+		boolean validarSerialConcentrador = validarSerialConcentradorEventoConcentrador(evento, j);
+		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorEvento(evento, j);
+		if (validarSerialConcentrador == true) {
+			for (Map<String, Object> map : idConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		//serial concentrador
+		medidaResultado.add(resultado.get(0).toString());
+		
+		return medidaResultado;
+	}
+	
+	
+	public boolean validarSerialConcentradorEventoConcentrador(objetoJsonEventoConcentrador evento, int j) {
+		boolean resultado = false;
+		List<String> serialesConcentradores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesConcentradores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesConcentradores.size(); i++) {
+			if (serialesConcentradores.size() == 0) {
+
+			} else {
+
+				if (serialesConcentradores.get(i).equals(evento.getEventoConcentrador().get(j).getConcentrator())) {
+					resultado = true;
+				}
+			}
+		}
+		return resultado;
+	}
+
+	/**
+	 * FIN DE CREACION DE EVENTOS CONCENTRADOR CIRCUTOR -------------------------------------------------------------------------------------------------------
+	 */
+	
+	/**
+	 * COMIENZO DE CREACION DE EVENTOS MEDIDOR CIRCUTOR -------------------------------------------------------------------------------------------------------
+	 */
+	@Override
+	public int crearEventoMedidor(objetoJsonEventoMedidor evento) {
+		int medidaCreada = 0;
+		List<String> resultado = new ArrayList<>();
+		
+		ArrayList<String> et = new ArrayList<>();
+		List<String> eventGroup = new ArrayList<>();
+		List<String> eventoC = new ArrayList<>();
+		
+		String c="";
+		String observacion="";
+		List<String> fechas = new ArrayList<>();
+		String fecha = "";
+			
+		for (int j = 0; j < evento.getEventoMedidor().size(); j++) {
+			//serial concentrador
+			resultado = validarCreacionEventoMedidor(evento, j);
+			if(resultado.size() != 0) {
+				for (int i = 0; i < evento.getEventoMedidor().get(j).getEventos().size(); i++) {
+					//id del grupo del evento de la tabla infoevento
+					et = dao.obtenerGrupoEvento(evento.getEventoMedidor().get(j).getEventos().get(i).getEventGroup().toString());
+					if(et.size() > 0) {
+						//codigo del evento
+						c = evento.getEventoMedidor().get(j).getEventos().get(i).getEventCode();
+						eventGroup.add(et.get(0));
+						eventoC.add(c);
+						fecha = parserFecha(evento.getEventoMedidor().get(j).getEventos().get(i).getDate());
+						fechas.add(fecha);
+						for (int k = 0; k < evento.getEventoMedidor().get(j).getEventos().get(i).getObservaciones().size(); k++) {
+							observacion = evento.getEventoMedidor().get(j).getEventos().get(i).getObservaciones().get(k);
+							medidaCreada = dao.crearEventoM(resultado, eventoC, fechas, eventGroup, observacion, evento, j);
+							
+						}
+						
+						eventGroup.remove(0);
+						eventoC.remove(0);
+						fechas.remove(0);
+						}
+					else {
+						medidaCreada = 0;
+					}
+					
+				}
+				
+			}
+			else {
+				medidaCreada = 0;
+			}
+		
+		}
+		
+		return medidaCreada;
+	}
+	
+	public List<String> validarCreacionEventoMedidor(objetoJsonEventoMedidor evento, int j) {
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> medidaResultado = new ArrayList<>();
+
+		boolean validarSerialMedidor = validarSerialMedidorEventoMedidor(evento, j);
+		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorEvento(evento, j);
+		if (validarSerialMedidor == true) {
+			for (Map<String, Object> map : idMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		//serial medidor
+		if(resultado.size() > 0) {
+			medidaResultado.add(resultado.get(0).toString());
+			}
+		
+		return medidaResultado;
+	}
+	
+	
+	public boolean validarSerialMedidorEventoMedidor(objetoJsonEventoMedidor evento, int j) {
+		boolean resultado = false;
+		List<String> serialesMedidores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialMedidores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesMedidores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesMedidores.size(); i++) {
+			if (serialesMedidores.size() == 0) {
+
+			} else {
+
+				if (serialesMedidores.get(i).equals(evento.getEventoMedidor().get(j).getMeter())) {
+					resultado = true;
+				}
+			}
+		}
+		return resultado;
+	}
+
+
+	/**
+	 * FIN DE CREACION DE EVENTOS MEDIDOR CIRCUTOR -------------------------------------------------------------------------------------------------------
+	 */
+	@Override
+	public int crearEventoMedidorG3(objetoJsonEventoMedidorG3 evento) {
+		int medidaCreada = 0;
+		List<String> resultado = new ArrayList<>();
+		
+		List<String> valorRegister = new ArrayList<>();
+		List<String> idRegister = new ArrayList<>();
+		ArrayList<String> idRegisterValidado = new ArrayList<>();
+
+		String value="";
+		
+		List<String> fechas = new ArrayList<>();
+		String fecha = "";
+
+		
+		for (int j = 0; j < evento.getG3EventoMedidor().size(); j++) {
+			resultado=validarCreacionEventoG3(evento, j);
+			if(resultado.size() != 0) {
+				for (int i = 0; i < evento.getG3EventoMedidor().get(j).getRegister().size(); i++) {
+					idRegisterValidado= dao.obtenerIdRegisterEventoMedidorG3(evento.getG3EventoMedidor().get(j).getRegister().get(i).getIdRegister().toString());
+					if(idRegisterValidado.size() > 0) {
+						value=evento.getG3EventoMedidor().get(j).getRegister().get(i).getValue();
+						idRegister.add(idRegisterValidado.get(0));
+						valorRegister.add(value);
+						//valorRegister.add(status);
+						//valorRegister.add(unit);
+						fecha = formatFecha(restarCinco(evento.getG3EventoMedidor().get(j).getRegister().get(i).getDate()));
+						//System.out.println(fecha);
+						fechas.add(fecha);
+						medidaCreada = dao.crearEventoMedidorG3Prueba(resultado, idRegister, fechas, valorRegister);
+						
+						idRegister.remove(0);
+						valorRegister.remove(0);
+						//valorRegister.remove(0);
+						fechas.remove(0);
+						//fechas.remove(0);
+						//fechas.remove(0);
+						
+					}
+					else {
+						medidaCreada=0;
+					}
+				}
+				
+			}
+			else {
+				medidaCreada = 0;
+			}
+			}
+
+		
+		
+
+
+		return medidaCreada;
+	}
+	
+	public List<String> validarCreacionEventoG3(objetoJsonEventoMedidorG3 evento, int j) {
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> medidaResultado = new ArrayList<>();
+
+		boolean validarSerialMedidor = validarSerialEventoMedidorG3(evento, j);
+		List<Map<String, Object>> idMedidor = dao.obtenerIdEventoMedidorG3(evento, j);
+		if (validarSerialMedidor == true) {
+			for (Map<String, Object> map : idMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		//serial medidor
+		if(resultado.size() > 0) {
+			medidaResultado.add(resultado.get(0).toString());
+			}
+		
+
+//		List<Map<String, Object>> idProfile = dao.obtenerIdProfileEventoMedidorG3(evento, j);
+//		for (Map<String, Object> map : idProfile) {
+//			for (Map.Entry<String, Object> entry : map.entrySet()) {
+//				Object value = entry.getValue();
+//				resultado.add(value);
+//			}
+//		}
+		
+
+		
+
+		return medidaResultado;
+	}
+	
+	public boolean validarSerialEventoMedidorG3(objetoJsonEventoMedidorG3 jsong3s03, int j) {
+		boolean resultado = false;
+		List<String> serialesMedidores = new ArrayList<String>();
+		// dao.serialMedidores: se trae todos los seriales de los medidores que estan en
+		// la base de datos
+		List<Map<String, Object>> medidores = dao.serialMedidores();
+		for (Map<String, Object> map : medidores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesMedidores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesMedidores.size(); i++) {
+			if (serialesMedidores.size() == 0) {
+
+			} else {
+				if (serialesMedidores.get(i).equals(jsong3s03.getG3EventoMedidor().get(j).getMeter())) {
+					resultado = true;
+				}
+
+			}
+		}
+
+		return resultado;
+	}
+
 
 
 

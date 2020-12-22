@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.Estados;
+import com.InpetelCloud.Model.Evento;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
+import com.InpetelCloud.Model.objetoJsonEventoMedidor;
+import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
 import com.InpetelCloud.Model.objetoJsonG3;
 import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
@@ -158,5 +162,23 @@ public class InsercionController {
 	public int crearMedidaG3Diaria(@RequestBody objetoJsonG3S03 jsong3s03) {
 		return service.crearMedidaG3Diaria(jsong3s03);
 	}	
+	
+	@PostMapping("/crearEventoConcentrador/")
+	@CrossOrigin(origins = "*")
+	public int crearEventoConcentrador(@RequestBody objetoJsonEventoConcentrador evento) {
+		return service.crearEventoConcentrador(evento);
+	}
+	
+	@PostMapping("/crearEventoMedidor/")
+	@CrossOrigin(origins = "*")
+	public int crearEventoMedidor(@RequestBody objetoJsonEventoMedidor evento) {
+		return service.crearEventoMedidor(evento);
+	}
+	
+	@PostMapping("/crearEventoMedidorG3/")
+	@CrossOrigin(origins = "*")
+	public int crearEventoMedidorG3(@RequestBody objetoJsonEventoMedidorG3 evento) {
+		return service.crearEventoMedidorG3(evento);
+	}
 	
 }
