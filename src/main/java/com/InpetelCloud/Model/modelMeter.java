@@ -50,9 +50,10 @@ public class modelMeter {
 	
 
 	// CREAR MEDIDOR PARA FRONTEND
-	public modelMeter(String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId, int prepago,
+	public modelMeter(String concentrator, String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId, int prepago,
 			int syncReloj, String model, String meter, String brand) {
 		super();
+		this.concentrator = concentrator;
 		this.typeMeter = typeMeter;
 		this.magnitud = magnitud;
 		this.numberQuadrants = numberQuadrants;

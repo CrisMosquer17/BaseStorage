@@ -1,5 +1,9 @@
 package com.InpetelCloud.Dao;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,15 +31,7 @@ public class ModificacionDao implements ModificacionInterface{
 	@Autowired
 	JdbcTemplate template;
 
-	/*@Override
-	public Medidor updateMedidor(Long id, Medidor medidor) {
-		return null;
-	}*/
-
-	/*@Override
-	public Concentrador updateConcentrador(Long id, Concentrador concentrador) {
-		return null;
-	}*/
+	
 
 	@Override
 	public int modificarSistemaExterno(Long id, SistemExterno se) {
@@ -117,14 +113,172 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarConcentrador(Long id, modelConcentrator concentrador) {
-		int value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+concentrador.getBrand()+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+		int value=0;
+		List<String> marcaId = marcaConcentrador(concentrador);
+		if(marcaId.get(0).equals("1") ) {
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='NA', user='NA', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+		}
+		else {
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+
+		}
+		
 		return value;
 	}
 
 	@Override
 	public int modificarMedidor(Long id, modelMeter medidor) {
-		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ medidor.getTypeMeter() +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+medidor.getBrand()+"', logicalName='"+medidor.getLogicalName()+"', States_ID='"+medidor.getEstadoId()+"'  where ID="+ id +";");
+		List<String> tipoMet = tipoMedidor(medidor);
+		List<String> marcaId = marcaMedidor(medidor);
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"', logicalName='"+medidor.getLogicalName()+"', States_ID='"+medidor.getEstadoId()+"'  where ID="+ id +";");
 		return value;
+	}
+	
+	public List<String> tipoMedidor(modelMeter medidor){
+		List<Map<String, Object>> tipoMedidor = new ArrayList<>();
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> tipo = new ArrayList<String>();
+
+		String monofasico="Monofasico";
+		String trifasico="Trifasico";
+		String monofasicoTrifilar="Monofasico Trifilar";
+		String trifasicoSemidirecta = "Trifasico Semidirecta";
+		
+		
+		switch (medidor.getTypeMeter()) {
+		case "Monofasico":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ monofasico +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Trifasico":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ trifasico +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Monofasico Trifilar":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ monofasicoTrifilar +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Trifasico Semidirecta":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ trifasicoSemidirecta +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		tipo.add(resultado.get(0).toString());
+		return tipo;
+	}
+	
+	public List<String> marcaMedidor(modelMeter medidor){
+		List<Map<String, Object>> tipoMedidor = new ArrayList<>();
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> tipoMarca = new ArrayList<String>();
+
+		String circutor="CIRCUTOR";
+		String meter="METER AND CONTROL";
+		String add="ADD";
+		
+		switch (medidor.getBrand().toUpperCase()) {
+		case "CIRCUTOR":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ circutor +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "METER AND CONTROL":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ meter +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "ADD":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ add +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		tipoMarca.add(resultado.get(0).toString());
+
+		return tipoMarca;
+	}
+	
+	
+	public List<String> marcaConcentrador(modelConcentrator concentrador){
+		List<Map<String, Object>> tipoConcentrador = new ArrayList<>();
+		List<Object> resultado = new ArrayList<Object>();
+		List<String> tipoMarca = new ArrayList<String>();
+
+		String circutor="CIRCUTOR";
+		String meter="METER AND CONTROL";
+		String add="ADD";
+		
+		
+		switch (concentrador.getBrand().toUpperCase()) {
+		case "CIRCUTOR":
+			tipoConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ circutor +"';");			
+			for (Map<String, Object> map : tipoConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "METER AND CONTROL":
+			tipoConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ meter +"';");			
+			for (Map<String, Object> map : tipoConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "ADD":
+			tipoConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Marca where Nombre_Marca='"+ add +"';");			
+			for (Map<String, Object> map : tipoConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		tipoMarca.add(resultado.get(0).toString());
+
+		return tipoMarca;
 	}
 
 	

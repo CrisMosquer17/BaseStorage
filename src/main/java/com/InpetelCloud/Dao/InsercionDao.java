@@ -628,7 +628,8 @@ public class InsercionDao implements InsercionInterface{
 	public int crearConcentradorVista(modelConcentrator concentrador) {
 		int value=0;
 		List<String> marcaId = marcaConcentrador(concentrador);
-		if(marcaId.get(0).equals("1")) {
+		if(marcaId.get(0).equals("1") ) {
+			
 			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
 						+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getSerial() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
 		}
@@ -1114,7 +1115,9 @@ public class InsercionDao implements InsercionInterface{
 
 		String monofasico="Monofasico";
 		String trifasico="Trifasico";
-		String bifasico="Bifasico";
+		String monofasicoTrifilar="Monofasico Trifilar";
+		String trifasicoSemidirecta = "Trifasico Semidirecta";
+		
 		
 		switch (medidor.getTypeMeter()) {
 		case "Monofasico":
@@ -1135,8 +1138,17 @@ public class InsercionDao implements InsercionInterface{
 				}
 			}
 			break;
-		case "Bifasico":
-			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ bifasico +"';");			
+		case "Monofasico Trifilar":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ monofasicoTrifilar +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Trifasico Semidirecta":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ trifasicoSemidirecta +"';");			
 			for (Map<String, Object> map : tipoMedidor) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();

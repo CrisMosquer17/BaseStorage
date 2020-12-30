@@ -190,7 +190,7 @@ public class InsercionService implements InsercionInterface {
 			validate= dao.updateMedidor(medidor, idMet.get(0));
 		}
 		else {
-			validate = dao.crearMedidor(medidor);
+			validate = dao.crearMedidorVista(medidor);
 
 		}	
 		
@@ -242,7 +242,7 @@ public class InsercionService implements InsercionInterface {
 			validate = dao.updateConcentrador(concentrador, idcnc.get(0));
 		}
 		else {
-			validate= dao.crearConcentrador(concentrador);
+			validate= dao.crearConcentradorVista(concentrador);
 		}
 		
 		return validate;
