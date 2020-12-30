@@ -120,12 +120,12 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `TiempoConectado_ID` INT NOT NULL,\r\n"
 					+ "  `Modem_Embedido` TINYINT NULL DEFAULT NULL,\r\n"
 					+ "  `IOmodule` TINYINT NULL DEFAULT NULL,\r\n"
-					+ "  `Modem_ID` INT NOT NULL,\r\n"
+					+ "  `Modem_ID` INT NULL DEFAULT NULL,\r\n"
 					+ "  `Marca_ID` INT NOT NULL,\r\n"
-					+ "  `pass` VARCHAR(100) NULL,\r\n"
-					+ "  `user` VARCHAR(45) NULL,\r\n"
+					+ "  `pass` VARCHAR(100) NULL DEFAULT NULL,\r\n"
+					+ "  `user` VARCHAR(45) NULL DEFAULT NULL,\r\n"
 					+ "  `States_ID` INT NOT NULL,\r\n"
-					+ "  `Observacion` VARCHAR(200) NULL,\r\n"
+					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`),\r\n"
 					+ "  INDEX `fk_Concetrador_TipoComunicacion1_idx` (`TipoComunicacion_ID` ASC) VISIBLE,\r\n"
 					+ "  INDEX `fk_Concetrador_TiempoConectado1_idx` (`TiempoConectado_ID` ASC) VISIBLE,\r\n"
@@ -141,17 +141,15 @@ public class InsercionDao implements InsercionInterface{
 					+ "  CONSTRAINT `fk_Concentrador_Modem1`\r\n"
 					+ "    FOREIGN KEY (`Modem_ID`)\r\n"
 					+ "    REFERENCES `"+ name +"`.`Modem` (`ID`),\r\n"
-					+ "  CONSTRAINT `fk_Concetrador_TipoComunicacion1`\r\n"
-					+ "    FOREIGN KEY (`TipoComunicacion_ID`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`TipoComunicacion` (`ID`),\r\n"
 					+ "  CONSTRAINT `fk_Concentrador_StatesID`\r\n"
 					+ "    FOREIGN KEY (`States_ID`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Concetrador_TipoComunicacion1`\r\n"
+					+ "    FOREIGN KEY (`TipoComunicacion_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`TipoComunicacion` (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 1\r\n"
-					+ "DEFAULT CHARACTER SET = utf8");
+					+ "AUTO_INCREMENT = 150\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoMedidor` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
@@ -176,8 +174,6 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `NumCuadrantes` INT NULL DEFAULT NULL,\r\n"
 					+ "  `TipoPuerto_ID` INT NOT NULL,\r\n"
 					+ "  `Prepago` TINYINT NULL DEFAULT NULL,\r\n"
-					+ "  `Saldo_prepago` INT NULL DEFAULT NULL,\r\n"
-					+ "  `Recarga_prepago` INT NULL DEFAULT NULL,\r\n"
 					+ "  `Sync_reloj` TINYINT NULL DEFAULT NULL,\r\n"
 					+ "  `Modelo` VARCHAR(60) NULL DEFAULT NULL,\r\n"
 					+ "  `Serial` VARCHAR(120) NULL DEFAULT NULL,\r\n"
@@ -246,6 +242,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Usu_crea` INT NULL DEFAULT NULL,\r\n"
 					+ "  `Fh_update` TIMESTAMP NULL DEFAULT NULL,\r\n"
 					+ "  `Usu_update` INT NULL DEFAULT NULL,\r\n"
+					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`),\r\n"
 					+ "  INDEX `fk_Asoc_concen_medidor_Concentrador1_idx` (`Concentrador_ID` ASC) VISIBLE,\r\n"
 					+ "  INDEX `fk_Asoc_concen_medidor_Medidor1_idx` (`Medidor_ID` ASC) VISIBLE,\r\n"
@@ -475,6 +472,14 @@ public class InsercionDao implements InsercionInterface{
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoTrafo` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `NombreTrafo` VARCHAR(150) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Transformador` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre` VARCHAR(60) NULL DEFAULT NULL,\r\n"
@@ -482,21 +487,23 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Capacidad` INT NULL DEFAULT NULL,\r\n"
 					+ "  `Nodo` INT NULL DEFAULT NULL,\r\n"
 					+ "  `CargaAforada` INT NULL DEFAULT NULL,\r\n"
-					+ "  `Tipo_Trafo` VARCHAR(45) NULL DEFAULT NULL,\r\n"
+					+ "  `TipoTrafo` INT NOT NULL,\r\n"
 					+ "  `Concentrador_ID` INT NOT NULL,\r\n"
 					+ "  `States_ID` INT NOT NULL,\r\n"
-					+ "  `Observacion` VARCHAR(200) NULL,\r\n"
+					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`),\r\n"
 					+ "  INDEX `fk_Transformador_Concentrador1_idx` (`Concentrador_ID` ASC) VISIBLE,\r\n"
 					+ "  INDEX `fk_Transformador_States_idx` (`States_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Transformador_TipoTrafo1_idx` (`TipoTrafo` ASC) VISIBLE,\r\n"
 					+ "  CONSTRAINT `fk_Transformador_Concentrador1`\r\n"
 					+ "    FOREIGN KEY (`Concentrador_ID`)\r\n"
 					+ "    REFERENCES `"+ name +"`.`Concentrador` (`ID`),\r\n"
 					+ "  CONSTRAINT `fk_Transformador_States`\r\n"
 					+ "    FOREIGN KEY (`States_ID`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Transformador_TipoTrafo1`\r\n"
+					+ "    FOREIGN KEY (`TipoTrafo`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`TipoTrafo` (`ID`))\r\n"
 					+ "ENGINE = InnoDB\r\n"
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
@@ -586,7 +593,7 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearTransformador(Transformador transformador) {
 		
-		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Capacidad, Nodo, CargaAforada, Tipo_Trafo, Concentrador_ID, States_ID)\r\n"
+		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Capacidad, Nodo, CargaAforada, TipoTrafo, Concentrador_ID, States_ID)\r\n"
 				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getAddress() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
 		return value;
 	}
@@ -596,6 +603,41 @@ public class InsercionDao implements InsercionInterface{
 	public int crearUsuario(Usuarios usuario) {
 		int value = template.update("INSERT INTO Inpetel_Cloud.Usuarios ( Nombres, Login, Password, Password_salt, Correo, Fecha_crea, Usu_crea, SistemaExteno_ID, States_ID)\r\n"
 				+ " VALUES ('"+ usuario.getNombres()+ "', '"+ usuario.getLogin()+ "', '"+ usuario.getPassword()+"', '" + usuario.getPassword_salt()+  "', '"+ usuario.getCorreo() +"', now() , '" + usuario.getUsuCrea() +"','" + usuario.getSistemaExternoId()+"', '" + 2+"' );");
+		return value;
+	}
+	
+	@Override
+	public int crearMedidorVista(modelMeter medidor) {
+		int value=0;
+		List<String> tipoMet = tipoMedidor(medidor);
+		List<String> marcaId = marcaMedidor(medidor);
+		if(marcaId.get(0).equals("1")) {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Sync_reloj,  Modelo, Serial, Marca_ID, States_ID )\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + medidor.getMagnitud() + "',  '" + medidor.getNumberQuadrants() + "' , '" + medidor.getTipoPuertoId() + "', '" + medidor.getPrepago() + "', '" + medidor.getSyncReloj() + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '1');");
+			
+			 }
+		else {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago,  Sync_reloj,  Modelo, Serial, Marca_ID , States_ID)\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + medidor.getMagnitud() + "',  '" + medidor.getNumberQuadrants() + "' , '" + medidor.getTipoPuertoId() + "', '" + medidor.getPrepago() + "', '" + medidor.getSyncReloj() + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '1');");	 
+		}
+		return value;
+		
+	}
+	
+	@Override
+	public int crearConcentradorVista(modelConcentrator concentrador) {
+		int value=0;
+		List<String> marcaId = marcaConcentrador(concentrador);
+		if(marcaId.get(0).equals("1")) {
+			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
+						+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getSerial() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
+		}
+		else {
+			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
+					+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getSerial() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', '"+ concentrador.getPass()+"', '"+concentrador.getUser()+"', '1' );");
+			
+		}
+
 		return value;
 	}
 	
@@ -636,8 +678,8 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	@Override
 	public int crearMedidorMedida(String medidor) {
-		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, States_ID )\r\n"
-				+ " VALUES ('"+ 1 + "', '" + 1 + "',  '" + 1 + "' ,'" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor + "', '" + 1+ "', '" + 1+ "');");
+		int value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Sync_reloj,  Modelo, Serial, Marca_ID, States_ID )\r\n"
+				+ " VALUES ('"+ 1 + "', '" + 1 + "',  '" + 1 + "' ,'" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor + "', '" + 1+ "', '" + 1+ "');");
 		return value;
 	}
 	
@@ -726,13 +768,13 @@ public class InsercionDao implements InsercionInterface{
 		List<String> tipoMet = tipoMedidor(medidor);
 		List<String> marcaId = marcaMedidor(medidor);
 		if(marcaId.get(0).equals("1")) {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName, States_ID )\r\n"
-					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', 'NA', '1');");
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Sync_reloj,  Modelo, Serial, Marca_ID, logicalName, States_ID )\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', 'NA', '1');");
 			
 			 }
 		else {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Saldo_prepago, Recarga_prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName , States_ID)\r\n"
-					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '" + medidor.getLogicalName()+ "', '1');");	 
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName , States_ID)\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '" + medidor.getLogicalName()+ "', '1');");	 
 		}
 		return value;
 	}
@@ -1256,5 +1298,7 @@ public class InsercionDao implements InsercionInterface{
 	
 		return value;
 	}
+
+	
 	
 }

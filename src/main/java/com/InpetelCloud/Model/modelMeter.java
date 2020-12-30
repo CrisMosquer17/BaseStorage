@@ -11,8 +11,6 @@ public class modelMeter {
 	private int numberQuadrants;
 	private String tipoPuertoId;
 	private int prepago;
-	private int saldoPrepago;
-	private int recargaPrepago;
 	private int syncReloj;
 	private String model;
 	private String meter;
@@ -32,7 +30,7 @@ public class modelMeter {
 
 	//CREATE
 	public modelMeter(String concentrator, String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId,
-			int prepago, int saldoPrepago, int recargaPrepago, int syncReloj, String model, String meter, String brand,
+			int prepago, int syncReloj, String model, String meter, String brand,
 			String technology, String logicalName, String estadoId) {
 		super();
 		this.concentrator=concentrator;
@@ -41,14 +39,29 @@ public class modelMeter {
 		this.numberQuadrants = numberQuadrants;
 		this.tipoPuertoId = tipoPuertoId;
 		this.prepago = prepago;
-		this.saldoPrepago = saldoPrepago;
-		this.recargaPrepago = recargaPrepago;
 		this.syncReloj = syncReloj;
 		this.model = model;
 		this.meter = meter;
 		this.brand = brand;
 		this.logicalName=logicalName;
 		this.estadoId= estadoId;
+	}
+	
+	
+
+	// CREAR MEDIDOR PARA FRONTEND
+	public modelMeter(String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId, int prepago,
+			int syncReloj, String model, String meter, String brand) {
+		super();
+		this.typeMeter = typeMeter;
+		this.magnitud = magnitud;
+		this.numberQuadrants = numberQuadrants;
+		this.tipoPuertoId = tipoPuertoId;
+		this.prepago = prepago;
+		this.syncReloj = syncReloj;
+		this.model = model;
+		this.meter = meter;
+		this.brand = brand;
 	}
 
 
@@ -79,16 +92,6 @@ public class modelMeter {
 
 	public int getPrepago() {
 		return prepago;
-	}
-
-
-	public int getSaldoPrepago() {
-		return saldoPrepago;
-	}
-
-
-	public int getRecargaPrepago() {
-		return recargaPrepago;
 	}
 
 

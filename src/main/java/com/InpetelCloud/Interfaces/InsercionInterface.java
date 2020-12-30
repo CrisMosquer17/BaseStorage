@@ -85,6 +85,10 @@ public interface InsercionInterface {
 	
 	public int crearConcentrador(modelConcentrator concentrador);
 	
+	public int crearMedidorVista(modelMeter medidor);
+	
+	public int crearConcentradorVista(modelConcentrator concentrador);
+	
 	public int crearMedidaG3Horaria(objetoJsonG3 jsong3);
 	
 	public int crearMedidaG3Diaria(objetoJsonG3S03 jsong3);

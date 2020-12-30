@@ -46,6 +46,27 @@ public class modelConcentrator {
 		this.user=user;
 		this.estadoId=estadoId;
 	}
+	
+	
+
+	//CREAR CONCENTRADOR PARA VISTA
+	public modelConcentrator(String ipReal, String concentrator, String tipoComunicacionId, String imei, String serial,
+			String tiempoConectadoId, String modemEmbebidoId, String ioModule, String modemId, String brand,
+			String pass, String user) {
+		super();
+		this.ipReal = ipReal;
+		this.concentrator = concentrator;
+		this.tipoComunicacionId = tipoComunicacionId;
+		this.imei = imei;
+		this.serial = serial;
+		this.tiempoConectadoId = tiempoConectadoId;
+		this.modemEmbebidoId = modemEmbebidoId;
+		this.ioModule = ioModule;
+		this.modemId = modemId;
+		this.brand = brand;
+		this.pass = pass;
+		this.user = user;
+	}
 
 
 	public int getId() {

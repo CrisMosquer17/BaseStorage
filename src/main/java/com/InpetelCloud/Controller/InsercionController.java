@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.modelConcentrator;
@@ -40,7 +41,6 @@ public class InsercionController {
 	
 	@Autowired
 	InsercionService service;
-	
 
 	@GetMapping("/tres/{name}")
 	@CrossOrigin(origins="*")
@@ -145,10 +145,22 @@ public class InsercionController {
 		return service.crearMedidor(medidor);
 	}
 	
+	@PostMapping("/crearMedidorVista/")
+	@CrossOrigin(origins = "*")
+	public int crearMedidorV(@RequestBody modelMeter medidor) {
+		return service.crearMedidorVista(medidor);
+	}
+	
 	@PostMapping("/crearConcentrador/")
 	@CrossOrigin(origins = "*")
 	public int crearConcentrador(@RequestBody modelConcentrator concentrador) {
 		return service.crearConcentrador(concentrador);
+	}
+	
+	@PostMapping("/crearConcentradorVista/")
+	@CrossOrigin(origins = "*")
+	public int crearConcentradorV(@RequestBody modelConcentrator concentrador) {
+		return service.crearConcentradorVista(concentrador);
 	}
 	
 	@PostMapping("/crearMedidaG3/")
