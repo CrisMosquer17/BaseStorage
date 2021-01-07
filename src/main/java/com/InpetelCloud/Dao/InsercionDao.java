@@ -1304,12 +1304,32 @@ public class InsercionDao implements InsercionInterface{
 	}
 	
 	public int crearEventoM(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
-		int value=0;			
-		value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
-						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+		int value=0;
+			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
 	
 		return value;
 	}
+	
+	public int crearEventoMedidorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
+		int value=0;
+		value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+				+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+
+		return value;
+	}
+	
+	public int crearEventoConcentradorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
+		int value=0;			
+		value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+	
+		return value;
+	}
+	
+	
+	
+	
 
 	
 	

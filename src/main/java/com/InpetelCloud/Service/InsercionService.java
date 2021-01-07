@@ -1302,6 +1302,9 @@ public class InsercionService implements InsercionInterface {
 						eventoC.add(c);
 						fecha = parserFecha(evento.getEventoConcentrador().get(j).getEventos().get(i).getDate());
 						fechas.add(fecha);
+						if(evento.getEventoConcentrador().get(j).getEventos().get(i).getObservaciones().size() == 0) {
+							medidaCreada = dao.crearEventoConcentradorSinObservacion(resultado, eventoC, fechas, eventGroup, "", evento, j);
+						}
 						for (int k = 0; k < evento.getEventoConcentrador().get(j).getEventos().get(i).getObservaciones().size(); k++) {
 							observacion = evento.getEventoConcentrador().get(j).getEventos().get(i).getObservaciones().get(k);
 							medidaCreada = dao.crearEventoC(resultado, eventoC, fechas, eventGroup, observacion, evento, j);
@@ -1311,11 +1314,7 @@ public class InsercionService implements InsercionInterface {
 						eventGroup.remove(0);
 						eventoC.remove(0);
 						fechas.remove(0);
-						
-						
-						
-						
-					}
+						}
 					else {
 						medidaCreada = 0;
 					}
@@ -1386,6 +1385,7 @@ public class InsercionService implements InsercionInterface {
 	/**
 	 * COMIENZO DE CREACION DE EVENTOS MEDIDOR CIRCUTOR -------------------------------------------------------------------------------------------------------
 	 */
+	
 	@Override
 	public int crearEventoMedidor(objetoJsonEventoMedidor evento) {
 		int medidaCreada = 0;
@@ -1407,6 +1407,8 @@ public class InsercionService implements InsercionInterface {
 				for (int i = 0; i < evento.getEventoMedidor().get(j).getEventos().size(); i++) {
 					//id del grupo del evento de la tabla infoevento
 					et = dao.obtenerGrupoEvento(evento.getEventoMedidor().get(j).getEventos().get(i).getEventGroup().toString());
+					
+
 					if(et.size() > 0) {
 						//codigo del evento
 						c = evento.getEventoMedidor().get(j).getEventos().get(i).getEventCode();
@@ -1414,8 +1416,15 @@ public class InsercionService implements InsercionInterface {
 						eventoC.add(c);
 						fecha = parserFecha(evento.getEventoMedidor().get(j).getEventos().get(i).getDate());
 						fechas.add(fecha);
+						
+						if(evento.getEventoMedidor().get(j).getEventos().get(i).getObservaciones().size() == 0) {
+							medidaCreada = dao.crearEventoMedidorSinObservacion(resultado, eventoC, fechas, eventGroup, "", evento, j);
+						}
+					
 						for (int k = 0; k < evento.getEventoMedidor().get(j).getEventos().get(i).getObservaciones().size(); k++) {
 							observacion = evento.getEventoMedidor().get(j).getEventos().get(i).getObservaciones().get(k);
+							
+							
 							medidaCreada = dao.crearEventoM(resultado, eventoC, fechas, eventGroup, observacion, evento, j);
 							
 						}
