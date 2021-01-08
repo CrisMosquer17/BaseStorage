@@ -7,15 +7,16 @@ public class Evento {
 	private String date;
 	private String eventGroup;
 	private String eventCode;
-	private ArrayList<String> observaciones = new ArrayList<String>();
+	private ArrayList<String> observation = new ArrayList<String>();
 	
-	
-	public Evento(String date, String eventGroup, String eventCode, ArrayList<String> observaciones) {
+
+
+	public Evento(String date, String eventGroup, String eventCode, ArrayList<String> observation) {
 		super();
 		this.date = date;
 		this.eventGroup = eventGroup;
 		this.eventCode = eventCode;
-		this.observaciones = observaciones;
+		this.observation = observation;
 	}
 
 
@@ -35,7 +36,7 @@ public class Evento {
 
 
 	public ArrayList<String> getObservaciones() {
-		return observaciones;
+		return observation;
 	}
 	
 	

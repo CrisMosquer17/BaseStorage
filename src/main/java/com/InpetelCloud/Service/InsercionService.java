@@ -129,52 +129,60 @@ public class InsercionService implements InsercionInterface {
 		int validate=0;
 		
 		List<Map<String, Object>> existeCnc= new ArrayList<Map<String,Object>>();
-		ArrayList<String> idMet = dao.serialesMedidor(medidor);
-		//validaciones para el medidor
-		if(idMet.size() == 1) {
-			validate= dao.updateMedidor(medidor, idMet.get(0));
-		}
-		else {
-			validate = dao.crearMedidor(medidor);
-
-		}	
+		ArrayList<String> idMet = new ArrayList<String>();
 		
-		existeCnc = dao.cncSerial(medidor.getConcentrator().toString());
-		if(existeCnc.size() == 0) {
-			dao.crearConcentradorMedida(medidor.getConcentrator().toString());
-		}
-		else {
-			
-			//validar si ese concentrador existe en la tabla asociacion
-			ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
-
-			List<Object> resultado = new ArrayList<Object>();
-			if(idAsoCncMet.size() ==1) {
-				dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
+		for (int j = 0; j < medidor.getMedidores().size(); j++) {
+			 idMet = dao.serialesMedidor(medidor.getMedidores().get(j));
+			//validaciones para el medidor
+			if(idMet.size() == 1) {
+				validate= dao.updateMedidor(medidor.getMedidores().get(j), idMet.get(0));
 			}
 			else {
+				validate = dao.crearMedidores(medidor.getMedidores().get(j), j);
 
-				List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
-				for (Map<String, Object> map : idMedidor) {
-					for (Map.Entry<String, Object> entry : map.entrySet()) {
-						Object value = entry.getValue();
-						resultado.add(value);
-					}
-				}
-				List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
-				for (Map<String, Object> map : idConcentrador) {
-					for (Map.Entry<String, Object> entry : map.entrySet()) {
-						Object value = entry.getValue();
-						resultado.add(value);
-					}
-				}
+			}	
+			
+			existeCnc = dao.cncSerial(medidor.getMedidores().get(j).getConcentrator().toString());
+			if(existeCnc.size() == 0) {
+				dao.crearConcentradorMedida(medidor.getMedidores().get(j).getConcentrator().toString());
+			}
+			else {
 				
-				dao.crearAsociacionCncMet(resultado);
-				
+				//validar si ese concentrador existe en la tabla asociacion
+				ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor.getMedidores().get(j));
+
+				List<Object> resultado = new ArrayList<Object>();
+				if(idAsoCncMet.size() ==1) {
+					dao.updateAsoCncMet(medidor.getMedidores().get(j), idAsoCncMet.get(0));
+				}
+				else {
+
+					List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor.getMedidores().get(j));
+					for (Map<String, Object> map : idMedidor) {
+						for (Map.Entry<String, Object> entry : map.entrySet()) {
+							Object value = entry.getValue();
+							resultado.add(value);
+						}
+					}
+					List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor.getMedidores().get(j));
+					for (Map<String, Object> map : idConcentrador) {
+						for (Map.Entry<String, Object> entry : map.entrySet()) {
+							Object value = entry.getValue();
+							resultado.add(value);
+						}
+					}
+					
+					dao.crearAsociacionCncMet(resultado);
+					
+					
+				}
 				
 			}
 			
 		}
+		
+		
+		
 		return validate;
 	}
 	
@@ -252,13 +260,15 @@ public class InsercionService implements InsercionInterface {
 	@Override
 	public int crearConcentrador(modelConcentrator concentrador) {
 		int validate=0;
-		ArrayList<String> idcnc= dao.serialesCnc(concentrador);
-		if(idcnc.size() == 1) {
-			validate = dao.updateConcentrador(concentrador, idcnc.get(0));
-		}
-		else {
-			validate= dao.crearConcentrador(concentrador);
-		}
+			ArrayList<String> idcnc= dao.serialesCnc(concentrador);
+			if(idcnc.size() == 1) {
+				validate = dao.updateConcentrador(concentrador, idcnc.get(0));
+			}
+			else {
+				validate= dao.crearConcentrador(concentrador);
+			}
+			
+		
 		
 		return validate;
 	}
@@ -361,56 +371,94 @@ public class InsercionService implements InsercionInterface {
 			// }
 			resultado = validarCreacionMedidas(json, j);
 			for (int i = 0; i < json.getHours().get(j).getInfoMeasure().size(); i++) {
-				numValorActiveImport = json.getHours().get(j).getInfoMeasure().get(i).getActiveImport();
-				numValorActiveExport = json.getHours().get(j).getInfoMeasure().get(i).getActiveExpor();
-				numValorBitOfQuality = json.getHours().get(j).getInfoMeasure().get(i).getBitOfQuality();
-				numValorQ1 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(0);
-				numValorQ2 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(1);
-				numValorQ3 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(2);
-				numValorQ4 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(3);
-				// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
-				// luego se mandara al dao para crear la medida
-				valorInfomedida.add(numValorActiveImport);
-				valorInfomedida.add(numValorActiveExport);
-				valorInfomedida.add(numValorBitOfQuality);
-				valorInfomedida.add(numValorQ1);
-				valorInfomedida.add(numValorQ2);
-				valorInfomedida.add(numValorQ3);
-				valorInfomedida.add(numValorQ4);
-				// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
-				// parseFecha y obtengo de igual manera
-				// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
-				// enviarse al dao en el cual se crea la medida
-				fecha = parserFecha(json.getHours().get(j).getInfoMeasure().get(i).getDate());
-				horaInicio = fecha.substring(11, 16);
-				horaFin = agregarHora(horaInicio);
-				fechas.add(fecha);
-				fechas.add(horaInicio);
-				fechas.add(horaFin);
-				try {
-					// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
-					// resultado y se envia al dao
-					// para la creacion de la medida
-					// obtengo los id de los nombres de las medidas de la tabla infomedida
-					// tomandolos directamente de la base de datos
-					// ir a ver el metodo para entender
-					idInfomedidas = nombreMedidas();
-					medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					valorInfomedida.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
+				if(json.getHours().get(j).getInfoMeasure().size() > 0) {
+					numValorActiveImport = json.getHours().get(j).getInfoMeasure().get(i).getActiveImport();
+					numValorActiveExport = json.getHours().get(j).getInfoMeasure().get(i).getActiveExpor();
+					numValorBitOfQuality = json.getHours().get(j).getInfoMeasure().get(i).getBitOfQuality();
+					if(json.getHours().get(j).getInfoMeasure().get(i).Q.size() > 0) {
+						numValorQ1 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(0);
+						numValorQ2 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(1);
+						numValorQ3 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(2);
+						numValorQ4 = json.getHours().get(j).getInfoMeasure().get(i).Q.get(3);
+						// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
+						// luego se mandara al dao para crear la medida
+						valorInfomedida.add(numValorActiveImport);
+						valorInfomedida.add(numValorActiveExport);
+						valorInfomedida.add(numValorBitOfQuality);
+						valorInfomedida.add(numValorQ1);
+						valorInfomedida.add(numValorQ2);
+						valorInfomedida.add(numValorQ3);
+						valorInfomedida.add(numValorQ4);
+						// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
+						// parseFecha y obtengo de igual manera
+						// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
+						// enviarse al dao en el cual se crea la medida
+						fecha = parserFecha(json.getHours().get(j).getInfoMeasure().get(i).getDate());
+						horaInicio = fecha.substring(11, 16);
+						horaFin = agregarHora(horaInicio);
+						fechas.add(fecha);
+						fechas.add(horaInicio);
+						fechas.add(horaFin);
+						try {
+							// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
+							// resultado y se envia al dao
+							// para la creacion de la medida
+							// obtengo los id de los nombres de las medidas de la tabla infomedida
+							// tomandolos directamente de la base de datos
+							// ir a ver el metodo para entender
+							idInfomedidas = nombreMedidas();
+							medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							fechas.remove(0);
+							fechas.remove(0);
+							fechas.remove(0);
 
-				} catch (Exception e) {
-					e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+					else {
+						valorInfomedida.add(numValorActiveImport);
+						valorInfomedida.add(numValorActiveExport);
+						valorInfomedida.add(numValorBitOfQuality);
+						fecha = parserFecha(json.getHours().get(j).getInfoMeasure().get(i).getDate());
+						horaInicio = fecha.substring(11, 16);
+						horaFin = agregarHora(horaInicio);
+						fechas.add(fecha);
+						fechas.add(horaInicio);
+						fechas.add(horaFin);
+						try {
+							// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
+							// resultado y se envia al dao
+							// para la creacion de la medida
+							// obtengo los id de los nombres de las medidas de la tabla infomedida
+							// tomandolos directamente de la base de datos
+							// ir a ver el metodo para entender
+							idInfomedidas = nombreMedidas();
+							medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							valorInfomedida.remove(0);
+							fechas.remove(0);
+							fechas.remove(0);
+							fechas.remove(0);
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+					}
+					
 				}
-			}
+				}
+				
 		}
 		return medidaCreada;
 	}
@@ -795,57 +843,96 @@ public class InsercionService implements InsercionInterface {
 					// }
 					resultado = validarCreacionMedidasS03(jsons03, j);
 					for (int i = 0; i < jsons03.getDays().get(j).getInfoMeasure().size(); i++) {
-						numValorActiveImport = jsons03.getDays().get(j).getInfoMeasure().get(i).getActiveImport();
-						numValorActiveExport = jsons03.getDays().get(j).getInfoMeasure().get(i).getActiveExpor();
-						numValorBitOfQuality = jsons03.getDays().get(j).getInfoMeasure().get(i).getBitOfQuality();
-						numValorQ1 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(0);
-						numValorQ2 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(1);
-						numValorQ3 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(2);
-						numValorQ4 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(3);
-						// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
-						// luego se mandara al dao para crear la medida
-						valorInfomedida.add(numValorActiveImport);
-						valorInfomedida.add(numValorActiveExport);
-						valorInfomedida.add(numValorBitOfQuality);
-						valorInfomedida.add(numValorQ1);
-						valorInfomedida.add(numValorQ2);
-						valorInfomedida.add(numValorQ3);
-						valorInfomedida.add(numValorQ4);
-						// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
-						// parseFecha y obtengo de igual manera
-						// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
-						// enviarse al dao en el cual se crea la medida
-						fecha = parserFecha(jsons03.getDays().get(j).getInfoMeasure().get(i).getDate());
-						horaInicio = fecha.substring(11, 16);
-						horaFin = agregarHora(horaInicio);
-						fechas.add(fecha);
-						fechas.add(horaInicio);
-						fechas.add(horaFin);
-						try {
-							// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
-							// resultado y se envia al dao
-							// para la creacion de la medida
-							// obtengo los id de los nombres de las medidas de la tabla infomedida
-							// tomandolos directamente de la base de datos
-							// ir a ver el metodo para entender
-							idInfomedidas = nombreMedidas();
-							medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							valorInfomedida.remove(0);
-							fechas.remove(0);
-							fechas.remove(0);
-							fechas.remove(0);
+						if(jsons03.getDays().get(j).getInfoMeasure().size() > 0) {
+							numValorActiveImport = jsons03.getDays().get(j).getInfoMeasure().get(i).getActiveImport();
+							numValorActiveExport = jsons03.getDays().get(j).getInfoMeasure().get(i).getActiveExpor();
+							numValorBitOfQuality = jsons03.getDays().get(j).getInfoMeasure().get(i).getBitOfQuality();
+							if(jsons03.getDays().get(j).getInfoMeasure().get(i).Q.size() > 0) {
+								numValorQ1 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(0);
+								numValorQ2 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(1);
+								numValorQ3 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(2);
+								numValorQ4 = jsons03.getDays().get(j).getInfoMeasure().get(i).Q.get(3);
+								// obtengo valores de infomedida y lo guardo en el arreglo valorInfomedida que
+								// luego se mandara al dao para crear la medida
+								valorInfomedida.add(numValorActiveImport);
+								valorInfomedida.add(numValorActiveExport);
+								valorInfomedida.add(numValorBitOfQuality);
+								valorInfomedida.add(numValorQ1);
+								valorInfomedida.add(numValorQ2);
+								valorInfomedida.add(numValorQ3);
+								valorInfomedida.add(numValorQ4);
+								// obtengo la fecha del arreglo infomedida y la parseo con el metodo de
+								// parseFecha y obtengo de igual manera
+								// la hora inicio y la hora fin y se guarda en el arreglo de fechas para
+								// enviarse al dao en el cual se crea la medida
+								fecha = parserFecha(jsons03.getDays().get(j).getInfoMeasure().get(i).getDate());
+								horaInicio = fecha.substring(11, 16);
+								horaFin = agregarHora(horaInicio);
+								fechas.add(fecha);
+								fechas.add(horaInicio);
+								fechas.add(horaFin);
+								try {
+									// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
+									// resultado y se envia al dao
+									// para la creacion de la medida
+									// obtengo los id de los nombres de las medidas de la tabla infomedida
+									// tomandolos directamente de la base de datos
+									// ir a ver el metodo para entender
+									idInfomedidas = nombreMedidas();
+									medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									fechas.remove(0);
+									fechas.remove(0);
+									fechas.remove(0);
 
-						} catch (Exception e) {
-							e.printStackTrace();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								
+							}
+							else {
+								valorInfomedida.add(numValorActiveImport);
+								valorInfomedida.add(numValorActiveExport);
+								valorInfomedida.add(numValorBitOfQuality);
+								
+								fecha = parserFecha(jsons03.getDays().get(j).getInfoMeasure().get(i).getDate());
+								horaInicio = fecha.substring(11, 16);
+								horaFin = agregarHora(horaInicio);
+								fechas.add(fecha);
+								fechas.add(horaInicio);
+								fechas.add(horaFin);
+								try {
+									// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
+									// resultado y se envia al dao
+									// para la creacion de la medida
+									// obtengo los id de los nombres de las medidas de la tabla infomedida
+									// tomandolos directamente de la base de datos
+									// ir a ver el metodo para entender
+									idInfomedidas = nombreMedidas();
+									medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									valorInfomedida.remove(0);
+									fechas.remove(0);
+									fechas.remove(0);
+									fechas.remove(0);
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
 						}
-					}
-				}
+							
+						}
+						}
+					
+				
 				return medidaCreada;
 	}
 	
@@ -1347,7 +1434,9 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		//serial concentrador
-		medidaResultado.add(resultado.get(0).toString());
+		if(resultado.size() > 0) {
+			medidaResultado.add(resultado.get(0).toString());
+		}
 		
 		return medidaResultado;
 	}
@@ -1538,8 +1627,7 @@ public class InsercionService implements InsercionInterface {
 						fechas.remove(0);
 						//fechas.remove(0);
 						//fechas.remove(0);
-						
-					}
+						}
 					else {
 						medidaCreada=0;
 					}

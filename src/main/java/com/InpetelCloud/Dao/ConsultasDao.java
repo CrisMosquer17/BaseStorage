@@ -24,13 +24,34 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> Concentradores() {
-		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador");
+		List<Map<String, Object>> view = template.queryForList("SELECT c.ID,c.Ip_real, NombreConcentrador, \r\n"
+				+ "(SELECT tp.Nombre FROM Inpetel_Cloud.TipoComunicacion tp WHERE tp.ID = c.TipoComunicacion_ID)Comunicacion,\r\n"
+				+ "c.Imei,\r\n"
+				+ "c.Serial,\r\n"
+				+ "(SELECT tc.ComStatus FROM Inpetel_Cloud.TiempoConectado tc WHERE tc.ID = c.TiempoConectado_ID)Conectado,\r\n"
+				+ "c.Modem_Embedido,\r\n"
+				+ "c.IOmodule,\r\n"
+				+ "(SELECT m.Serial FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )Modemserial,\r\n"
+				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = c.Marca_ID)Marca,\r\n"
+				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
+				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = c.Marca_ID)Tecnologia,\r\n"
+				+ "c.user, c.pass, c.States_ID, c.Observacion \r\n"
+				+ " FROM Inpetel_Cloud.Concentrador c;");
 		return view;
 	}
 
 	@Override
 	public List<Map<String, Object>> Medidores() {
-		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor");
+		List<Map<String, Object>> view = template.queryForList("SELECT m.ID,\r\n"
+				+ "(SELECT tm.NombreMedidor FROM Inpetel_Cloud.TipoMedidor tm WHERE tm.ID = m.TipoMedidor_ID)TipoMET,\r\n"
+				+ "m.Magnitud, m.NumCuadrantes,\r\n"
+				+ "(SELECT tp.Nombre_Puerto FROM Inpetel_Cloud.TipoPuerto tp WHERE tp.ID = m.TipoPuerto_ID)Puerto,\r\n"
+				+ "m.Prepago, m.Sync_reloj, m.Modelo, m.Serial,\r\n"
+				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = m.Marca_ID)Marca,\r\n"
+				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
+				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = m.Marca_ID)Tecnologia,\r\n"
+				+ "m.logicalName, m.States_ID, m.Observacion\r\n"
+				+ " FROM Inpetel_Cloud.Medidor m;");
 		return view;
 	}
 
@@ -102,7 +123,12 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> Transformadores() {
-		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador");
+		List<Map<String, Object>> view = template.queryForList("select tf.ID, tf.Nombre, tf.Address, tf.Capacidad, tf.Nodo, tf.CargaAforada, \r\n"
+				+ "(SELECT tp.NombreTrafo FROM Inpetel_Cloud.TipoTrafo tp WHERE tp.ID = tf.TipoTrafo)TipoTrafo,\r\n"
+				+ "(SELECT c.Serial FROM Inpetel_Cloud.Concentrador c WHERE c.ID = tf.Concentrador_ID)cnc,\r\n"
+				+ "tf.States_ID,\r\n"
+				+ "tf.Observacion\r\n"
+				+ " from Inpetel_Cloud.Transformador tf;");
 		return view;
 	}
 	

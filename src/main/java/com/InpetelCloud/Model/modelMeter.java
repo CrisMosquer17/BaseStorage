@@ -1,5 +1,7 @@
 package com.InpetelCloud.Model;
 
+import java.util.ArrayList;
+
 import javax.persistence.Id;
 
 public class modelMeter {
@@ -19,6 +21,8 @@ public class modelMeter {
 	private String logicalName;
 	private String estadoId;
 	private String observacion;
+	private ArrayList<modelMeter> medidores = new ArrayList<modelMeter>();
+
 
 	
 	
@@ -31,7 +35,7 @@ public class modelMeter {
 	//CREATE
 	public modelMeter(String concentrator, String typeMeter, String magnitud, int numberQuadrants, String tipoPuertoId,
 			int prepago, int syncReloj, String model, String meter, String brand,
-			String technology, String logicalName, String estadoId) {
+			String technology, String logicalName, String estadoId, ArrayList<modelMeter> medidores) {
 		super();
 		this.concentrator=concentrator;
 		this.typeMeter = typeMeter;
@@ -45,6 +49,7 @@ public class modelMeter {
 		this.brand = brand;
 		this.logicalName=logicalName;
 		this.estadoId= estadoId;
+		this.medidores= medidores;
 	}
 	
 	
@@ -133,6 +138,23 @@ public class modelMeter {
 
 	public String getObservacion() {
 		return observacion;
+	}
+
+
+	public ArrayList<modelMeter> getMedidores() {
+		return medidores;
+	}
+
+
+	public void setMedidores(ArrayList<modelMeter> medidores) {
+		this.medidores = medidores;
+	}
+
+
+	@Override
+	public String toString() {
+		return "modelMeter [typeMeter=" + typeMeter + ", model=" + model + ", meter=" + meter + ", brand=" + brand
+				+ ", concentrator=" + concentrator + ", logicalName=" + logicalName + ", medidores=" + medidores + "]";
 	}
 
 

@@ -1,5 +1,7 @@
 package com.InpetelCloud.Model;
 
+import java.util.ArrayList;
+
 import javax.persistence.Id;
 
 public class modelConcentrator {
@@ -20,6 +22,7 @@ public class modelConcentrator {
 	private String user;
 	private String estadoId;
 	private String observacion;
+
 
 
 	
@@ -45,7 +48,7 @@ public class modelConcentrator {
 		this.pass=pass;
 		this.user=user;
 		this.estadoId=estadoId;
-	}
+}
 	
 	
 
@@ -67,6 +70,8 @@ public class modelConcentrator {
 		this.pass = pass;
 		this.user = user;
 	}
+	
+	
 
 
 	public int getId() {
@@ -144,10 +149,8 @@ public class modelConcentrator {
 	}
 
 
-
-
 	
-	
+
 	
 	
 	

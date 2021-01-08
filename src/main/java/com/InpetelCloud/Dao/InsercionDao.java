@@ -631,11 +631,11 @@ public class InsercionDao implements InsercionInterface{
 		if(marcaId.get(0).equals("1") ) {
 			
 			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-						+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getSerial() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
+						+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
 		}
 		else {
 			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-					+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getSerial() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', '"+ concentrador.getPass()+"', '"+concentrador.getUser()+"', '1' );");
+					+ " VALUES ('"+ concentrador.getIpReal() + "', '"+ concentrador.getConcentrator() + "',  '" + concentrador.getTipoComunicacionId() + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + concentrador.getTiempoConectadoId() + "', '" + concentrador.getModemEmbebidoId() + "', '" + concentrador.getIoModule()+ "', '" + concentrador.getModemId() + "', '" + marcaId.get(0) + "', '"+ concentrador.getPass()+"', '"+concentrador.getUser()+"', '1' );");
 			
 		}
 
@@ -695,6 +695,17 @@ public class InsercionDao implements InsercionInterface{
 		return resultado;
 	}
 	
+	public ArrayList<String> serialesConcentradoresMedidores(modelMeter medidor, int j) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>serialConcentrador = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where Serial='"+ medidor.getConcentrator() +"';");
+		if(serialConcentrador.size() == 1) {
+			for (int i = 0; i < serialConcentrador.size(); i++) {
+				resultado.add(serialConcentrador.get(i).get("ID").toString());
+			}
+			}
+		return resultado;
+	}
+	
 	public List<Map<String, Object>> cncSerial(String cnsS) {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE Serial='"+ cnsS +"';");
 		return view;
@@ -738,11 +749,7 @@ public class InsercionDao implements InsercionInterface{
 		}
 		return idAsociacionmed;
 	}
-	
-	
-	
-	
-	
+		
 	public ArrayList<String> serialesCnc(modelConcentrator concentrador) {
 		ArrayList<String> resultado = new ArrayList<String>();
 		List<Map<String,Object>>serialConcentrador = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where Serial='"+ concentrador.getConcentrator() +"';");
@@ -780,6 +787,22 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	public int crearMedidores(modelMeter medidor, int j) {
+		int value=0;
+		List<String> tipoMet = tipoMedidor(medidor);
+		List<String> marcaId = marcaMedidor(medidor);
+		if(marcaId.get(0).equals("1")) {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago, Sync_reloj,  Modelo, Serial, Marca_ID, logicalName, States_ID )\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', 'NA', '1');");
+			
+			 }
+		else {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidor (TipoMedidor_ID, Magnitud, NumCuadrantes, TipoPuerto_ID , Prepago,  Sync_reloj,  Modelo, Serial, Marca_ID, logicalName , States_ID)\r\n"
+					+ " VALUES ('"+ tipoMet.get(0) + "', '" + 1 + "',  '" + 1+ "' , '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + medidor.getModel() + "', '" + medidor.getMeter() + "', '" + marcaId.get(0)+ "', '" + medidor.getLogicalName()+ "', '1');");	 
+		}
+		return value;
+	}
+	
 	public List<Map<String,Object>> obtenerIdConcentradorMedida(modelMeter medidor) {
 		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ medidor.getConcentrator() +"';");
 		return idConcentrador;
@@ -789,7 +812,6 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ medidor.getMeter() +"';");
 		return idMedidor;
 	}
-	
 
 	/*
 	 * Descripcion: Metodo para crear un concentrador a través de un crud. ( por aparte de la medida)
@@ -800,11 +822,11 @@ public class InsercionDao implements InsercionInterface{
 		List<String> marcaId = marcaConcentrador(concentrador);
 		if(marcaId.get(0).equals("1")) {
 			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-						+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
+						+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
 		}
 		else {
 			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-					+ " VALUES ('"+ 1 + "', '"+ 1 + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "', '1');");
+					+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "', '1');");
 			
 		}
 
@@ -877,9 +899,17 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearMedidaPrime(List<String> resultado,List<String> valorInfoMedida,List<String> fechas,List<String> idInfoMedidas) {
 		int value=0;
-		for (int i = 0; i < 7; i++) {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-					+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+		if(valorInfoMedida.size() == 3) {
+			for (int i = 0; i < 3; i++) {
+				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+			}
+		}
+		else {
+			for (int i = 0; i < 7; i++) {
+				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+			}
 		}
 		return value;
 	}
@@ -1117,6 +1147,8 @@ public class InsercionDao implements InsercionInterface{
 		String trifasico="Trifasico";
 		String monofasicoTrifilar="Monofasico Trifilar";
 		String trifasicoSemidirecta = "Trifasico Semidirecta";
+		String bifasico = "Bifasico";
+
 		
 		
 		switch (medidor.getTypeMeter()) {
@@ -1149,6 +1181,15 @@ public class InsercionDao implements InsercionInterface{
 			break;
 		case "Trifasico Semidirecta":
 			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ trifasicoSemidirecta +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Bifasico":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ bifasico +"';");			
 			for (Map<String, Object> map : tipoMedidor) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();
