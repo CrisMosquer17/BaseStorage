@@ -10,9 +10,15 @@ public interface ConsultasInterface {
 	
 	public List<Map<String,Object>>Concentradores();
 	
+	public List<Map<String, Object>> verConcentradorIndividual(Long id);
+
 	public List<Map<String,Object>>Transformadores();
+	
+	public List<Map<String, Object>> verTransformadorIndividual(Long id);
 
 	public List<Map<String,Object>>Medidores();
+	
+	public List<Map<String, Object>> verMedidorIndividual(Long id);
 	
 	public List<Map<String,Object>>Medidas();
 	
@@ -25,6 +31,8 @@ public interface ConsultasInterface {
 	public List<Map<String, Object>> TecnologiasComponentes();
 
 	public List<Map<String, Object>> Modems();
+	
+	public List<Map<String, Object>> verModemIndividual(Long id);
 
 	public List<Map<String, Object>> TiposComunicacion();
 	

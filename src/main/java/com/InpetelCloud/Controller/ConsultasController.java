@@ -70,6 +70,30 @@ public class ConsultasController {
 		return service.Modems();
 	}
 	
+	@GetMapping("/verModems/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verModems(@PathVariable Long id){
+		return service.verModemIndividual(id);
+	}
+	
+	@GetMapping("/verConcentradores/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verConcentradores(@PathVariable Long id){
+		return service.verConcentradorIndividual(id);
+	}
+	
+	@GetMapping("/verTransformadores/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verTransformadores(@PathVariable Long id){
+		return service.verTransformadorIndividual(id);
+	}
+	
+	@GetMapping("/verMedidores/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verMedidores(@PathVariable Long id){
+		return service.verMedidorIndividual(id);
+	}
+	
 	@GetMapping("/verTiposComunicacion")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> TiposComunicacion(){

@@ -39,6 +39,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " FROM Inpetel_Cloud.Concentrador c;");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> verConcentradorIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where ID="+ id +";");
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> Medidores() {
@@ -52,6 +58,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = m.Marca_ID)Tecnologia,\r\n"
 				+ "m.logicalName, m.States_ID, m.Observacion\r\n"
 				+ " FROM Inpetel_Cloud.Medidor m;");
+		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> verMedidorIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor where ID="+ id +";");
 		return view;
 	}
 
@@ -88,6 +100,11 @@ public class ConsultasDao implements ConsultasInterface{
 	@Override
 	public List<Map<String, Object>> Modems() {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Modem");
+		return view;
+	}
+	
+	public List<Map<String, Object>> verModemIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Modem where ID="+ id +";");
 		return view;
 	}
 
@@ -133,6 +150,12 @@ public class ConsultasDao implements ConsultasInterface{
 	}
 	
 	@Override
+	public List<Map<String, Object>> verTransformadorIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador where ID="+ id +";");
+		return view;
+	}
+	
+	@Override
 	public List<Map<String, Object>> Ftps() {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");
 		return view;
@@ -174,4 +197,7 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean login(Usuarios u) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where States_ID = 1 and Login='"+u.getLogin()+"'and Password_salt='"+u.getPassword()+"';").size()>0;
 	}
+
+
+	
 }

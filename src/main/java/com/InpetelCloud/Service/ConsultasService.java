@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class ConsultasService implements ConsultasInterface {
 
 	@Autowired
 	ConsultasDao dao;
+	
+	
+    private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public List<Map<String, Object>> Usuarios() {
@@ -26,10 +31,33 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Concentradores() {
 		return dao.Concentradores();
 	}
+	@Override
+	public List<Map<String, Object>> verConcentradorIndividual(Long id) {
+		List<Map<String, Object>> concentradores = dao.verConcentradorIndividual(id);
+		if(concentradores.size()>0) {
+			return concentradores;
+		}
+		else {
+			log.info("no hay ningun concentrador con ese id ");
+		return concentradores;
+	}
+	}
 
 	@Override
 	public List<Map<String, Object>> Medidores() {
 		return dao.Medidores();
+	}
+	
+	@Override
+	public List<Map<String, Object>> verMedidorIndividual(Long id) {
+		List<Map<String, Object>> medidores = dao.verMedidorIndividual(id);
+		if(medidores.size()>0) {
+			return medidores;
+		}
+		else {
+			log.info("no hay ningun medidor con ese id ");
+		return medidores;
+	}
 	}
 
 	@Override
@@ -61,6 +89,19 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Modems() {
 		return dao.Modems();
 	}
+	
+	@Override
+	public List<Map<String, Object>> verModemIndividual(Long id) {
+		List<Map<String, Object>> modems = dao.verModemIndividual(id);
+		if(modems.size()>0) {
+			return modems;
+		}
+		else {
+			log.info("no hay ningun modem con ese id ");
+		return modems;
+	}
+		
+	}
 
 	@Override
 	public List<Map<String, Object>> TiposComunicacion() {
@@ -90,6 +131,18 @@ public class ConsultasService implements ConsultasInterface {
 	@Override
 	public List<Map<String, Object>> Transformadores() {
 		return dao.Transformadores();
+	}
+	
+	@Override
+	public List<Map<String, Object>> verTransformadorIndividual(Long id) {
+		List<Map<String, Object>> transformadores = dao.verTransformadorIndividual(id);
+		if(transformadores.size()>0) {
+			return transformadores;
+		}
+		else {
+			log.info("no hay ningun transformador con ese id ");
+		return transformadores;
+	}
 	}
 
 	@Override
@@ -152,7 +205,7 @@ public class ConsultasService implements ConsultasInterface {
 		u.setPassword(DigestUtils.md5Hex(DigestUtils.md5Hex(u.getPassword())));
 		return dao.login(u);
 	}
-	
-	
+
+		
 	
 }
