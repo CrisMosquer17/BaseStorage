@@ -484,6 +484,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre` VARCHAR(60) NULL DEFAULT NULL,\r\n"
 					+ "  `Address` VARCHAR(30) NULL DEFAULT NULL,\r\n"
+					+ "  `Codigo` VARCHAR(120) NULL DEFAULT NULL,\r\n"
 					+ "  `Capacidad` INT NULL DEFAULT NULL,\r\n"
 					+ "  `Nodo` INT NULL DEFAULT NULL,\r\n"
 					+ "  `CargaAforada` INT NULL DEFAULT NULL,\r\n"
@@ -593,8 +594,8 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearTransformador(Transformador transformador) {
 		
-		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Capacidad, Nodo, CargaAforada, TipoTrafo, Concentrador_ID, States_ID)\r\n"
-				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getAddress() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
+		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Codigo, Capacidad, Nodo, CargaAforada, TipoTrafo, Concentrador_ID, States_ID)\r\n"
+				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getAddress() + "', '"+ transformador.getCodigo() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
 		return value;
 	}
 	
@@ -868,7 +869,7 @@ public class InsercionDao implements InsercionInterface{
 	public int updateTransformador(Transformador transformador, String id) {
 		System.out.println(id);
 		System.out.println(transformador.getEstadoId());
-		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
 		return value;
 	}
 

@@ -145,6 +145,25 @@ public class InsercionService implements InsercionInterface {
 			existeCnc = dao.cncSerial(medidor.getMedidores().get(j).getConcentrator().toString());
 			if(existeCnc.size() == 0) {
 				dao.crearConcentradorMedida(medidor.getMedidores().get(j).getConcentrator().toString());
+				
+				List<Object> resultado = new ArrayList<Object>();
+
+				List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor.getMedidores().get(j));
+				for (Map<String, Object> map : idMedidor) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+				List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor.getMedidores().get(j));
+				for (Map<String, Object> map : idConcentrador) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+				
+				dao.crearAsociacionCncMet(resultado);
 			}
 			else {
 				
@@ -191,7 +210,7 @@ public class InsercionService implements InsercionInterface {
 	public int crearMedidorVista(modelMeter medidor) {
 		int validate=0;
 		
-		List<Map<String, Object>> existeCnc= new ArrayList<Map<String,Object>>();
+		//List<Map<String, Object>> existeCnc= new ArrayList<Map<String,Object>>();
 		ArrayList<String> idMet = dao.serialesMedidor(medidor);
 		//validaciones para el medidor
 		if(idMet.size() == 1) {
@@ -202,42 +221,62 @@ public class InsercionService implements InsercionInterface {
 
 		}	
 		
-		existeCnc = dao.cncSerial(medidor.getConcentrator().toString());
-		if(existeCnc.size() == 0) {
-			dao.crearConcentradorMedida(medidor.getConcentrator().toString());
-		}
-		else {
-			
-			//validar si ese concentrador existe en la tabla asociacion
-			ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
-
-			List<Object> resultado = new ArrayList<Object>();
-			if(idAsoCncMet.size() ==1) {
-				dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
-			}
-			else {
-
-				List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
-				for (Map<String, Object> map : idMedidor) {
-					for (Map.Entry<String, Object> entry : map.entrySet()) {
-						Object value = entry.getValue();
-						resultado.add(value);
-					}
-				}
-				List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
-				for (Map<String, Object> map : idConcentrador) {
-					for (Map.Entry<String, Object> entry : map.entrySet()) {
-						Object value = entry.getValue();
-						resultado.add(value);
-					}
-				}
-				
-				dao.crearAsociacionCncMet(resultado);
-				
-				
-			}
-			
-		}
+//		existeCnc = dao.cncSerial(medidor.getConcentrator().toString());
+//		if(existeCnc.size() == 0) {
+//			dao.crearConcentradorMedida(medidor.getConcentrator().toString());
+//			List<Object> resultado = new ArrayList<Object>();
+//
+//			List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
+//			for (Map<String, Object> map : idMedidor) {
+//				for (Map.Entry<String, Object> entry : map.entrySet()) {
+//					Object value = entry.getValue();
+//					resultado.add(value);
+//				}
+//			}
+//			List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
+//			for (Map<String, Object> map : idConcentrador) {
+//				for (Map.Entry<String, Object> entry : map.entrySet()) {
+//					Object value = entry.getValue();
+//					resultado.add(value);
+//				}
+//			}
+//			
+//			dao.crearAsociacionCncMet(resultado);
+//			
+//		}
+//		else {
+//			
+//			//validar si ese concentrador existe en la tabla asociacion
+//			ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(medidor);
+//
+//			List<Object> resultado = new ArrayList<Object>();
+//			if(idAsoCncMet.size() ==1) {
+//				dao.updateAsoCncMet(medidor, idAsoCncMet.get(0));
+//			}
+//			else {
+//
+//				List<Map<String, Object>> idMedidor = dao.obtenerIdMedidorMedida(medidor);
+//				for (Map<String, Object> map : idMedidor) {
+//					for (Map.Entry<String, Object> entry : map.entrySet()) {
+//						Object value = entry.getValue();
+//						resultado.add(value);
+//					}
+//				}
+//				List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorMedida(medidor);
+//				for (Map<String, Object> map : idConcentrador) {
+//					for (Map.Entry<String, Object> entry : map.entrySet()) {
+//						Object value = entry.getValue();
+//						resultado.add(value);
+//					}
+//				}
+//				
+//				dao.crearAsociacionCncMet(resultado);
+//				
+//				
+//			}
+//			
+//		}
+		
 		return validate;
 	}
 	

@@ -10,6 +10,7 @@ public class Transformador {
 	private int id;
 	private String nombre;
 	private String address;
+	private String codigo;
 	private int capacidad;
 	private int nodo;
 	private int cargaAforada;
@@ -25,12 +26,13 @@ public class Transformador {
 		super();
 	}
 
-	public Transformador(int id, String nombre, String address, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
+	public Transformador(int id, String nombre, String address, String codigo, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
 			int concentradorId, String estadoId) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.address = address;
+		this.codigo = codigo;
 		this.capacidad = capacidad;
 		this.nodo = nodo;
 		this.cargaAforada = cargaAforada;
@@ -122,6 +124,14 @@ public class Transformador {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	
