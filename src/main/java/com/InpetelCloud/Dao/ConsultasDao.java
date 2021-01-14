@@ -110,7 +110,9 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> Marcas() {
-		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Marca");
+		List<Map<String,Object>>view = template.queryForList("SELECT ma.ID, ma.Nombre_Marca, ma.TecnologiaComponente_ID,\r\n"
+				+ "(SELECT tp.Nombre_Tecnologia FROM Inpetel_Cloud.TecnologiaComponente tp WHERE tp.ID = ma.TecnologiaComponente_ID)Tecnologia\r\n"
+				+ "from Inpetel_Cloud.Marca ma;");
 		return view;
 	}
 
