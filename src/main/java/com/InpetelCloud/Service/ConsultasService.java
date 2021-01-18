@@ -79,10 +79,20 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Marcas() {
 		return dao.Marcas();
 	}
+	
+	@Override
+	public List<Map<String, Object>> Marcas(String id) {
+		return dao.Marcas(id);
+	}
 
 	@Override
 	public List<Map<String, Object>> TecnologiasComponentes() {
 		return dao.TecnologiasComponentes();
+	}
+	
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes(String id) {
+		return dao.TecnologiasComponentes(id);
 	}
 
 	@Override
@@ -205,6 +215,8 @@ public class ConsultasService implements ConsultasInterface {
 		u.setPassword(DigestUtils.md5Hex(DigestUtils.md5Hex(u.getPassword())));
 		return dao.login(u);
 	}
+
+
 
 		
 	

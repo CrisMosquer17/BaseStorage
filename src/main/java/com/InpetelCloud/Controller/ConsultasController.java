@@ -57,11 +57,22 @@ public class ConsultasController {
 	public List<Map<String, Object>> Marcas(){
 		return service.Marcas();
 	}
-
+	@GetMapping("/verMarcas/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Marcas(@PathVariable String id){
+		return service.Marcas(id);
+	}
+	
 	@GetMapping("/verTecnologiasComponentes")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> TecnologiasComponentes(){
 		return service.TecnologiasComponentes();
+	}
+	
+	@GetMapping("/verTecnologiasComponentes/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TecnologiasComponentes(String id){
+		return service.TecnologiasComponentes(id);
 	}
 	
 	@GetMapping("/verModems")

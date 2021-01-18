@@ -115,11 +115,26 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "from Inpetel_Cloud.Marca ma;");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> Marcas(String id) {
+		List<Map<String, Object>>view = template.queryForList("SELECT ma.ID, ma.Nombre_Marca, ma.TecnologiaComponente_ID,\r\n"
+				+ "(SELECT tp.Nombre_Tecnologia FROM Inpetel_Cloud.TecnologiaComponente tp WHERE tp.ID = ma.TecnologiaComponente_ID)Tecnologia\r\n"
+				+ "from Inpetel_Cloud.Marca ma\r\n"
+				+ "WHERE ID = '"+id +"';");
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> TecnologiasComponentes() {
-		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente");
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente;");
 		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes(String id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente WHERE ID='"+id+"'");
+		return null;
 	}
 
 	@Override
@@ -228,6 +243,9 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean login(Usuarios u) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where States_ID = 1 and Login='"+u.getLogin()+"'and Password_salt='"+u.getPassword()+"';").size()>0;
 	}
+
+
+
 
 
 	

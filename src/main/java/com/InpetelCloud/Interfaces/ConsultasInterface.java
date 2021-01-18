@@ -27,9 +27,13 @@ public interface ConsultasInterface {
 	public List<Map<String, Object>> Roles();
 	
 	public List<Map<String, Object>> Marcas();
-
+	
+	public List<Map<String, Object>> Marcas(String id);
+	
 	public List<Map<String, Object>> TecnologiasComponentes();
-
+	
+	public List<Map<String, Object>> TecnologiasComponentes(String id);
+	
 	public List<Map<String, Object>> Modems();
 	
 	public List<Map<String, Object>> verModemIndividual(Long id);
