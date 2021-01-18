@@ -26,6 +26,7 @@ public class Modem {
 		this.imei = imei;
 		this.marca = marca;
 	}
+	
 
 	//MODEM UNREPEAT
 	public Modem(int id, String serial, String imei) {

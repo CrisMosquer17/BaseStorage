@@ -88,7 +88,7 @@ public class ConsultasController {
 		return service.verModemIndividual(id);
 	}
 	
-	@PostMapping("/verModems")
+	@PostMapping("/verModemsur")
 	@CrossOrigin(origins="*")
 	public boolean MUnRepeat(@RequestBody Modem m) {
 		return service.MUnRepeat(m);
