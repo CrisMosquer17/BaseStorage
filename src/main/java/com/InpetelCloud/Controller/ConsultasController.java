@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Service.ConsultasService;
 
@@ -85,6 +86,12 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> verModems(@PathVariable Long id){
 		return service.verModemIndividual(id);
+	}
+	
+	@PostMapping("/verModems")
+	@CrossOrigin(origins="*")
+	public boolean MUnRepeat(@RequestBody Modem m) {
+		return service.MUnRepeat(m);
 	}
 	
 	@GetMapping("/verConcentradores/{id}")

@@ -26,7 +26,15 @@ public class Modem {
 		this.imei = imei;
 		this.marca = marca;
 	}
-	
+
+	//MODEM UNREPEAT
+	public Modem(int id, String serial, String imei) {
+		super();
+		this.id = id;
+		this.serial = serial;
+		this.imei = imei;
+	}
+
 	//METODOS GETTERS Y SETTERS
 
 	public int getId() {

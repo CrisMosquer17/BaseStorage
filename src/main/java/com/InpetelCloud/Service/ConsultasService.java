@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ConsultasDao;
 import com.InpetelCloud.Interfaces.ConsultasInterface;
+import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Usuarios;
 @Service
 public class ConsultasService implements ConsultasInterface {
@@ -214,6 +215,11 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean login(Usuarios u) {
 		u.setPassword(DigestUtils.md5Hex(DigestUtils.md5Hex(u.getPassword())));
 		return dao.login(u);
+	}
+
+	@Override
+	public boolean MUnRepeat(Modem m) {
+		return dao.MUnRepeat(m);
 	}
 
 

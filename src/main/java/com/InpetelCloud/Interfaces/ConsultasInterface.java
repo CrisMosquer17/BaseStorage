@@ -3,6 +3,7 @@ package com.InpetelCloud.Interfaces;
 import java.util.List;
 import java.util.Map;
 
+import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Usuarios;
 public interface ConsultasInterface {
 
@@ -35,6 +36,8 @@ public interface ConsultasInterface {
 	public List<Map<String, Object>> TecnologiasComponentes(String id);
 	
 	public List<Map<String, Object>> Modems();
+	
+	public boolean MUnRepeat(Modem m);
 	
 	public List<Map<String, Object>> verModemIndividual(Long id);
 

@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
-
+import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Usuarios;
 @Repository
 public class ConsultasDao implements ConsultasInterface{
@@ -242,6 +242,11 @@ public class ConsultasDao implements ConsultasInterface{
 	@Override
 	public boolean login(Usuarios u) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where States_ID = 1 and Login='"+u.getLogin()+"'and Password_salt='"+u.getPassword()+"';").size()>0;
+	}
+
+	@Override
+	public boolean MUnRepeat(Modem m) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
 
 
