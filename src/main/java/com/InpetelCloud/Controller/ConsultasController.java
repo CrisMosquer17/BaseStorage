@@ -45,11 +45,13 @@ public class ConsultasController {
 	}
 	
 
+
 	@GetMapping("/verMedidoresNoAsociados")
 	@CrossOrigin(origins="*")
 	public List<Map<String,Object>> MedidoresNoAsociados(){
 		return service.medidoresNoAsociados();
 	}
+
 	@PostMapping("/verMedidores")
 	@CrossOrigin(origins="*")
 	public boolean Medidores(@RequestBody modelMeter met) {

@@ -244,6 +244,4 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean Transformadores(Transformador tf) {
 		return dao.Transformadores(tf);
 	}
-		
-	
 }
