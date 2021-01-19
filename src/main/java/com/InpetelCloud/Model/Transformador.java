@@ -41,8 +41,12 @@ public class Transformador {
 		this.estadoId=estadoId;
 	}
 	
-	
-	
+	public Transformador(int id, String codigo) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+	}
+
 	//METODOS GETTERS Y SETTERS	
 
 

@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 public interface ConsultasInterface {
 
 	public List<Map<String,Object>>Usuarios();
@@ -12,12 +15,18 @@ public interface ConsultasInterface {
 	public List<Map<String,Object>>Concentradores();
 	
 	public List<Map<String, Object>> verConcentradorIndividual(Long id);
-
+	
+	public boolean Concentradores(modelConcentrator cnc);
+	
 	public List<Map<String,Object>>Transformadores();
+	
+	public boolean Transformadores(Transformador tf);
 	
 	public List<Map<String, Object>> verTransformadorIndividual(Long id);
 
 	public List<Map<String,Object>>Medidores();
+	
+	public boolean Medidores(modelMeter met);
 	
 	public List<Map<String, Object>> verMedidorIndividual(Long id);
 	

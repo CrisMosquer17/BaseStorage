@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Service.ConsultasService;
 
 @RestController
@@ -29,10 +32,22 @@ public class ConsultasController {
 		return service.Concentradores();
 	}
 	
+	@PostMapping("/verConcentradores")
+	@CrossOrigin(origins="*")
+	public boolean Concentradores(@RequestBody modelConcentrator cnc) {
+		return service.Concentradores(cnc);
+	}
+	
 	@GetMapping("/verMedidores")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Medidores(){
 		return service.Medidores();
+	}
+	
+	@PostMapping("/verMedidores")
+	@CrossOrigin(origins="*")
+	public boolean Medidores(@RequestBody modelMeter met) {
+		return service.Medidores(met);
 	}
 	
 	@GetMapping("/verMedidas")
@@ -146,6 +161,12 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Transformadores(){
 		return service.Transformadores();
+	}
+	
+	@PostMapping("/verTransformadores")
+	@CrossOrigin(origins="*")
+	public boolean Transformadores(@RequestBody Transformador tf) {
+		return service.Transformadores(tf);
 	}
 	
 	@GetMapping("/verUsuarios")

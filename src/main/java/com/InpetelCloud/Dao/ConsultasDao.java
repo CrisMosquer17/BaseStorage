@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 @Repository
 public class ConsultasDao implements ConsultasInterface{
 
@@ -39,6 +42,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " FROM Inpetel_Cloud.Concentrador c;");
 		return view;
 	}
+	
+	@Override
+	public boolean Concentradores(modelConcentrator cnc) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE NombreConcentrador = '"+cnc.getConcentrator()+"' OR Serial ='"+cnc.getSerial()+"' OR Imei='"+cnc.getImei()+"' OR Ip_real= '"+cnc.getIpReal()+"';").size()>0;
+	}
+
 	
 	@Override
 	public List<Map<String, Object>> verConcentradorIndividual(Long id) {
@@ -72,6 +81,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " FROM Inpetel_Cloud.Medidor m;");
 		return view;
 	}
+	
+	@Override
+	public boolean Medidores(modelMeter met) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor WHERE Serial = '"+ met.getMeter()+"'; ").size()>0;
+	}
+
 	
 	@Override
 	public List<Map<String, Object>> verMedidorIndividual(Long id) {
@@ -134,7 +149,7 @@ public class ConsultasDao implements ConsultasInterface{
 	@Override
 	public List<Map<String, Object>> TecnologiasComponentes(String id) {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente WHERE ID='"+id+"'");
-		return null;
+		return view;
 	}
 
 	@Override
@@ -201,6 +216,14 @@ public class ConsultasDao implements ConsultasInterface{
 		return view;
 	}
 	
+
+	@Override
+	public boolean Transformadores(Transformador tf) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador WHERE Codigo = '"+tf.getCodigo()+"';").size()>0;
+	}
+
+
+	
 	@Override
 	public List<Map<String, Object>> Ftps() {
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.FTP");
@@ -248,6 +271,7 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
+
 
 
 
