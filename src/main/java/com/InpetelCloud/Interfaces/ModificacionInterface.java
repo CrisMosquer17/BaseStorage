@@ -70,6 +70,8 @@ public interface ModificacionInterface {
 
 	//Metodo para modificar un medidor
 	public int modificarMedidor(Long id, modelMeter medidor);
+	
+	public int modificarMedidorVista(Long id, modelMeter medidor);
 
 
 

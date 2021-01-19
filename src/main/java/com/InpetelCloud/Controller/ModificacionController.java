@@ -121,4 +121,11 @@ public class ModificacionController {
 	public void modificarMedidor(@PathVariable Long id, @RequestBody modelMeter medidor) {
 		service.modificarMedidor(id, medidor);
 	}
+	
+	//no va el logicname
+	@PutMapping("modificarMedidorVista/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarMedidorVista(@PathVariable Long id, @RequestBody modelMeter medidor) {
+		service.modificarMedidorVista(id, medidor);
+	}
 }

@@ -119,6 +119,11 @@ public class ModificacionService implements ModificacionInterface{
 		return dao.modificarMedidor(id, medidor);
 	}
 
+	@Override
+	public int modificarMedidorVista(Long id, modelMeter medidor) {
+		return dao.modificarMedidorVista(id, medidor);
+	}
+
 
 
 }

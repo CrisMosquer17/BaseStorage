@@ -72,11 +72,22 @@ public class modelConcentrator {
 	}
 	
 	
+	//CONCENTRADOR UNREPEAT 
 
+	public modelConcentrator(int id,  String concentrator ,String serial, String imei,  String ipReal) {
+		super();
+		this.id = id;
+		this.ipReal = ipReal;
+		this.concentrator = concentrator;
+		this.imei = imei;
+		this.serial = serial;
+	}
 
 	public int getId() {
 		return id;
 	}
+
+
 
 
 	public String getIpReal() {

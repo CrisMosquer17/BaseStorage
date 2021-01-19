@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Evento;
 import com.InpetelCloud.Model.Ftp;
@@ -191,6 +192,12 @@ public class InsercionController {
 	@CrossOrigin(origins = "*")
 	public int crearEventoMedidorG3(@RequestBody objetoJsonEventoMedidorG3 evento) {
 		return service.crearEventoMedidorG3(evento);
+	}
+	
+	@PostMapping("/crearAsociacionConcentradorMedidor/")
+	@CrossOrigin(origins = "*")
+	public int crearAsociacionMetCnc(@RequestBody AsociacionConcentradorMedidor asociacion) {
+		return service.crearAsociacionMetCnc(asociacion);
 	}
 	
 }

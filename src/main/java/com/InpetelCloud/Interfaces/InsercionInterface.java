@@ -1,6 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
 
+import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -32,6 +33,8 @@ public interface InsercionInterface {
 	
 	//Metodo para crear un sistema externo
 	public int crearSistemaExterno(SistemExterno se);
+	
+	public int crearAsociacionMetCnc(AsociacionConcentradorMedidor asociacion);
 	
 	// Metodo para crear un rol 
 	public int crearRol(Rol rol);

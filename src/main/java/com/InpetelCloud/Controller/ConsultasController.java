@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Service.ConsultasService;
 
 @RestController
@@ -28,10 +32,28 @@ public class ConsultasController {
 		return service.Concentradores();
 	}
 	
+	@PostMapping("/verConcentradores")
+	@CrossOrigin(origins="*")
+	public boolean Concentradores(@RequestBody modelConcentrator cnc) {
+		return service.Concentradores(cnc);
+	}
+	
 	@GetMapping("/verMedidores")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Medidores(){
 		return service.Medidores();
+	}
+	
+
+	@GetMapping("/verMedidoresNoAsociados")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>> MedidoresNoAsociados(){
+		return service.medidoresNoAsociados();
+	}
+	@PostMapping("/verMedidores")
+	@CrossOrigin(origins="*")
+	public boolean Medidores(@RequestBody modelMeter met) {
+		return service.Medidores(met);
 	}
 	
 	@GetMapping("/verMedidas")
@@ -57,11 +79,22 @@ public class ConsultasController {
 	public List<Map<String, Object>> Marcas(){
 		return service.Marcas();
 	}
-
+	@GetMapping("/verMarcas/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> Marcas(@PathVariable String id){
+		return service.Marcas(id);
+	}
+	
 	@GetMapping("/verTecnologiasComponentes")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> TecnologiasComponentes(){
 		return service.TecnologiasComponentes();
+	}
+	
+	@GetMapping("/verTecnologiasComponentes/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> TecnologiasComponentes(String id){
+		return service.TecnologiasComponentes(id);
 	}
 	
 	@GetMapping("/verModems")
@@ -74,6 +107,12 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> verModems(@PathVariable Long id){
 		return service.verModemIndividual(id);
+	}
+	
+	@PostMapping("/verModemsur")
+	@CrossOrigin(origins="*")
+	public boolean MUnRepeat(@RequestBody Modem m) {
+		return service.MUnRepeat(m);
 	}
 	
 	@GetMapping("/verConcentradores/{id}")
@@ -128,6 +167,12 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Transformadores(){
 		return service.Transformadores();
+	}
+	
+	@PostMapping("/verTransformadores")
+	@CrossOrigin(origins="*")
+	public boolean Transformadores(@RequestBody Transformador tf) {
+		return service.Transformadores(tf);
 	}
 	
 	@GetMapping("/verUsuarios")

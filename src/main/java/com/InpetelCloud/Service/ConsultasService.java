@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ConsultasDao;
 import com.InpetelCloud.Interfaces.ConsultasInterface;
+import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 @Service
 public class ConsultasService implements ConsultasInterface {
 
@@ -79,10 +83,20 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Marcas() {
 		return dao.Marcas();
 	}
+	
+	@Override
+	public List<Map<String, Object>> Marcas(String id) {
+		return dao.Marcas(id);
+	}
 
 	@Override
 	public List<Map<String, Object>> TecnologiasComponentes() {
 		return dao.TecnologiasComponentes();
+	}
+	
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes(String id) {
+		return dao.TecnologiasComponentes(id);
 	}
 
 	@Override
@@ -206,6 +220,30 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.login(u);
 	}
 
+	@Override
+
+	public List<Map<String, Object>> medidoresNoAsociados() {
+		return dao.medidoresNoAsociados();
+	}
+
+	public boolean MUnRepeat(Modem m) {
+		return dao.MUnRepeat(m);
+	}
+
+	@Override
+	public boolean Concentradores(modelConcentrator cnc) {
+		return dao.Concentradores(cnc);
+	}
+
+	@Override
+	public boolean Medidores(modelMeter met) {
+		return dao.Medidores(met);
+	}
+
+	@Override
+	public boolean Transformadores(Transformador tf) {
+		return dao.Transformadores(tf);
+	}
 		
 	
 }

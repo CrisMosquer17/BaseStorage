@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -482,7 +483,6 @@ public class InsercionDao implements InsercionInterface{
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Transformador` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Nombre` VARCHAR(60) NULL DEFAULT NULL,\r\n"
 					+ "  `Address` VARCHAR(30) NULL DEFAULT NULL,\r\n"
 					+ "  `Codigo` VARCHAR(120) NULL DEFAULT NULL,\r\n"
 					+ "  `Capacidad` INT NULL DEFAULT NULL,\r\n"
@@ -594,8 +594,8 @@ public class InsercionDao implements InsercionInterface{
 	@Override
 	public int crearTransformador(Transformador transformador) {
 		
-		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Nombre, Address, Codigo, Capacidad, Nodo, CargaAforada, TipoTrafo, Concentrador_ID, States_ID)\r\n"
-				+ " VALUES ('" + transformador.getNombre() + "', '"+ transformador.getAddress() + "', '"+ transformador.getCodigo() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
+		int value = template.update("INSERT INTO Inpetel_Cloud.Transformador (Address, Codigo, Capacidad, Nodo, CargaAforada, TipoTrafo, Concentrador_ID, States_ID)\r\n"
+				+ " VALUES ('"+ transformador.getAddress() + "', '"+ transformador.getCodigo() + "', " + transformador.getCapacidad() +", " + transformador.getNodo() + ", " + transformador.getCargaAforada() + ", '" + transformador.getTipoTrafo() + "', " + transformador.getConcentradorId() + ", 1);");
 		return value;
 	}
 	
@@ -658,8 +658,12 @@ public class InsercionDao implements InsercionInterface{
 		return validacion;
 	}
 	
-	
-	public List<Map<String,Object>> validarTransformador(Transformador transformador) {
+	/**
+	 * Valida que el concentrador que viene del transformador exista en la tabla concentrador
+	 * @param transformador
+	 * @return
+	 */
+	public List<Map<String,Object>> validarConcentradorTransformador(Transformador transformador) {
 		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador where ID='"+ transformador.getConcentradorId() +"';");
 		return validacion;
 	}
@@ -712,6 +716,39 @@ public class InsercionDao implements InsercionInterface{
 		return view;
 	}
 	
+	public ArrayList<String> idConcentrador(String cncS) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE Serial='"+ cncS +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
+	public ArrayList<String> idTransformadorPorCodigo(String codigo) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador WHERE Codigo='"+ codigo +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
+	public ArrayList<String> idMedidor(String metS) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor WHERE Serial='"+ metS +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
 	public ArrayList<String> serialesMedidor(modelMeter medidor) {
 		ArrayList<String> resultado = new ArrayList<String>();
 		List<Map<String,Object>>serialMedidor = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor where Serial='"+ medidor.getMeter() +"';");
@@ -750,6 +787,26 @@ public class InsercionDao implements InsercionInterface{
 		}
 		return idAsociacionmed;
 	}
+	
+	/**
+	 * 
+	 * @param idConcentrador id del concentrador
+	 * @param idMedidor id del medidor
+	 * @return booleano indicando si la asociacion entre ese concentrador y ese medidor ya existe, true si existe, false del caso contrario.
+	 */
+	public boolean validarAsociacionCncMet(String idConcentrador, String idMedidor ) {
+		boolean existe = false;
+		//valida que ya exista la asociacion de ese concentrador con ese medidor
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Asoc_concen_medidor where Concentrador_ID='"+ idConcentrador +"' and Medidor_ID='"+ idMedidor +"' ;");
+		if(asociacion.size() >= 1) {
+			existe = true;
+		}
+		return existe;
+	}
+	
+	
+	
+	
 		
 	public ArrayList<String> serialesCnc(modelConcentrator concentrador) {
 		ArrayList<String> resultado = new ArrayList<String>();
@@ -860,17 +917,14 @@ public class InsercionDao implements InsercionInterface{
 	public int updateAsoCncMet(modelMeter medidor, String id) {
 		ArrayList<String> concentrador = serialesConcentrador(medidor);
 		ArrayList<String> medidorS = serialesMedidor(medidor);
-		System.out.println(medidorS.get(0));
 		int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+concentrador.get(0)+"', Medidor_ID='"+medidorS.get(0)+"', Fh_update=now(), Usu_update='"+56+"'   where ID="+ id +";");
 
 		return value;
 	}
 	
 	public int updateTransformador(Transformador transformador, String id) {
-		System.out.println(id);
-		System.out.println(transformador.getEstadoId());
-		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', Tipo_Trafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
-		return value;
+	int value = template.update("UPDATE Inpetel_Cloud.Transformador set Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', TipoTrafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
+	return value;
 	}
 
 
@@ -1367,6 +1421,29 @@ public class InsercionDao implements InsercionInterface{
 						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
 	
 		return value;
+	}
+
+
+	@Override
+	public int crearAsociacionMetCnc(AsociacionConcentradorMedidor asociacion) {
+		int value=0;
+		ArrayList<String> idConcentrador= idConcentrador(asociacion.getSerialConcentrador());
+		ArrayList<String> idMedidor= idMedidor(asociacion.getSerialMedidor());
+		
+		value = template.update("INSERT INTO Inpetel_Cloud.Asoc_concen_medidor (Concentrador_ID, Medidor_ID, Fh_create, Usu_crea) VALUES\r\n"
+					+ "('" + idConcentrador.get(0) + "', '" + idMedidor.get(0) + "', now(), '" + 56 + "');");
+		
+		return value;
+	}
+	
+	public boolean validarAsociacionMetConCualquierCnc(String idMedidor) {
+		boolean existe = false;
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Asoc_concen_medidor where Medidor_ID='"+ idMedidor +"' ;");
+		
+		if(asociacion.size() == 1) {
+			existe = true;
+		}
+		return existe;
 	}
 	
 	

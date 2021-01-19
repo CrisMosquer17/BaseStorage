@@ -95,7 +95,7 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarTransformador(Long id, Transformador transformador) {
-		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Nombre='"+ transformador.getNombre()+ "', Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', TipoTrafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "', States_ID='"+ transformador.getEstadoId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', TipoTrafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "', States_ID='"+ transformador.getEstadoId() + "' where ID="+ id +";");
 		return value;
 	}
 
@@ -279,6 +279,14 @@ public class ModificacionDao implements ModificacionInterface{
 		tipoMarca.add(resultado.get(0).toString());
 
 		return tipoMarca;
+	}
+
+	@Override
+	public int modificarMedidorVista(Long id, modelMeter medidor) {
+		List<String> tipoMet = tipoMedidor(medidor);
+		List<String> marcaId = marcaMedidor(medidor);
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"',States_ID='"+medidor.getEstadoId()+"'  where ID="+ id +";");
+		return value;
 	}
 
 	

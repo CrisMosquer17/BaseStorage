@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -73,6 +74,11 @@ public class InsercionService implements InsercionInterface {
 		return dao.crearTecnologiaComponente(tecnologiaComponente);
 	}
 
+	/**
+	 * @param modem
+	 * @return entero con posibles valores, si retorna 1 el modem se pudo crear correctamente, si retorna 2 el modem ya se encuentra en la base de datos,
+	 * si retorna 0 el modem no se pudo crear
+	 */
 	@Override
 	public int crearModem(Modem modem) {
 		int crea=0;
@@ -205,7 +211,11 @@ public class InsercionService implements InsercionInterface {
 		return validate;
 	}
 	
-	
+	/**
+	 * @param medidor
+	 * @return entero con posibles valores, si retorna 1 el medidor se ingresa de manera exitosa, si retorna 2 el medidor ya se encuentra en la
+	 * base de datos y procede a actualizarse , si retorna 0 el medidor no se pudo crear
+	 */
 	@Override
 	public int crearMedidorVista(modelMeter medidor) {
 		int validate=0;
@@ -214,7 +224,9 @@ public class InsercionService implements InsercionInterface {
 		ArrayList<String> idMet = dao.serialesMedidor(medidor);
 		//validaciones para el medidor
 		if(idMet.size() == 1) {
-			validate= dao.updateMedidor(medidor, idMet.get(0));
+			dao.updateMedidor(medidor, idMet.get(0));
+			System.out.println("El medidor ya se encuentra en la base de datos, procede a actualizarse");
+			validate=2;
 		}
 		else {
 			validate = dao.crearMedidorVista(medidor);
@@ -281,12 +293,19 @@ public class InsercionService implements InsercionInterface {
 	}
 	
 
+	/**
+	 * @param concentrador
+	 * @return entero con posibles valores, si retorna 1 el concentrador se ingresa de manera exitosa, si retorna 2 el concentrador ya se encuentra 
+	 * en la base de datos entonces procede a actualizarse, si retorna 0 el concentrador no se pudo crear
+	 */
 	@Override
 	public int crearConcentradorVista(modelConcentrator concentrador) {
 		int validate=0;
 		ArrayList<String> idcnc= dao.serialesCnc(concentrador);
 		if(idcnc.size() == 1) {
-			validate = dao.updateConcentrador(concentrador, idcnc.get(0));
+			 dao.updateConcentrador(concentrador, idcnc.get(0));
+			 System.out.println("El concentrador que trata de ingresar ya se encuentra en la base de datos, se procede a actualizarse");
+			 validate=2;
 		}
 		else {
 			validate= dao.crearConcentradorVista(concentrador);
@@ -319,23 +338,44 @@ public class InsercionService implements InsercionInterface {
 		return dao.crearFtp(f);
 	}
 	
+	/**
+	 * @param transformador
+	 * @return Entero con posibles valores, si retorna 1 el transformador se crea con exito, si retorna 2 el transformador se actualiza porque esta intentando ingresar el
+	 * mismo transformador, si retorna 3 el concentrador que esta tratando de asociar no existe en la base de datos, 
+	 * si retorna 0 el transformador no se pudo crear
+	 */
 	@Override
 	public int crearTransformador(Transformador transformador) {
 		int crea=0;
 		List<Map<String,Object>> validacionAsociacion=dao.validarAsoTransformadorCnc(transformador);
+		List<Map<String,Object>> validarConcentrador= dao.validarConcentradorTransformador(transformador);
+		ArrayList<String> transformadorId = dao.idTransformadorPorCodigo(transformador.getCodigo());
 		ArrayList<String> id = new ArrayList<String>();
+		//validaciones
+		//1) Que el concentrador que quiere asociar exista.
+		//2) Que la asociacion transformador concentrador no exista
+		//3) Que el transformador no exista
 		
-		if(validacionAsociacion.size() == 1) {
-			for (int i = 0; i < validacionAsociacion.size(); i++) {
-				id.add(validacionAsociacion.get(i).get("ID").toString());
+		if(validarConcentrador.size() > 0 ) {
+			if(validacionAsociacion.size() == 1) {
+				for (int i = 0; i < validacionAsociacion.size(); i++) {
+					id.add(validacionAsociacion.get(i).get("ID").toString());
+				}
+				dao.updateTransformador(transformador, id.get(0));
+				System.out.println("El transformador ya se encuentra en la base de datos, se procede a actualizar");
+				crea=2;
 			}
-			crea=dao.updateTransformador(transformador, id.get(0));
+			
+			else {
+				crea= dao.crearTransformador(transformador);
+				
+			}
+		}
+		else {
+			System.out.println("El concentrador que quiere asociar no existe en la base de datos");
+			crea=3;
 		}
 		
-		else {
-			crea= dao.crearTransformador(transformador);
-			
-		}
 
 		return crea;
 	}
@@ -1743,6 +1783,45 @@ public class InsercionService implements InsercionInterface {
 		}
 
 		return resultado;
+	}
+
+	/**
+	 * @param serialCnc Serial del concentrador
+	 * @param serialMet Serial del medidor
+	 * @return entero con posibles valores, si retorna 1 la asociacion se crea con exito,  si retorna 2 la asociacion ya existe, si retorna 0 la asociacion no se creo, si retorna 
+	 * 3 ese medidor ya se encuentra asociado con otro concentrador, si retorna 4 el concentrador no existe en la base de datos.
+	 */
+	@Override
+	public int crearAsociacionMetCnc(AsociacionConcentradorMedidor asociacion) {
+		int crea =0;
+		ArrayList<String> idConcentrador= dao.idConcentrador(asociacion.getSerialConcentrador());
+		ArrayList<String> idMedidor= dao.idMedidor(asociacion.getSerialMedidor());
+		//validaciones
+		//1) si ya existe esa asociacion
+		//2) si ya el medidor está asociado a otro concentrador, es decir que no se encuentre en la tabla asociacion, en un metodo a parte
+		//si la asociacion ya existe, retorno 2.
+		//3) Validar que el concentrador se encuentre en la bd
+		if(idConcentrador.size() == 0) {
+			crea=4;
+			System.out.println("El concentrador no existe en la base de datos");
+		}
+		else {
+			boolean validarAsociacionEspecifica = dao.validarAsociacionCncMet(idConcentrador.get(0), idMedidor.get(0));
+			if(validarAsociacionEspecifica == true) {
+				System.out.println("La asociacion entre ese concentrador y ese medidor ya existe");
+				crea = 2;
+			}
+			boolean validarAsociacionDeMetConCualquierCnc = dao.validarAsociacionMetConCualquierCnc(idMedidor.get(0));
+			if(validarAsociacionDeMetConCualquierCnc == true) {
+				System.out.println("El medidor ya esta asociado con un concentrador");
+				crea = 3;
+			}
+			else {
+				crea = dao.crearAsociacionMetCnc(asociacion);
+			}
+		}
+		
+		return crea;
 	}
 
 }

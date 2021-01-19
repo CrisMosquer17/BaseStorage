@@ -24,9 +24,6 @@ public class modelMeter {
 	private ArrayList<modelMeter> medidores = new ArrayList<modelMeter>();
 
 
-	
-	
-	
 	public modelMeter() {
 		super();
 	}
@@ -69,8 +66,7 @@ public class modelMeter {
 		this.meter = meter;
 		this.brand = brand;
 	}
-
-
+	
 	public int getId() {
 		return id;
 	}

@@ -8,7 +8,6 @@ public class Transformador {
 	
 	@Id
 	private int id;
-	private String nombre;
 	private String address;
 	private String codigo;
 	private int capacidad;
@@ -26,11 +25,10 @@ public class Transformador {
 		super();
 	}
 
-	public Transformador(int id, String nombre, String address, String codigo, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
+	public Transformador(int id, String address, String codigo, int capacidad, int nodo, int cargaAforada, int tipoTrafo,
 			int concentradorId, String estadoId) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
 		this.address = address;
 		this.codigo = codigo;
 		this.capacidad = capacidad;
@@ -41,8 +39,12 @@ public class Transformador {
 		this.estadoId=estadoId;
 	}
 	
-	
-	
+	public Transformador(int id, String codigo) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+	}
+
 	//METODOS GETTERS Y SETTERS	
 
 
@@ -54,13 +56,6 @@ public class Transformador {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 
 	public String getAddress() {
 		return address;

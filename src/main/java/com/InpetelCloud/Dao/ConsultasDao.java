@@ -8,8 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
-
+import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 @Repository
 public class ConsultasDao implements ConsultasInterface{
 
@@ -39,6 +42,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " FROM Inpetel_Cloud.Concentrador c;");
 		return view;
 	}
+	
+	@Override
+	public boolean Concentradores(modelConcentrator cnc) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE NombreConcentrador = '"+cnc.getConcentrator()+"' OR Serial ='"+cnc.getSerial()+"' OR Imei='"+cnc.getImei()+"' OR Ip_real= '"+cnc.getIpReal()+"';").size()>0;
+	}
+
 	
 	@Override
 	public List<Map<String, Object>> verConcentradorIndividual(Long id) {
@@ -72,6 +81,12 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " FROM Inpetel_Cloud.Medidor m;");
 		return view;
 	}
+	
+	@Override
+	public boolean Medidores(modelMeter met) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor WHERE Serial = '"+ met.getMeter()+"'; ").size()>0;
+	}
+
 	
 	@Override
 	public List<Map<String, Object>> verMedidorIndividual(Long id) {
@@ -115,10 +130,25 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "from Inpetel_Cloud.Marca ma;");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> Marcas(String id) {
+		List<Map<String, Object>>view = template.queryForList("SELECT ma.ID, ma.Nombre_Marca, ma.TecnologiaComponente_ID,\r\n"
+				+ "(SELECT tp.Nombre_Tecnologia FROM Inpetel_Cloud.TecnologiaComponente tp WHERE tp.ID = ma.TecnologiaComponente_ID)Tecnologia\r\n"
+				+ "from Inpetel_Cloud.Marca ma\r\n"
+				+ "WHERE ID = '"+id +"';");
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> TecnologiasComponentes() {
-		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente");
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente;");
+		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> TecnologiasComponentes(String id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TecnologiaComponente WHERE ID='"+id+"'");
 		return view;
 	}
 
@@ -165,7 +195,7 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> Transformadores() {
-		List<Map<String, Object>> view = template.queryForList("select tf.ID, tf.Nombre, tf.Address, tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada, \r\n"
+		List<Map<String, Object>> view = template.queryForList("select tf.ID, tf.Address, tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada, \r\n"
 				+ "(SELECT tp.NombreTrafo FROM Inpetel_Cloud.TipoTrafo tp WHERE tp.ID = tf.TipoTrafo)TipoTrafo,\r\n"
 				+ "(SELECT c.Serial FROM Inpetel_Cloud.Concentrador c WHERE c.ID = tf.Concentrador_ID)cnc,\r\n"
 				+ "tf.States_ID,\r\n"
@@ -176,7 +206,7 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> verTransformadorIndividual(Long id) {
-		List<Map<String,Object>>view = template.queryForList("select tf.ID, tf.Nombre, tf.Address,tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada,\r\n"
+		List<Map<String,Object>>view = template.queryForList("select tf.ID, tf.Address,tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada,\r\n"
 				+ "(SELECT tp.NombreTrafo FROM Inpetel_Cloud.TipoTrafo tp WHERE tp.ID = tf.TipoTrafo)TipoTrafo,\r\n"
 				+ "(SELECT c.Serial FROM Inpetel_Cloud.Concentrador c WHERE c.ID = tf.Concentrador_ID)cnc,\r\n"
 				+ "tf.States_ID,\r\n"
@@ -185,6 +215,14 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "ORDER BY ID ASC;");
 		return view;
 	}
+	
+
+	@Override
+	public boolean Transformadores(Transformador tf) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador WHERE Codigo = '"+tf.getCodigo()+"';").size()>0;
+	}
+
+
 	
 	@Override
 	public List<Map<String, Object>> Ftps() {
@@ -228,6 +266,23 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean login(Usuarios u) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where States_ID = 1 and Login='"+u.getLogin()+"'and Password_salt='"+u.getPassword()+"';").size()>0;
 	}
+
+	@Override
+
+	public List<Map<String, Object>> medidoresNoAsociados() {
+		List<Map<String,Object>>view = template.queryForList("SELECT ID, Serial FROM Inpetel_Cloud.Medidor where ID NOT IN \r\n"
+				+ "( SELECT Medidor_ID FROM Inpetel_Cloud.Asoc_concen_medidor);");
+		return view;
+	}
+
+
+	public boolean MUnRepeat(Modem m) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
+	}
+
+
+
+
 
 
 	
