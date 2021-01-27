@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.Modem;
@@ -111,6 +112,12 @@ public class ConsultasController {
 		return service.verModemIndividual(id);
 	}
 	
+	@GetMapping("/verModemsNoAsociados")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>> ModemsNoAsociados(){
+		return service.ModemsNoAsociados();
+	}
+	
 	@PostMapping("/verModemsur")
 	@CrossOrigin(origins="*")
 	public boolean MUnRepeat(@RequestBody Modem m) {
@@ -181,6 +188,24 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Usuarios(){
 		return service.Usuarios();
+	}
+	
+	@GetMapping("/verUsuarios/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verUsuarioIndividual(@PathVariable Long id){
+		return service.verUsuarioIndividual(id);
+	}
+	
+	/**
+	 * Metodo para ver si un usuario se encuentra en la base de datos ya sea
+	 * por su correo o por su login.
+	 * @param usu Un usuario.
+	 * @return true si el usuario se encuentra en la base de datos, false de lo contrario.
+	 */
+	@PostMapping("/verUsuarios")
+	@CrossOrigin(origins="*")
+	public boolean Usuarios(@RequestBody Usuarios usu) {
+		return service.Usuarios(usu);
 	}
 	
 	@GetMapping("/verFtp")

@@ -30,6 +30,18 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Usuarios() {
 		return dao.Usuarios();
 	}
+	
+	@Override
+	public List<Map<String, Object>> verUsuarioIndividual(Long id) {
+		List<Map<String, Object>> usuarios = dao.verUsuarioIndividual(id);
+		if(usuarios.size() > 0) {
+			return usuarios;
+		}
+		else {
+			log.info("no hay ningun usuario con ese id");
+			return usuarios;
+		}
+	}
 
 	@Override
 	public List<Map<String, Object>> Concentradores() {
@@ -225,6 +237,11 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> medidoresNoAsociados() {
 		return dao.medidoresNoAsociados();
 	}
+	
+	@Override
+	public List<Map<String, Object>> ModemsNoAsociados() {
+		return dao.ModemsNoAsociados();
+	}
 
 	public boolean MUnRepeat(Modem m) {
 		return dao.MUnRepeat(m);
@@ -244,4 +261,13 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean Transformadores(Transformador tf) {
 		return dao.Transformadores(tf);
 	}
+
+	@Override
+	public boolean Usuarios(Usuarios usu) {
+		return dao.Usuarios(usu);
+	}
+
+
+
+
 }

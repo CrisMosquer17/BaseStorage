@@ -12,6 +12,10 @@ public interface ConsultasInterface {
 
 	public List<Map<String,Object>>Usuarios();
 	
+	public boolean Usuarios(Usuarios usu);
+	
+	public List<Map<String, Object>> verUsuarioIndividual(Long id);
+
 	public List<Map<String,Object>>Concentradores();
 	
 	public List<Map<String, Object>> verConcentradorIndividual(Long id);
@@ -64,6 +68,8 @@ public interface ConsultasInterface {
 	
 	public List<Map<String, Object>> medidoresNoAsociados();
 	
+	public List<Map<String, Object>> ModemsNoAsociados();
+
 	public boolean validarSerialConcentrador(String cnc);
 	
 	public boolean validarSerialMedidor(String met);

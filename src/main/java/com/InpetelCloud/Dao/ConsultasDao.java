@@ -24,6 +24,18 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios");
 		return view;
 	}
+	
+	@Override
+	public boolean Usuarios(Usuarios usu) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios WHERE Correo = '"+ usu.getCorreo()+"' OR Login = '"+usu.getLogin()+"';").size()>0;
+
+	}
+	
+	@Override
+	public List<Map<String, Object>> verUsuarioIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList ("SELECT * FROM Inpetel_Cloud.Usuarios WHERE ID='"+id+"';" );
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> Concentradores() {
@@ -34,8 +46,10 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "(SELECT tc.ComStatus FROM Inpetel_Cloud.TiempoConectado tc WHERE tc.ID = c.TiempoConectado_ID)Conectado,\r\n"
 				+ "c.Modem_Embedido,\r\n"
 				+ "c.IOmodule,\r\n"
-				+ "(SELECT m.Serial FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )Modemserial,\r\n"
+				+ "c.Modem_ID,\r\n"
+				+ "(SELECT m.Imei FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )ModemImei,\r\n"
 				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = c.Marca_ID)Marca,\r\n"
+				+ "c.Marca_ID,\r\n"
 				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
 				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = c.Marca_ID)Tecnologia,\r\n"
 				+ "c.user, c.pass, c.States_ID, c.Observacion \r\n"
@@ -58,8 +72,10 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "(SELECT tc.ComStatus FROM Inpetel_Cloud.TiempoConectado tc WHERE tc.ID = c.TiempoConectado_ID)Conectado,\r\n"
 				+ "c.Modem_Embedido,\r\n"
 				+ "c.IOmodule,\r\n"
-				+ "(SELECT m.Serial FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )Modemserial,\r\n"
+				+ "c.Modem_ID,\r\n"
+				+ "(SELECT m.Imei FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )ModemImei,\r\n"
 				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = c.Marca_ID)Marca,\r\n"
+				+ "c.Marca_ID,\r\n"
 				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
 				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = c.Marca_ID)Tecnologia,\r\n"
 				+ "c.user, c.pass, c.States_ID, c.Observacion FROM Inpetel_Cloud.Concentrador c where ID="+ id +"\r\n"
@@ -197,6 +213,7 @@ public class ConsultasDao implements ConsultasInterface{
 	public List<Map<String, Object>> Transformadores() {
 		List<Map<String, Object>> view = template.queryForList("select tf.ID, tf.Address, tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada, \r\n"
 				+ "(SELECT tp.NombreTrafo FROM Inpetel_Cloud.TipoTrafo tp WHERE tp.ID = tf.TipoTrafo)TipoTrafo,\r\n"
+				+ "tf.Concentrador_ID,\r\n"
 				+ "(SELECT c.Serial FROM Inpetel_Cloud.Concentrador c WHERE c.ID = tf.Concentrador_ID)cnc,\r\n"
 				+ "tf.States_ID,\r\n"
 				+ "tf.Observacion\r\n"
@@ -208,6 +225,7 @@ public class ConsultasDao implements ConsultasInterface{
 	public List<Map<String, Object>> verTransformadorIndividual(Long id) {
 		List<Map<String,Object>>view = template.queryForList("select tf.ID, tf.Address,tf.Codigo, tf.Capacidad, tf.Nodo, tf.CargaAforada,\r\n"
 				+ "(SELECT tp.NombreTrafo FROM Inpetel_Cloud.TipoTrafo tp WHERE tp.ID = tf.TipoTrafo)TipoTrafo,\r\n"
+				+ "tf.Concentrador_ID,\r\n"
 				+ "(SELECT c.Serial FROM Inpetel_Cloud.Concentrador c WHERE c.ID = tf.Concentrador_ID)cnc,\r\n"
 				+ "tf.States_ID,\r\n"
 				+ "tf.Observacion\r\n"
@@ -272,6 +290,13 @@ public class ConsultasDao implements ConsultasInterface{
 	public List<Map<String, Object>> medidoresNoAsociados() {
 		List<Map<String,Object>>view = template.queryForList("SELECT ID, Serial FROM Inpetel_Cloud.Medidor where ID NOT IN \r\n"
 				+ "( SELECT Medidor_ID FROM Inpetel_Cloud.Asoc_concen_medidor);");
+		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> ModemsNoAsociados() {
+		List<Map<String,Object>>view = template.queryForList("SELECT ID, Imei FROM Inpetel_Cloud.Modem where ID NOT IN \r\n"
+				+ "( SELECT Modem_ID FROM Inpetel_Cloud.Concentrador);");
 		return view;
 	}
 
