@@ -178,6 +178,12 @@ public class ConsultasController {
 		return service.Transformadores();
 	}
 	
+	@GetMapping("/verTipoTransformadores")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> tipoTransformadores(){
+		return service.tipoTransformadores();
+	}
+	
 	@PostMapping("/verTransformadores")
 	@CrossOrigin(origins="*")
 	public boolean Transformadores(@RequestBody Transformador tf) {

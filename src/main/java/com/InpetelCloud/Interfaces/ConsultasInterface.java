@@ -24,6 +24,9 @@ public interface ConsultasInterface {
 	
 	public List<Map<String,Object>>Transformadores();
 	
+	public List<Map<String,Object>>tipoTransformadores();
+
+	
 	public boolean Transformadores(Transformador tf);
 	
 	public List<Map<String, Object>> verTransformadorIndividual(Long id);

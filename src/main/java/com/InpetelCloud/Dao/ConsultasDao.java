@@ -239,6 +239,12 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean Transformadores(Transformador tf) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador WHERE Codigo = '"+tf.getCodigo()+"';").size()>0;
 	}
+	
+	@Override
+	public List<Map<String, Object>> tipoTransformadores() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.TipoTrafo");
+		return view;
+	}
 
 
 	
@@ -304,10 +310,6 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
-
-
-
-
 
 
 	

@@ -160,6 +160,11 @@ public class ConsultasService implements ConsultasInterface {
 	}
 	
 	@Override
+	public List<Map<String, Object>> tipoTransformadores() {
+		return dao.tipoTransformadores();
+	}
+	
+	@Override
 	public List<Map<String, Object>> verTransformadorIndividual(Long id) {
 		List<Map<String, Object>> transformadores = dao.verTransformadorIndividual(id);
 		if(transformadores.size()>0) {
@@ -266,8 +271,6 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean Usuarios(Usuarios usu) {
 		return dao.Usuarios(usu);
 	}
-
-
 
 
 }
