@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -129,9 +130,26 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Override
 	public List<Map<String, Object>> SistemasExternos() {
-		List<Map<String, Object>> view = template.queryForList("SELECT * FROM Inpetel_Cloud.SistemaExteno");
+		List<Map<String, Object>> view = template.queryForList("SELECT se.ID, se.Nit, se.Nombre_SE, se.Telefono_SE, se.Direccion_SE, se.States_ID, se.Tipo_SistemaExterno_ID,\r\n"
+				+ "(SELECT ts.Nombre_TSE FROM Inpetel_Cloud.Tipo_SistemaExterno ts WHERE ts.ID = se.Tipo_SistemaExterno_ID)TipoSistemaExterno\r\n"
+				+ "FROM Inpetel_Cloud.SistemaExteno se;");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> verSistemaExternoIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList("SELECT se.ID, se.Nit, se.Nombre_SE, se.Telefono_SE, se.Direccion_SE, se.States_ID, se.Tipo_SistemaExterno_ID,\r\n"
+				+ "(SELECT ts.Nombre_TSE FROM Inpetel_Cloud.Tipo_SistemaExterno ts WHERE ts.ID = se.Tipo_SistemaExterno_ID)TipoSistemaExterno\r\n"
+				+ "FROM Inpetel_Cloud.SistemaExteno se where ID="+ id +"\r\n;");
+		return view;
+	}
+	
+	@Override
+	public boolean SistemasExternos(SistemExterno se) {
+		return template.queryForList("SELECT * FROM Inpetel_Cloud.SistemaExteno WHERE Nit = '"+ se.getNit()+"'; ").size()>0;
+
+	}
+
 
 	@Override
 	public List<Map<String, Object>> Roles() {
@@ -310,7 +328,6 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
-
 
 	
 }

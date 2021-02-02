@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -40,6 +41,11 @@ public interface ConsultasInterface {
 	public List<Map<String,Object>>Medidas();
 	
 	public List<Map<String,Object>>SistemasExternos();
+	
+	public List<Map<String,Object>>verSistemaExternoIndividual(Long id);
+	
+	public boolean SistemasExternos(SistemExterno se);
+
 	
 	public List<Map<String, Object>> Roles();
 	

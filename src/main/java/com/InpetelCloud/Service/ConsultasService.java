@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.InpetelCloud.Dao.ConsultasDao;
 import com.InpetelCloud.Interfaces.ConsultasInterface;
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -84,6 +85,11 @@ public class ConsultasService implements ConsultasInterface {
 	@Override
 	public List<Map<String, Object>> SistemasExternos() {
 		return dao.SistemasExternos();
+	}
+	
+	@Override
+	public List<Map<String, Object>> verSistemaExternoIndividual(Long id) {
+		return dao.verSistemaExternoIndividual(id);
 	}
 
 	@Override
@@ -271,6 +277,13 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean Usuarios(Usuarios usu) {
 		return dao.Usuarios(usu);
 	}
+
+	@Override
+	public boolean SistemasExternos(SistemExterno se) {
+		return dao.SistemasExternos(se);
+	}
+
+
 
 
 }

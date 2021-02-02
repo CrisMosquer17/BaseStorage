@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.Modem;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -69,6 +70,23 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> SistemasExternos(){
 		return service.SistemasExternos();
+	}
+	
+	@GetMapping("/verSistemasExternos/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verSistemasExternos(@PathVariable Long id){
+		return service.verSistemaExternoIndividual(id);
+	}
+	
+	/**
+	 * Metodo para ver si un sistema externo se encuentra en la base de datos por su nit.
+	 * @param se Un sistema externo.
+	 * @return true si el sistema externo se encuentra en la base de datos, false de lo contrario.
+	 */
+	@PostMapping("/verSistemasExternos")
+	@CrossOrigin(origins="*")
+	public boolean Usuarios(@RequestBody SistemExterno se) {
+		return service.SistemasExternos(se);
 	}
 	
 	@GetMapping("/verRoles")
