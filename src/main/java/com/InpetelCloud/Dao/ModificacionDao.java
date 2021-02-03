@@ -35,7 +35,7 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarSistemaExterno(Long id, SistemExterno se) {
-		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set Nit='"+ se.getNit() + "', Telefono_SE='"+ se.getTelefono() + "', Direccion_SE='"+ se.getDireccion() + "',  States_ID='"+ se.getEstadoId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set Nit='"+ se.getNit() + "', Telefono_SE='"+ se.getTelefono() + "', Direccion_SE='"+ se.getDireccion() + "' where ID="+ id +";");
 		return value;
 	}
 
@@ -95,7 +95,7 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarTransformador(Long id, Transformador transformador) {
-		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', TipoTrafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "', States_ID='"+ transformador.getEstadoId() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.Transformador set Address='"+ transformador.getAddress() + "', Codigo='"+ transformador.getCodigo()+ "', Capacidad='"+ transformador.getCapacidad() + "', Nodo='"+ transformador.getNodo() + "', CargaAforada='"+ transformador.getCargaAforada() + "', TipoTrafo='"+ transformador.getTipoTrafo() + "', Concentrador_ID='"+ transformador.getConcentradorId() + "' where ID="+ id +";");
 		return value;
 	}
 
@@ -116,10 +116,10 @@ public class ModificacionDao implements ModificacionInterface{
 		int value=0;
 		List<String> marcaId = marcaConcentrador(concentrador);
 		if(marcaId.get(0).equals("1") ) {
-			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='NA', user='NA', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='NA', user='NA'  where ID="+ id +";");
 		}
 		else {
-			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', States_ID='"+concentrador.getEstadoId()+"'  where ID="+ id +";");
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set Ip_real='"+ concentrador.getIpReal() +"', NombreConcentrador='"+concentrador.getConcentrator()+"', TipoComunicacion_ID='"+concentrador.getTipoComunicacionId()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getSerial()+"', TiempoConectado_ID='"+concentrador.getTiempoConectadoId()+"', Modem_Embedido='"+concentrador.getModemEmbebidoId()+"', IOmodule='"+concentrador.getIoModule()+"', Modem_ID='"+concentrador.getModemId()+"', Marca_ID='"+marcaId.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"'  where ID="+ id +";");
 
 		}
 		
@@ -130,7 +130,7 @@ public class ModificacionDao implements ModificacionInterface{
 	public int modificarMedidor(Long id, modelMeter medidor) {
 		List<String> tipoMet = tipoMedidor(medidor);
 		List<String> marcaId = marcaMedidor(medidor);
-		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"', logicalName='"+medidor.getLogicalName()+"', States_ID='"+medidor.getEstadoId()+"'  where ID="+ id +";");
+		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"', logicalName='"+medidor.getLogicalName()+"'  where ID="+ id +";");
 		return value;
 	}
 	
