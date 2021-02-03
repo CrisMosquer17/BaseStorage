@@ -35,7 +35,7 @@ public class ModificacionDao implements ModificacionInterface{
 
 	@Override
 	public int modificarSistemaExterno(Long id, SistemExterno se) {
-		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set Nit='"+ se.getNit() + "', Telefono_SE='"+ se.getTelefono() + "', Direccion_SE='"+ se.getDireccion() + "' where ID="+ id +";");
+		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set Nit='"+ se.getNit() + "', Telefono_SE='"+ se.getTelefono() + "', Direccion_SE='"+ se.getDireccion() + "',  States_ID='"+ se.getEstadoId() + "' where ID="+ id +";");
 		return value;
 	}
 

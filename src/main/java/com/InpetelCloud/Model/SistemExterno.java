@@ -11,6 +11,8 @@ public class SistemExterno {
 	private String telefono;
 	private String direccion;
 	private String tipoSistema;
+	private String estadoId;
+
 	
 	public SistemExterno() {
 		super();
@@ -30,12 +32,13 @@ public class SistemExterno {
 
 
 	//Para modificar un sistema externo
-	public SistemExterno(int id, String nit, String telefono, String direccion) {
+	public SistemExterno(int id, String nit, String telefono, String direccion, String estadoId) {
 		super();
 		this.id = id;
 		this.nit = nit;
 		this.telefono = telefono;
 		this.direccion = direccion;
+		this.estadoId = estadoId;
 	}
 
 
@@ -92,6 +95,17 @@ public class SistemExterno {
 	public void setTipoSistema(String tipoSistema) {
 		this.tipoSistema = tipoSistema;
 	}
+
+
+	public String getEstadoId() {
+		return estadoId;
+	}
+
+	public void setEstadoId(String estadoId) {
+		this.estadoId = estadoId;
+	}
+	
+	
 	
 	
 	
