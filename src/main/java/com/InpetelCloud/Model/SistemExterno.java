@@ -12,6 +12,7 @@ public class SistemExterno {
 	private String direccion;
 	private String tipoSistema;
 	private String estadoId;
+	private String observacion;
 
 	
 	public SistemExterno() {
@@ -103,6 +104,17 @@ public class SistemExterno {
 
 	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
+	}
+
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 	
 	

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.EliminarDao;
 import com.InpetelCloud.Interfaces.EliminarInterface;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.modelMeter;
@@ -33,8 +34,8 @@ public class EliminarService implements EliminarInterface {
 	}*/
 
 	@Override
-	public int eliminarSistemaExterno(Long id) {
-		return dao.eliminarSistemaExterno(id);
+	public int eliminarSistemaExterno( SistemExterno se, Long id) {
+		return dao.eliminarSistemaExterno(se,id);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.InpetelCloud.Interfaces;
 
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.modelMeter;
@@ -7,7 +8,7 @@ import com.InpetelCloud.Model.modelMeter;
 public interface EliminarInterface {
 				
 	//Metodo para eliminar un sistema externo( en realidad, pasa su estado a inhabilitado)
-	public int eliminarSistemaExterno(Long id);
+	public int eliminarSistemaExterno(SistemExterno se, Long id);
 	
 	//Metodo para eliminar un rol
 	public int eliminarRol(Long id);

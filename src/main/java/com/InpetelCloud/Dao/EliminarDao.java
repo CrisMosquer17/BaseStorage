@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.EliminarInterface;
+import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.modelMeter;
@@ -16,8 +17,14 @@ public class EliminarDao implements EliminarInterface {
 	JdbcTemplate template;
 
 	@Override
-	public int eliminarSistemaExterno(Long id) {
-		int value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set States_ID = 2 where ID="+ id +";");
+	public int eliminarSistemaExterno(SistemExterno se, Long id) {
+		int value = 0;
+		if(se.getObservacion().equals("")) {
+			System.out.println(value);
+			return value;
+		}else {
+			value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set States_ID = 2 where ID="+ id +";");
+			}
 		return value;
 	}
 	
