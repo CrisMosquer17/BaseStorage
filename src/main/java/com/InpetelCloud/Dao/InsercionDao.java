@@ -1255,6 +1255,7 @@ public class InsercionDao implements InsercionInterface{
 		String monofasicoTrifilar="Monofasico Trifilar";
 		String trifasicoSemidirecta = "Trifasico Semidirecta";
 		String bifasico = "Bifasico";
+		String polifasico ="Polifasico";
 
 		
 		
@@ -1297,6 +1298,15 @@ public class InsercionDao implements InsercionInterface{
 			break;
 		case "Bifasico":
 			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ bifasico +"';");			
+			for (Map<String, Object> map : tipoMedidor) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			break;
+		case "Polifasico":
+			tipoMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.TipoMedidor where NombreMedidor='"+ polifasico +"';");			
 			for (Map<String, Object> map : tipoMedidor) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();

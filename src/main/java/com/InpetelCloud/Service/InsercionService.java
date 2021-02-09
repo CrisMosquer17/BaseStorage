@@ -205,9 +205,6 @@ public class InsercionService implements InsercionInterface {
 			}
 			
 		}
-		
-		
-		
 		return validate;
 	}
 	
@@ -1320,6 +1317,7 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		if (resultado == false) {
+			//crearMedidor(medidor);
 			dao.crearMedidorMedida(jsons03.getG3().get(j).getMeter());
 			resultado = true;
 		}
@@ -1920,7 +1918,7 @@ public class InsercionService implements InsercionInterface {
 		}
 		for (int i = 0; i < serialesMedidores.size(); i++) {
 			if (serialesMedidores.size() == 0) {
-
+				
 			} else {
 				if (serialesMedidores.get(i).equals(jsong3s03.getG3EventoMedidor().get(j).getMeter())) {
 					resultado = true;
