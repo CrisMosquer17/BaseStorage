@@ -971,10 +971,11 @@ public class InsercionDao implements InsercionInterface{
 	
 	public int crearMedidaG3(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
 		int value=0;
+		System.out.println(resultado.get(1));
 		
 		for (int i = 0; i < 2; i++) {
 			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-					+ "VALUES ('" +  resultado.get(0) + "', '" + valorRegister.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + 239 + "', '" + 60 + "','" + idRegister.get(0)+ "', '" + 60 + "');");
+					+ "VALUES ('" +  resultado.get(0) + "', '" + valorRegister.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idRegister.get(0)+ "', '" + 60 + "');");
 		}
 		return value;
 	}
@@ -1029,6 +1030,32 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ json.getHours().get(j).getNameFile() +"';");
 		return idTrazabilidad;
 	}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadMedidaG3(objetoJsonG3 jsons03, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ jsons03.getG3().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadMedidaG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ jsong3s03.getDaysg3().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadEventoMedidor(objetoJsonEventoMedidor evento, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ evento.getEventoMedidor().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadEventoMedidorG3(objetoJsonEventoMedidorG3 evento, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ evento.getG3EventoMedidor().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+	
+	public List<Map<String,Object>> obtenerIdTrazabilidadEventoConcentrador(objetoJsonEventoConcentrador evento, int j) {
+		List<Map<String,Object>>idTrazabilidad = template.queryForList("SELECT ID FROM Inpetel_Cloud.Trazabilidad where Nombre_reporte='"+ evento.getEventoConcentrador().get(j).getNameFile() +"';");
+		return idTrazabilidad;
+	}
+	
 
 	public List<Map<String,Object>> obtenerIdInfoMedida(ObjetoJson json) {
 		List<Map<String,Object>> nombreMedida=null;
@@ -1127,6 +1154,31 @@ public class InsercionDao implements InsercionInterface{
 	public void crearTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
 		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
 				+ "('" + jsons03.getDays().get(j).getNameFile() + "');");
+		}
+	
+	public void crearTrazabilidadG3(objetoJsonG3 jsong3, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + jsong3.getG3().get(j).getNameFile() + "');");
+		}
+	
+	public void crearTrazabilidadG3Diaria(objetoJsonG3S03 jsong3s03, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + jsong3s03.getDaysg3().get(j).getNameFile() + "');");
+		}
+	
+	public void crearTrazabilidadEventoMedidor(objetoJsonEventoMedidor evento, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + evento.getEventoMedidor().get(j).getNameFile() + "');");
+		}
+	
+	public void crearTrazabilidadEventoMedidorG3(objetoJsonEventoMedidorG3 evento, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + evento.getG3EventoMedidor().get(j).getNameFile() + "');");
+		}
+	
+	public void crearTrazabilidadEventoConcentrador(objetoJsonEventoConcentrador evento, int j) {
+		template.update("INSERT INTO Inpetel_Cloud.Trazabilidad (Nombre_reporte) VALUES\r\n"
+				+ "('" + evento.getEventoConcentrador().get(j).getNameFile() + "');");
 		}
 	
 	public List<Map<String,Object>> obtenerIdTrazabilidadS03(ObjetoJsonS03 jsons03, int j) {
@@ -1369,13 +1421,6 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 
-	public int crearEventoC(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
-		int value=0;			
-		value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
-						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
-	
-		return value;
-	}
 
 	@Override
 	public int crearEventoMedidorG3(objetoJsonEventoMedidorG3 evento) {
@@ -1383,13 +1428,29 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	
+	/**
+	 * 
+	 * @param resultado parametro con el id del medidor y el id de la trazabilidad
+	 * @param eventoC codigo del evento
+	 * @param fechas fecha
+	 * @param eventGroup grupo del evento
+	 * @param observacion D1, D2 etc.
+	 * @param evento objeto eventoMedidor
+	 * @param j referencia a cada archivo
+	 * @return si retorna 1, se crea el evento con exito, si retorna 4 es porque el medidor no se encuentra
+	 * en la base de datos.
+	 */
 	public int crearEventoMedidorG3Prueba(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
 		int value=0;
-		System.out.println(fechas.get(0));
-		//for (int i = 0; i < 2; i++) {
+		if(resultado.size() == 2) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento)\r\n "
-					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 239 + "','" + 60 + "', '" + idRegister.get(0)+ "', '" + valorRegister.get(0) + "');");
-		//}
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "','" + 60 + "', '" + idRegister.get(0)+ "', '" + valorRegister.get(0) + "');");
+			}
+		else {
+			System.out.println("no agrega");
+			value = 4;
+		}
 		return value;
 	}
 
@@ -1399,26 +1460,101 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	/**
+	 * 
+	 * @param resultado parametro con el id del medidor y el id de la trazabilidad
+	 * @param eventoC codigo del evento
+	 * @param fechas fecha
+	 * @param eventGroup grupo del evento
+	 * @param observacion D1, D2 etc.
+	 * @param evento objeto eventoMedidor
+	 * @param j referencia a cada archivo
+	 * @return si retorna 1, se crea el evento con exito, si retorna 4 es porque el medidor no se encuentra
+	 * en la base de datos.
+	 */
 	public int crearEventoM(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
 		int value=0;
+		if(resultado.size() == 2) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
-					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+			}
+		else {
+			value = 4;
+		}
 	
 		return value;
 	}
 	
+	/**
+	 * 
+	 * @param resultado parametro con el id del medidor y el id de la trazabilidad
+	 * @param eventoC codigo del evento
+	 * @param fechas fecha
+	 * @param eventGroup grupo del evento
+	 * @param observacion D1, D2 etc.
+	 * @param evento objeto eventoMedidor
+	 * @param j referencia a cada archivo
+	 * @return si retorna 1, se crea el evento con exito, si retorna 4 es porque el medidor no se encuentra
+	 * en la base de datos.
+	 */
 	public int crearEventoMedidorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
 		int value=0;
-		value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
-				+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+		if(resultado.size() == 3) {
+			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+			}
+		else {
+			value = 4;
+		}
 
 		return value;
 	}
 	
+	 /** 
+	 * @param resultado parametro con el id del concentrador y el id de la trazabilidad
+	 * @param eventoC codigo del evento
+	 * @param fechas fecha
+	 * @param eventGroup grupo del evento
+	 * @param observacion D1, D2 etc.
+	 * @param evento objeto eventoMedidor
+	 * @param j referencia a cada archivo
+	 * @return si retorna 1, se crea el evento con exito, si retorna 4 es porque el medidor no se encuentra
+	 * en la base de datos.
+	 */
+	public int crearEventoC(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
+		int value=0;
+		if(resultado.size() == 3) {
+			value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
+			}
+		else {
+			value = 4;
+		}
+	
+		return value;
+	}
+
+	
+	 /** 
+	 * @param resultado parametro con el id del concentrador y el id de la trazabilidad
+	 * @param eventoC codigo del evento
+	 * @param fechas fecha
+	 * @param eventGroup grupo del evento
+	 * @param observacion D1, D2 etc.
+	 * @param evento objeto eventoMedidor
+	 * @param j referencia a cada archivo
+	 * @return si retorna 1, se crea el evento con exito, si retorna 4 es porque el medidor no se encuentra
+	 * en la base de datos.
+	 */
 	public int crearEventoConcentradorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
-		int value=0;			
-		value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
-						+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + 174 + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+		int value=0;
+		if(resultado.size() == 2) {
+			value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
+			}
+		else {
+			value = 4;
+		}
 	
 		return value;
 	}

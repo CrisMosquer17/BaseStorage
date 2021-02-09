@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class objetoJsonEventoConcentrador {
 
 	 private String concentrator;
+	 private String nameFile;
 	 private ArrayList<Evento> eventos = new ArrayList<Evento>();
 	 private ArrayList<objetoJsonEventoConcentrador> eventoConcentrador = new ArrayList<objetoJsonEventoConcentrador>();
 	 
 	 
-	public objetoJsonEventoConcentrador(String concentrator, ArrayList<objetoJsonEventoConcentrador> eventoConcentrador, ArrayList<Evento> eventos) {
+	public objetoJsonEventoConcentrador(String concentrator,String nameFile, ArrayList<objetoJsonEventoConcentrador> eventoConcentrador, ArrayList<Evento> eventos) {
 		super();
 		this.concentrator = concentrator;
+		this.nameFile = nameFile;
 		this.eventoConcentrador = eventoConcentrador;
 		this.eventos = eventos;
 	}
@@ -19,6 +21,15 @@ public class objetoJsonEventoConcentrador {
 
 	public String getConcentrator() {
 		return concentrator;
+	}
+
+	public String getNameFile() {
+		return nameFile;
+	}
+
+
+	public void setNameFile(String nameFile) {
+		this.nameFile = nameFile;
 	}
 
 
@@ -36,7 +47,7 @@ public class objetoJsonEventoConcentrador {
 
 	@Override
 	public String toString() {
-		return "objetoJsonEventoConcentrador [concentrator=" + concentrator + ", eventos=" + eventos
+		return "objetoJsonEventoConcentrador [concentrator=" + concentrator + ", nameFile=" + nameFile + ", eventos=" + eventos
 				+ ", eventoConcentrador=" + eventoConcentrador + "]";
 	}
 

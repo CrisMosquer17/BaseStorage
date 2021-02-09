@@ -17,22 +17,6 @@ public class EliminarService implements EliminarInterface {
 	@Autowired
 	EliminarDao dao;
 
-	/*@Override
-	public boolean deleteMedidor(Long id) {
-		return false;
-	}*/
-
-	/*@Override
-	public boolean deleteConcentrador(Long id) {
-		return false;
-	}*/
-
-
-	/*@Override
-	public boolean deleteMedidas(Long id) {
-		return false;
-	}*/
-
 	@Override
 	public int eliminarSistemaExterno( SistemExterno se, Long id) {
 		return dao.eliminarSistemaExterno(se,id);

@@ -1257,17 +1257,42 @@ public class InsercionService implements InsercionInterface {
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
 
-		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
-		for (Map<String, Object> map : idProfile) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
+//		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
+//		for (Map<String, Object> map : idProfile) {
+//			for (Map.Entry<String, Object> entry : map.entrySet()) {
+//				Object value = entry.getValue();
+//				resultado.add(value);
+//			}
+//		}
+		
+		String trazaID = "";
+		
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadMedidaG3(jsong3, j);
+		if(idTrazabilidad.size() > 0) {
+			for (Map<String, Object> map : idTrazabilidad) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
 			}
+			trazaID = resultado.get(1).toString();
+//			medidaResultado.add(trazaID);
+		}
+		else {
+			
+			dao.crearTrazabilidadG3(jsong3, j);
+			
+			//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+			List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadMedidaG3(jsong3, j);
+			for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+				trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+			}
+
 		}
 		
-
+		//agregando el id de la consulta de la trazabilidad
+		medidaResultado.add(trazaID);
 		
-
 		return medidaResultado;
 	}
 	
@@ -1385,14 +1410,43 @@ public class InsercionService implements InsercionInterface {
 		}
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
-
-		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
-		for (Map<String, Object> map : idProfile) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
+		
+//		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
+//		for (Map<String, Object> map : idProfile) {
+//			for (Map.Entry<String, Object> entry : map.entrySet()) {
+//				Object value = entry.getValue();
+//				resultado.add(value);
+//			}
+//		}
+		
+		
+		String trazaID = "";
+		
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadMedidaG3Diaria(jsong3s03, j);
+		if(idTrazabilidad.size() > 0) {
+			for (Map<String, Object> map : idTrazabilidad) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
 			}
+			trazaID = resultado.get(1).toString();
+//			medidaResultado.add(trazaID);
 		}
+		else {
+			
+			dao.crearTrazabilidadG3Diaria(jsong3s03, j);
+			
+			//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+			List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadMedidaG3Diaria(jsong3s03, j);
+			for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+				trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+			}
+
+		}
+		//agregando el id de la consulta de la trazabilidad
+		medidaResultado.add(trazaID);
+		
 		
 
 		
@@ -1514,8 +1568,42 @@ public class InsercionService implements InsercionInterface {
 		}
 		//serial concentrador
 		if(resultado.size() > 0) {
+			//serial medidor
 			medidaResultado.add(resultado.get(0).toString());
-		}
+
+			//agregando el id de la consulta de la trazabilidad
+			String trazaID = "";
+			
+			List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadEventoConcentrador(evento, j);
+			if(idTrazabilidad.size() > 0) {
+				for (Map<String, Object> map : idTrazabilidad) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+				trazaID = resultado.get(1).toString();
+			//	medidaResultado.add(trazaID);
+			}
+			else {
+			
+				dao.crearTrazabilidadEventoConcentrador(evento, j);
+			
+				//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+				List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadEventoConcentrador(evento, j);
+				for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+					trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+				}
+
+			}
+			
+			//id de trazabilidad
+			medidaResultado.add(trazaID);
+			}
+			else{
+				System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
+
+			}
 		
 		return medidaResultado;
 	}
@@ -1631,10 +1719,44 @@ public class InsercionService implements InsercionInterface {
 				}
 			}
 		}
-		//serial medidor
 		if(resultado.size() > 0) {
-			medidaResultado.add(resultado.get(0).toString());
+		//serial medidor
+		medidaResultado.add(resultado.get(0).toString());
+
+		//agregando el id de la consulta de la trazabilidad
+		String trazaID = "";
+		
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadEventoMedidor(evento, j);
+		if(idTrazabilidad.size() > 0) {
+			for (Map<String, Object> map : idTrazabilidad) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
 			}
+			trazaID = resultado.get(1).toString();
+			//medidaResultado.add(trazaID);
+		}
+		else {
+		
+			dao.crearTrazabilidadEventoMedidor(evento, j);
+		
+			//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+			List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadEventoMedidor(evento, j);
+			for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+				trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+			}
+
+			//id de trazabilidad
+		}
+		medidaResultado.add(trazaID);
+		
+		}
+		else{
+			System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
+
+		}
+		
 		
 		return medidaResultado;
 	}
@@ -1718,10 +1840,6 @@ public class InsercionService implements InsercionInterface {
 			}
 			}
 
-		
-		
-
-
 		return medidaCreada;
 	}
 	
@@ -1741,10 +1859,39 @@ public class InsercionService implements InsercionInterface {
 		}
 		//serial medidor
 		if(resultado.size() > 0) {
+			//serial medidor
 			medidaResultado.add(resultado.get(0).toString());
-			}
-		
 
+			//agregando el id de la consulta de la trazabilidad
+			String trazaID = "";
+			
+			List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadEventoMedidorG3(evento, j);
+			if(idTrazabilidad.size() > 0) {
+				for (Map<String, Object> map : idTrazabilidad) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+				trazaID = resultado.get(1).toString();
+				//medidaResultado.add(trazaID);
+			}
+			else {
+			
+				dao.crearTrazabilidadEventoMedidorG3(evento, j);
+			
+				//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+				List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadEventoMedidorG3(evento, j);
+				for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+					trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+				}
+
+			}
+			//id de trazabilidad
+			medidaResultado.add(trazaID);
+			
+		
+		}
 //		List<Map<String, Object>> idProfile = dao.obtenerIdProfileEventoMedidorG3(evento, j);
 //		for (Map<String, Object> map : idProfile) {
 //			for (Map.Entry<String, Object> entry : map.entrySet()) {

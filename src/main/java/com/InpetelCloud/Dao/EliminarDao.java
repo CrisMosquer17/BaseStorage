@@ -19,12 +19,24 @@ public class EliminarDao implements EliminarInterface {
 	@Override
 	public int eliminarSistemaExterno(SistemExterno se, Long id) {
 		int value = 0;
-		if(se.getObservacion().equals("")) {
-			System.out.println(value);
-			return value;
-		}else {
-			value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set States_ID = 2 where ID="+ id +";");
-			}
+		
+		if(se.getEstadoId().equals("") && !se.getObservacion().equals("")) {
+			//3 significa que o el estado id es vacio o la observacion es vacio
+			value = 3;
+		}
+		else if (!se.getEstadoId().equals("") && se.getObservacion().equals("")) {
+			value = 3;
+		}
+		else if (se.getEstadoId().equals("") && se.getObservacion().equals("")) {
+			value = 3;
+		}
+		else {
+			
+			value = template.update("UPDATE Inpetel_Cloud.SistemaExteno set States_ID = '" + se.getEstadoId() + "' where ID="+ id +";");
+			
+		}
+		
+		
 		return value;
 	}
 	
@@ -84,13 +96,25 @@ public class EliminarDao implements EliminarInterface {
 
 	@Override
 	public int eliminarTransformador(Transformador transformador, Long id) {
-		int value;
-		if(transformador.getObservacion().equals("")) {
-			value=0;
+		int value = 0;
+		
+		if(transformador.getEstadoId().equals("") && !transformador.getObservacion().equals("")) {
+			//3 significa que o el estado id es vacio o la observacion es vacio
+			value = 3;
+		}
+		else if (!transformador.getEstadoId().equals("") && transformador.getObservacion().equals("")) {
+			value = 3;
+		}
+		else if (transformador.getEstadoId().equals("") && transformador.getObservacion().equals("")) {
+			value = 3;
 		}
 		else {
-			 value = template.update("UPDATE Inpetel_Cloud.Transformador set States_ID =2, Observacion='"+ transformador.getObservacion() + "' where ID="+ id +";");
-			}
+			
+			value = template.update("UPDATE Inpetel_Cloud.Transformador set States_ID = '" + transformador.getEstadoId() + "' where ID="+ id +";");
+			
+		}
+		
+		
 		return value;
 	}
 
@@ -102,26 +126,49 @@ public class EliminarDao implements EliminarInterface {
 
 	@Override
 	public int eliminarMedidor(modelMeter medidor, Long id) {
-		int value;
-		if(medidor.getObservacion().equals("")) {
-			value=0;
+int value = 0;
+		
+		if(medidor.getEstadoId().equals("") && !medidor.getObservacion().equals("")) {
+			//3 significa que o el estado id es vacio o la observacion es vacio
+			value = 3;
+		}
+		else if (!medidor.getEstadoId().equals("") && medidor.getObservacion().equals("")) {
+			value = 3;
+		}
+		else if (medidor.getEstadoId().equals("") && medidor.getObservacion().equals("")) {
+			value = 3;
 		}
 		else {
-			value = template.update("UPDATE Inpetel_Cloud.Medidor set States_ID =2, Observacion='"+ medidor.getObservacion() + "' where ID="+ id +";");
-			}
-
+			
+			value = template.update("UPDATE Inpetel_Cloud.Medidor set States_ID = '" + medidor.getEstadoId() + "' where ID="+ id +";");
+			
+		}
+		
+		
 		return value;
 	}
 
 	@Override
 	public int eliminarConcentrador(modelConcentrator concentrador, Long id) {
-		int value=0;
-		if(concentrador.getObservacion().equals("")) {
-			value=0;
+int value = 0;
+		
+		if(concentrador.getEstadoId().equals("") && !concentrador.getObservacion().equals("")) {
+			//3 significa que o el estado id es vacio o la observacion es vacio
+			value = 3;
+		}
+		else if (!concentrador.getEstadoId().equals("") && concentrador.getObservacion().equals("")) {
+			value = 3;
+		}
+		else if (concentrador.getEstadoId().equals("") && concentrador.getObservacion().equals("")) {
+			value = 3;
 		}
 		else {
-			value = template.update("UPDATE Inpetel_Cloud.Concentrador set States_ID =2, Observacion='"+ concentrador.getObservacion() + "' where ID="+ id +";");
-			}
+			
+			value = template.update("UPDATE Inpetel_Cloud.Concentrador set States_ID = '" + concentrador.getEstadoId() + "' where ID="+ id +";");
+			
+		}
+		
+		
 		return value;
 	}
 

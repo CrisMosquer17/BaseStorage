@@ -6,16 +6,18 @@ public class objetoJsonG3S03 {
 
 	private String meter;
 	private String idProfile;
+	private String nameFile;
 	private ArrayList<modelRegister> register = new ArrayList<modelRegister>();
 	//nombre del arreglo para medidas de g3 por horas
 	private ArrayList<objetoJsonG3> daysg3 = new ArrayList<>();
 	
 	
-	public objetoJsonG3S03(String meter, String idProfile, ArrayList<modelRegister> register,
+	public objetoJsonG3S03(String meter, String idProfile,String nameFile, ArrayList<modelRegister> register,
 			ArrayList<objetoJsonG3> daysg3) {
 		super();
 		this.meter = meter;
 		this.idProfile = idProfile;
+		this.nameFile = nameFile;
 		this.register = register;
 		this.daysg3 = daysg3;
 	}
@@ -31,6 +33,16 @@ public class objetoJsonG3S03 {
 	}
 
 
+	public String getNameFile() {
+		return nameFile;
+	}
+
+
+	public void setNameFile(String nameFile) {
+		this.nameFile = nameFile;
+	}
+
+
 	public ArrayList<modelRegister> getRegister() {
 		return register;
 	}
@@ -43,7 +55,7 @@ public class objetoJsonG3S03 {
 
 	@Override
 	public String toString() {
-		return "objetoJsonG3S03 [meter=" + meter + ", idProfile=" + idProfile + ", register=" + register + ", daysg3="
+		return "objetoJsonG3S03 [meter=" + meter + ", idProfile=" + idProfile + ", nameFile=" + nameFile + ", register=" + register + ", daysg3="
 				+ daysg3 + "]";
 	}
 	
