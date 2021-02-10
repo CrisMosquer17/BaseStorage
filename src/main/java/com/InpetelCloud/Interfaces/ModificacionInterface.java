@@ -2,6 +2,7 @@ package com.InpetelCloud.Interfaces;
 
 
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -55,6 +56,8 @@ public interface ModificacionInterface {
 		
 	//Metodo para modificar un estado
 	public int modificarEstado(Long id, Estados estado);
+	
+	public int modificarCyR(CyR cyr);
 	
 	//Metodo para modificar un transformador
 	public int modificarTransformador(Long id, Transformador transformador);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Evento;
 import com.InpetelCloud.Model.Ftp;
@@ -108,6 +109,12 @@ public class InsercionController {
 	@CrossOrigin(origins = "*")
 	public int crearEstado(@RequestBody Estados estado) {
 		return service.crearEstado(estado);
+	}
+	
+	@PostMapping("/crearCyR/")
+	@CrossOrigin(origins = "*")
+	public int crearCyR(@RequestBody CyR cyr) {
+		return service.crearCyR(cyr);
 	}
 	
 	@PostMapping("/crearTransformador/")

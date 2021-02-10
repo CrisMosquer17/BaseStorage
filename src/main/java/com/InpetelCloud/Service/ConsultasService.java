@@ -159,6 +159,11 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> Estados() {
 		return dao.Estados();
 	}
+	
+	@Override
+	public List<Map<String, Object>> CortesReconeccion() {
+		return dao.CortesReconeccion();
+	}
 
 	@Override
 	public List<Map<String, Object>> Transformadores() {
@@ -282,6 +287,8 @@ public class ConsultasService implements ConsultasInterface {
 	public boolean SistemasExternos(SistemExterno se) {
 		return dao.SistemasExternos(se);
 	}
+
+
 
 
 

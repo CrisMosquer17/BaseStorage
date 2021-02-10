@@ -190,6 +190,12 @@ public class ConsultasController {
 		return service.Estados();
 	}
 	
+	@GetMapping("/verCyR")
+	@CrossOrigin(origins="*")
+	public List<Map<String,Object>> CortesReconeccion(){
+		return service.CortesReconeccion();
+	}
+	
 	@GetMapping("/verTransformadores")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> Transformadores(){

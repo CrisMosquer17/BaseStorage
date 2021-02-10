@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -92,6 +93,26 @@ public class ModificacionDao implements ModificacionInterface{
 		int value = template.update("UPDATE Inpetel_Cloud.Estados set Nombre_Est='"+ estado.getNombre() +  "' where ID="+ id +";");
 		return value;
 	}
+	
+	@Override
+	public int modificarCyR(CyR cyr) {
+		int value = template.update("UPDATE Inpetel_Cloud.Corte_Reconeccion set Valor_envio='"+ cyr.getValorEnvio() +"', Estado_Final = '"+ cyr.getEstadoFinal() +"', Estado_Peticion ='"+ cyr.getEstadoPeticion() +"',\r\n"
+				+ " Fecha_fin = now() where ID_Met = '"+ cyr.getIdMet() +"' and Estado_Peticion = '1';");
+		
+		return value;
+	}
+	
+	public ArrayList<String> idMedidor(String metS) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Medidor WHERE Serial='"+ metS +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+
 
 	@Override
 	public int modificarTransformador(Long id, Transformador transformador) {

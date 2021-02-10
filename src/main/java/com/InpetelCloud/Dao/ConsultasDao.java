@@ -248,6 +248,12 @@ public class ConsultasDao implements ConsultasInterface{
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Estados");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> CortesReconeccion() {
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Corte_Reconeccion");
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> Transformadores() {
@@ -352,6 +358,8 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
+
+
 
 	
 }

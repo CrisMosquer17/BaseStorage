@@ -1,5 +1,7 @@
 package com.InpetelCloud.Service;
 
+import java.util.ArrayList;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -87,6 +90,19 @@ public class ModificacionService implements ModificacionInterface{
 	public int modificarEstado(Long id, Estados estado) {
 		return dao.modificarEstado(id, estado);
 	}
+	
+	@Override
+	public int modificarCyR(CyR cyr) {
+		ArrayList<String> idMet = new ArrayList<String>();
+		idMet = dao.idMedidor(cyr.getIdMet());
+		if(idMet.size() > 0) {
+			cyr.setIdMet(idMet.get(0));
+			}
+		else {
+			System.out.println("El medidor no se encuentra en la base de datos");
+		}
+		return dao.modificarCyR(cyr);
+	}
 
 	@Override
 	public int modificarTransformador(Long id, Transformador transformador) {
@@ -124,6 +140,6 @@ public class ModificacionService implements ModificacionInterface{
 		return dao.modificarMedidorVista(id, medidor);
 	}
 
-
+	
 
 }

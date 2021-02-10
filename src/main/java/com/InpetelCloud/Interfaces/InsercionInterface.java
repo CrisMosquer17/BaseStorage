@@ -2,6 +2,7 @@ package com.InpetelCloud.Interfaces;
 
 
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -63,6 +64,8 @@ public interface InsercionInterface {
 		
 	// Metodo para crear un estado
 	public int crearEstado(Estados estado);
+	
+	public int crearCyR(CyR cyr);
 	
 	//Metodo para crear un transformador
 	public int crearTransformador(Transformador transformador); 

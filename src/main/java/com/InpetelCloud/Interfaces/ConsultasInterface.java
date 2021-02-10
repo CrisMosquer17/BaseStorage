@@ -75,6 +75,8 @@ public interface ConsultasInterface {
 	
 	public List<Map<String, Object>> Ftps();
 	
+	public List<Map<String, Object>> CortesReconeccion();
+	
 	public List<Map<String, Object>> medidoresNoAsociados();
 	
 	public List<Map<String, Object>> ModemsNoAsociados();

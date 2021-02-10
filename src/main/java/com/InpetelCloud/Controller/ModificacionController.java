@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -90,6 +91,12 @@ public class ModificacionController {
 	@CrossOrigin(origins="*")
 	public void modificarEstado(@PathVariable Long id, @RequestBody Estados estado) {
 		service.modificarEstado(id, estado);
+	}
+	
+	@PutMapping("modificarCyR")
+	@CrossOrigin(origins="*")
+	public void modificarCyR(@RequestBody CyR cyr) {
+		service.modificarCyR(cyr);
 	}
 
 	@PutMapping("modificarTransformador/{id}")

@@ -16,6 +16,7 @@ import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -118,6 +119,19 @@ public class InsercionService implements InsercionInterface {
 	@Override
 	public int crearEstado(Estados estado) {
 		return dao.crearEstado(estado);
+	}
+	
+	@Override
+	public int crearCyR(CyR cyr) {
+		ArrayList<String> idMet = new ArrayList<String>();
+		idMet = dao.idMedidor(cyr.getIdMet());
+		if(idMet.size() > 0) {
+			cyr.setIdMet(idMet.get(0));
+			}
+		else {
+			System.out.println("El medidor no se encuentra en la base de datos");
+		}
+		return dao.crearCyR(cyr);
 	}
 
 	@Override
@@ -1968,5 +1982,7 @@ public class InsercionService implements InsercionInterface {
 		
 		return crea;
 	}
+
+	
 
 }

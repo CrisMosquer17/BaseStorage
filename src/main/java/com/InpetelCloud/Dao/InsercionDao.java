@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
@@ -509,6 +510,45 @@ public class InsercionDao implements InsercionInterface{
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`EstadoPeticion` (\r\n"
+					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Nombre` VARCHAR(150) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Corte_Reconeccion` (\r\n"
+					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `ID_Met` INT(11) NOT NULL,\r\n"
+					+ "  `Valor_envio` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Estado_Final` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Estado_Peticion` INT(11) NOT NULL,\r\n"
+					+ "  `Usu_crea` INT(11) NOT NULL,\r\n"
+					+ "  `Fecha_inicio` DATETIME NULL DEFAULT NULL,\r\n"
+					+ "  `Fecha_fin` DATETIME NULL DEFAULT NULL,\r\n"
+					+ "  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`),\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_Medidor1_idx` (`ID_Met` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_Usuarios_idx` (`Usu_crea` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_EstadoPeticion_idx` (`Estado_Peticion` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_Medidor1`\r\n"
+					+ "    FOREIGN KEY (`ID_Met`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Medidor` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_Usuarios`\r\n"
+					+ "    FOREIGN KEY (`Usu_crea`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_EstadoPeticion`\r\n"
+					+ "    FOREIGN KEY (`Estado_Peticion`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`EstadoPeticion` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION)\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
 		}catch(Exception ex) {
 			System.out.println(ex);
 		}
@@ -588,6 +628,13 @@ public class InsercionDao implements InsercionInterface{
 	public int crearEstado(Estados estado) {
 		int value = template.update(" INSERT INTO Inpetel_Cloud.Estados (Nombre_Est)\r\n "
 				+ "VALUES ('" + estado.getNombre() + "');");
+		return value;
+	}
+	
+	@Override
+	public int crearCyR(CyR cyr) {
+		int value = template.update("INSERT INTO Inpetel_Cloud.Corte_Reconeccion (ID_Met,Valor_envio,Estado_Peticion, Usu_crea, Fecha_inicio, Descripcion )\r\n"
+				+ "VALUES ('"+ cyr.getIdMet() +"', '"+ cyr.getValorEnvio() +"', '1', '"+ cyr.getUsuCrea() +"', now(), '"+ cyr.getDescripcion() +"');");
 		return value;
 	}
 	
@@ -1591,6 +1638,8 @@ public class InsercionDao implements InsercionInterface{
 		}
 		return existe;
 	}
+
+
 	
 	
 	
