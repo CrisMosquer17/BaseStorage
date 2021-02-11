@@ -80,6 +80,16 @@ public interface ConsultasInterface {
 	public List<Map<String, Object>> medidoresNoAsociados();
 	
 	public List<Map<String, Object>> ModemsNoAsociados();
+	
+	//TRANSFORMADORES ASOCIADOS A UN CNC
+	public List<Map<String, Object>> trafosCnc();
+	
+	//TODOS LOS MEDIDORES ASOCIADOS A CONCENTRADORES
+	public List<Map<String, Object>> medidoresCnc();
+	
+	//TODOS LOS MEDIDORES DE UN SOLO CONCENTRADOR
+	public List<Map<String, Object>> medidoresDeUnCnc(String serialCnc);
+	
 
 	public boolean validarSerialConcentrador(String cnc);
 	

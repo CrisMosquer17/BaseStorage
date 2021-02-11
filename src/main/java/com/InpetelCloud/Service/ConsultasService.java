@@ -288,6 +288,21 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.SistemasExternos(se);
 	}
 
+	@Override
+	public List<Map<String, Object>> trafosCnc() {
+		return dao.trafosCnc();
+	}
+
+	@Override
+	public List<Map<String, Object>> medidoresCnc() {
+		return dao.medidoresCnc();
+	}
+
+	@Override
+	public List<Map<String, Object>> medidoresDeUnCnc(String serialCnc) {
+		return dao.medidoresDeUnCnc(serialCnc);
+	}
+
 
 
 

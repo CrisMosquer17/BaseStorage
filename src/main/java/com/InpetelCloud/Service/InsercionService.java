@@ -589,20 +589,41 @@ public class InsercionService implements InsercionInterface {
 		}
 
 		// crea el registro en la tabla asociacion de medidor con concentrador
-
-		dao.crearAsociacionCncMet(resultado);
-
-		// creo tabla de trazabilidad con el nameFile
-		dao.crearTrazabilidad(json, j);
-
-		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidad(json, j);
-		for (Map<String, Object> map : idTrazabilidad) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
-			}
+		
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
-		medidaResultado.add(resultado.get(2).toString());
+		else {
+			dao.crearAsociacionCncMet(resultado);
+			
+		}
+		
+		String trazaID = "";
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidad(json, j);
+		if(idTrazabilidad.size() > 0) {
+			for (Map<String, Object> map : idTrazabilidad) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			trazaID = resultado.get(2).toString();
+//			medidaResultado.add(trazaID);
+		}
+		else {
+			
+			dao.crearTrazabilidad(json, j);
+			
+			//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+			List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidad(json, j);
+			for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+				trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+			}
+
+		}
+		
+		medidaResultado.add(trazaID);
 
 		return medidaResultado;
 	}
@@ -1064,19 +1085,39 @@ public class InsercionService implements InsercionInterface {
 
 		// crea el registro en la tabla asociacion de medidor con concentrador
 
-		dao.crearAsociacionCncMet(resultado);
-
-		// creo tabla de trazabilidad con el nameFile
-		dao.crearTrazabilidadS03(jsons03, j);
-
-		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadS03(jsons03, j);
-		for (Map<String, Object> map : idTrazabilidad) {
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				Object value = entry.getValue();
-				resultado.add(value);
-			}
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
-		medidaResultado.add(resultado.get(2).toString());
+		else {
+			dao.crearAsociacionCncMet(resultado);
+			
+		}
+		String trazaID = "";
+		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadS03(jsons03, j);
+		if(idTrazabilidad.size() > 0) {
+			for (Map<String, Object> map : idTrazabilidad) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+			trazaID = resultado.get(2).toString();
+//			medidaResultado.add(trazaID);
+		}
+		else {
+			
+			// creo tabla de trazabilidad con el nameFile
+			dao.crearTrazabilidadS03(jsons03, j);
+			
+			//una vez creado el id de la trazabilidad, se vuelve a consultar para 
+			List<Map<String, Object>> validarIdTrazabilidad = dao.obtenerIdTrazabilidadS03(jsons03, j);
+			for (int i = 0; i < validarIdTrazabilidad.size(); i++) {
+				trazaID = validarIdTrazabilidad.get(0).get("ID").toString();
+			}
+
+		}
+		medidaResultado.add(trazaID);
 
 		return medidaResultado;
 	}
@@ -1210,6 +1251,8 @@ public class InsercionService implements InsercionInterface {
 		String fecha = "";
 		String horaInicio = "";
 		String horaFin = "";
+		
+		System.out.println(jsong3.toString());
 		
 		for (int j = 0; j < jsong3.getG3().size(); j++) {
 			resultado=validarCreacionMedidasG3(jsong3, j);

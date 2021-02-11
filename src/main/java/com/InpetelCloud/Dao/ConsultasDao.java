@@ -251,7 +251,21 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> CortesReconeccion() {
-		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Corte_Reconeccion");
+		List<Map<String,Object>>view = template.queryForList("SELECT\r\n"
+				+ "\r\n"
+				+ "IC.Ip_real,IC.user,IC.pass,\r\n"
+				+ "\r\n"
+				+ "IM.ID as IDMETER,IM.Serial as METER,IM.logicalName,IM.Marca_ID,\r\n"
+				+ "\r\n"
+				+ "IR.Valor_envio,IR.ID IDPETICION\r\n"
+				+ "\r\n"
+				+ "FROM\r\n"
+				+ "\r\n"
+				+ "Inpetel_Cloud.Corte_Reconeccion IR,Inpetel_Cloud.Concentrador IC,Inpetel_Cloud.Medidor IM,\r\n"
+				+ "\r\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor ACM  WHERE\r\n"
+				+ "\r\n"
+				+ "IR.ID_Met=IM.ID AND IR.Estado_Peticion=1 AND ACM.Concentrador_ID=IC.ID AND ACM.Medidor_ID=IM.ID;");
 		return view;
 	}
 
@@ -353,11 +367,54 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "( SELECT Modem_ID FROM Inpetel_Cloud.Concentrador);");
 		return view;
 	}
+	
+	
+	@Override
+	public List<Map<String, Object>> trafosCnc() {
+		List<Map<String,Object>>view = template.queryForList("SELECT TF.Codigo as CodigoTF, CNC.Serial FROM Inpetel_Cloud.Transformador TF,\r\n"
+				+ " Inpetel_Cloud.Concentrador CNC WHERE TF.Concentrador_ID = CNC.ID;");
+		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> medidoresCnc() {
+		List<Map<String,Object>>view = template.queryForList("SELECT CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
+				+ "CNC.user, CNC.pass,\r\n"
+				+ "MET.Serial AS MET_Serial,\r\n"
+				+ "MET.logicalName\r\n"
+				+ " FROM \r\n"
+				+ "Inpetel_Cloud.Concentrador CNC,\r\n"
+				+ "Inpetel_Cloud.Medidor MET,\r\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor ACM where ACM.Concentrador_ID = CNC.ID\r\n"
+				+ "AND ACM.Medidor_ID = MET.ID;");
+		return view;
+	}
+	
+	@Override
+	public List<Map<String, Object>> medidoresDeUnCnc(String serialCnc) {
+		List<Map<String,Object>>view = template.queryForList("SELECT CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
+				+ "CNC.user, CNC.pass,\r\n"
+				+ "MET.Serial AS MET_Serial,\r\n"
+				+ "MET.logicalName\r\n"
+				+ " FROM \r\n"
+				+ "Inpetel_Cloud.Concentrador CNC,\r\n"
+				+ "Inpetel_Cloud.Medidor MET,\r\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor ACM where ACM.Concentrador_ID = CNC.ID\r\n"
+				+ "AND ACM.Medidor_ID = MET.ID\r\n"
+				+ "AND CNC.Serial = '"+ serialCnc + "';");
+		return view;
+	}
+
 
 
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
+
+	
+
+	
+	
 
 
 

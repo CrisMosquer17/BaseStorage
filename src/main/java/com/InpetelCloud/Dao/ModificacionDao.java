@@ -96,8 +96,8 @@ public class ModificacionDao implements ModificacionInterface{
 	
 	@Override
 	public int modificarCyR(CyR cyr) {
-		int value = template.update("UPDATE Inpetel_Cloud.Corte_Reconeccion set Valor_envio='"+ cyr.getValorEnvio() +"', Estado_Final = '"+ cyr.getEstadoFinal() +"', Estado_Peticion ='"+ cyr.getEstadoPeticion() +"',\r\n"
-				+ " Fecha_fin = now() where ID_Met = '"+ cyr.getIdMet() +"' and Estado_Peticion = '1';");
+		int value = template.update("UPDATE Inpetel_Cloud.Corte_Reconeccion set Estado_Final = '"+ cyr.getStatus_end() +"', Estado_Peticion ='"+ cyr.getStatus_petition() +"',\r\n"
+				+ " Fecha_fin = now() where ID = '"+ cyr.getIdpetition() +"' and Estado_Peticion = '1';");
 		
 		return value;
 	}

@@ -8,15 +8,15 @@ import javax.persistence.Id;
 public class CyR {
 	
 	@Id
-	private int id;
+	private int idpetition;
 	
 	private String idMet;
 	
 	private String valorEnvio;
 	
-	private String estadoFinal;
+	private String status_end;
 	
-	private String estadoPeticion;
+	private String status_petition;
 	
 	private String usuCrea;
 	
@@ -30,9 +30,9 @@ public class CyR {
 	}
 	
 	//PARA INSERTAR
-	public CyR(int id, String idMet, String valorEnvio, String usuCrea, String descripcion) {
+	public CyR(int idpetition, String idMet, String valorEnvio, String usuCrea, String descripcion) {
 		super();
-		this.id = id;
+		this.idpetition = idpetition;
 		this.idMet = idMet;
 		this.valorEnvio = valorEnvio;
 		this.usuCrea = usuCrea;
@@ -40,12 +40,24 @@ public class CyR {
 	}
 
 	//PARA UPDATE
-	public CyR(String idMet, String valorEnvio, String estadoFinal, String estadoPeticion) {
+	public CyR(int idpetition, String valorEnvio, String status_end, String status_petition) {
 		super();
-		this.idMet = idMet;
+		this.idpetition =idpetition;
 		this.valorEnvio = valorEnvio;
-		this.estadoFinal = estadoFinal;
-		this.estadoPeticion = estadoPeticion;
+		this.status_end = status_end;
+		this.status_petition = status_petition;
+	}
+	
+	
+
+	
+
+	public int getIdpetition() {
+		return idpetition;
+	}
+
+	public void setIdpetition(int idpetition) {
+		this.idpetition = idpetition;
 	}
 
 	public String getIdMet() {
@@ -64,20 +76,21 @@ public class CyR {
 		this.valorEnvio = valorEnvio;
 	}
 
-	public String getEstadoFinal() {
-		return estadoFinal;
+
+	public String getStatus_end() {
+		return status_end;
 	}
 
-	public void setEstadoFinal(String estadoFinal) {
-		this.estadoFinal = estadoFinal;
+	public void setStatus_end(String status_end) {
+		this.status_end = status_end;
 	}
 
-	public String getEstadoPeticion() {
-		return estadoPeticion;
+	public String getStatus_petition() {
+		return status_petition;
 	}
 
-	public void setEstadoPeticion(String estadoPeticion) {
-		this.estadoPeticion = estadoPeticion;
+	public void setStatus_petition(String status_petition) {
+		this.status_petition = status_petition;
 	}
 
 	public String getUsuCrea() {

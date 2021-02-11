@@ -835,6 +835,18 @@ public class InsercionDao implements InsercionInterface{
 		return idAsociacionmed;
 	}
 	
+	public ArrayList<String> validarSerialCncTablaAsociacion(String idMet, String idCnc) {
+		ArrayList<String> idAsociacionmed = new ArrayList<String>();
+
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Asoc_concen_medidor where Concentrador_ID='"+ idCnc +"' and Medidor_ID='"+ idMet +"' ;");
+		if(asociacion.size() == 1) {
+			for (int i = 0; i < asociacion.size(); i++) {
+				idAsociacionmed.add(asociacion.get(i).get("ID").toString());
+			}
+		}
+		return idAsociacionmed;
+	}
+	
 	/**
 	 * 
 	 * @param idConcentrador id del concentrador
@@ -965,6 +977,12 @@ public class InsercionDao implements InsercionInterface{
 		ArrayList<String> concentrador = serialesConcentrador(medidor);
 		ArrayList<String> medidorS = serialesMedidor(medidor);
 		int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+concentrador.get(0)+"', Medidor_ID='"+medidorS.get(0)+"', Fh_update=now(), Usu_update='"+56+"'   where ID="+ id +";");
+
+		return value;
+	}
+	
+	public int updateAsoCncMet(String idMet, String idCnc, String id) {
+		int value= template.update("UPDATE Inpetel_Cloud.Asoc_concen_medidor set Concentrador_ID='"+idCnc+"', Medidor_ID='"+idMet+"', Fh_update=now(), Usu_update='"+56+"'   where ID="+ id +";");
 
 		return value;
 	}

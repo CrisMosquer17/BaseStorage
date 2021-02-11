@@ -267,6 +267,26 @@ public class ConsultasController {
 	public List<Map<String,Object>>metSerial(@PathVariable String metS){
 		return service.metSerial(metS);
 	}
+	
+	@GetMapping("/verTrafoCnc")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> trafosCnc(){
+		return service.trafosCnc();
+	}
+	
+	@GetMapping("/verMedidoresCnc")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> medidoresCnc(){
+		return service.medidoresCnc();
+	}
+	
+	@GetMapping("/verMedidoresDeUnCnc/{serialCnc}")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> medidoresDeUnCnc(@PathVariable String serialCnc){
+		return service.medidoresDeUnCnc(serialCnc);
+	}
+	
+	
 	@PostMapping("/users/login")
 	@CrossOrigin(origins="*")
 	public boolean login(@RequestBody Usuarios u) {
