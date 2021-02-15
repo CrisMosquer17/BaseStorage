@@ -252,19 +252,12 @@ public class ConsultasDao implements ConsultasInterface{
 	@Override
 	public List<Map<String, Object>> CortesReconeccion() {
 		List<Map<String,Object>>view = template.queryForList("SELECT\r\n"
-				+ "\r\n"
-				+ "IC.Ip_real,IC.user,IC.pass,\r\n"
-				+ "\r\n"
+				+ "IC.Ip_real,IC.user,IC.pass,ACM.ID,\r\n"
 				+ "IM.ID as IDMETER,IM.Serial as METER,IM.logicalName,IM.Marca_ID,\r\n"
-				+ "\r\n"
-				+ "IR.Valor_envio,IR.ID IDPETICION\r\n"
-				+ "\r\n"
+				+ "IR.Valor_envio,IR.ID IDPETICION,IC.Serial,IC.NombreConcentrador,IC.version\r\n"
 				+ "FROM\r\n"
-				+ "\r\n"
 				+ "Inpetel_Cloud.Corte_Reconeccion IR,Inpetel_Cloud.Concentrador IC,Inpetel_Cloud.Medidor IM,\r\n"
-				+ "\r\n"
 				+ "Inpetel_Cloud.Asoc_concen_medidor ACM  WHERE\r\n"
-				+ "\r\n"
 				+ "IR.ID_Met=IM.ID AND IR.Estado_Peticion=1 AND ACM.Concentrador_ID=IC.ID AND ACM.Medidor_ID=IM.ID;");
 		return view;
 	}

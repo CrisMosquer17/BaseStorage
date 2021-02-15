@@ -50,6 +50,13 @@ public class objetoJsonEventoMedidor {
 	public void setNameFile(String nameFile) {
 		this.nameFile = nameFile;
 	}
+
+
+	@Override
+	public String toString() {
+		return "objetoJsonEventoMedidor [concentrator=" + concentrator + ", meter=" + meter + ", nameFile=" + nameFile
+				+ ", eventos=" + eventos + ", eventoMedidor=" + eventoMedidor + "]";
+	}
 	
 	
 

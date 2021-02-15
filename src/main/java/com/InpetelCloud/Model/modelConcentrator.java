@@ -20,6 +20,7 @@ public class modelConcentrator {
 	private String brand;
 	private String pass;
 	private String user;
+	private String version;
 	private String estadoId;
 	private String observacion;
 
@@ -33,7 +34,7 @@ public class modelConcentrator {
 
 
 	public modelConcentrator(String ipReal, String concentrator, String tipoComunicacionId, String imei, String serial,
-			String tiempoConectadoId, String modemEmbebidoId, String ioModule, String modemId, String brand, String pass, String user, String estadoId) {
+			String tiempoConectadoId, String modemEmbebidoId, String ioModule, String modemId, String brand, String pass, String user, String version, String estadoId) {
 		super();
 		this.ipReal = ipReal;
 		this.concentrator = concentrator;
@@ -47,6 +48,7 @@ public class modelConcentrator {
 		this.brand = brand;
 		this.pass=pass;
 		this.user=user;
+		this.version = version;
 		this.estadoId=estadoId;
 }
 	
@@ -160,9 +162,9 @@ public class modelConcentrator {
 	}
 
 
-	
-
-	
+	public String getVersion() {
+		return version;
+	}
 	
 	
 	

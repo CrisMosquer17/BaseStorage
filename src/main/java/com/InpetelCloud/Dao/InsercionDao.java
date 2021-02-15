@@ -126,6 +126,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Marca_ID` INT NOT NULL,\r\n"
 					+ "  `pass` VARCHAR(100) NULL DEFAULT NULL,\r\n"
 					+ "  `user` VARCHAR(45) NULL DEFAULT NULL,\r\n"
+					+ "  `Version` VARCHAR(20) NULL,\r\n"
 					+ "  `States_ID` INT NOT NULL,\r\n"
 					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
 					+ "  PRIMARY KEY (`ID`),\r\n"
@@ -938,12 +939,12 @@ public class InsercionDao implements InsercionInterface{
 		int value=0;
 		List<String> marcaId = marcaConcentrador(concentrador);
 		if(marcaId.get(0).equals("1")) {
-			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-						+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA', '1' );");
+			 value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, Version, States_ID )\r\n"
+						+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', 'NA', 'NA', '"+concentrador.getVersion()+"', '1' );");
 		}
 		else {
-			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, States_ID )\r\n"
-					+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "', '1');");
+			value = template.update("INSERT INTO Inpetel_Cloud.Concentrador (Ip_real, NombreConcentrador, TipoComunicacion_ID, Imei,  Serial , TiempoConectado_ID, Modem_Embedido, IOmodule,  Modem_ID,  Marca_ID, pass, user, Version, States_ID )\r\n"
+					+ " VALUES ('"+ 1 + "', '"+ concentrador.getConcentrator() + "',  '" + 1 + "' , '" + concentrador.getImei() + "','" + concentrador.getConcentrator() + "', '" + 1 + "', '" + 1 + "', '" + 1+ "', '" + 56 + "', '" + marcaId.get(0) + "', '" + concentrador.getPass() + "', '" + concentrador.getUser() + "', '"+concentrador.getVersion()+"', '1');");
 			
 		}
 
@@ -956,10 +957,10 @@ public class InsercionDao implements InsercionInterface{
 		List<String> marca = marcaConcentrador(concentrador);
 		int value=0;
 		if(marca.get(0).equals("1")) {
-			value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='Na', user='Na'  where ID="+ id +";");
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='Na', user='Na', Version='"+concentrador.getVersion()+"'  where ID="+ id +";");
 			}
 		else {
-			value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"'  where ID="+ id +";");
+			value= template.update("UPDATE Inpetel_Cloud.Concentrador set NombreConcentrador='"+concentrador.getConcentrator()+"', Imei='"+concentrador.getImei()+"', Serial='"+concentrador.getConcentrator()+"', Marca_ID='"+marca.get(0)+"', pass='"+concentrador.getPass()+"', user='"+concentrador.getUser()+"', Version='"+concentrador.getVersion()+"'  where ID="+ id +";");
 
 		}
 
@@ -1204,6 +1205,16 @@ public class InsercionDao implements InsercionInterface{
 		return idConcentrador;
 	}
 	
+	public List<Map<String,Object>> obtenerIdConcentradorG3(objetoJsonG3 jsong3, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ jsong3.getG3().get(j).getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorG3S03(objetoJsonG3S03 jsong3s03, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ jsong3s03.getDaysg3().get(j).getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
 	public List<Map<String,Object>> obtenerIdConcentradorEvento(objetoJsonEventoConcentrador evento, int j) {
 		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ evento.getEventoConcentrador().get(j).getConcentrator() +"';");
 		return idConcentrador;
@@ -1212,6 +1223,16 @@ public class InsercionDao implements InsercionInterface{
 	public List<Map<String,Object>> obtenerIdMedidorEvento(objetoJsonEventoMedidor evento, int j) {
 		List<Map<String,Object>>idMedidor = template.queryForList("SELECT ID FROM Inpetel_Cloud.Medidor where Serial='"+ evento.getEventoMedidor().get(j).getMeter() +"';");
 		return idMedidor;
+	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorEventoMedidor(objetoJsonEventoMedidor evento, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ evento.getEventoMedidor().get(j).getConcentrator() +"';");
+		return idConcentrador;
+	}
+	
+	public List<Map<String,Object>> obtenerIdConcentradorEventoMedidorG3(objetoJsonEventoMedidorG3 evento, int j) {
+		List<Map<String,Object>>idConcentrador = template.queryForList("SELECT ID FROM Inpetel_Cloud.Concentrador where Serial='"+ evento.getG3EventoMedidor().get(j).getConcentrator() +"';");
+		return idConcentrador;
 	}
 	
 	

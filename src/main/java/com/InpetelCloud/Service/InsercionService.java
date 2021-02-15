@@ -326,6 +326,10 @@ public class InsercionService implements InsercionInterface {
 	}
 
 
+	/*
+	 * Descripcion: Metodo para el microservicio de recoleccion de datos.
+	 * Crear o actualizar cnc.
+	 */
 	@Override
 	public int crearConcentrador(modelConcentrator concentrador) {
 		int validate=0;
@@ -336,8 +340,6 @@ public class InsercionService implements InsercionInterface {
 			else {
 				validate= dao.crearConcentrador(concentrador);
 			}
-			
-		
 		
 		return validate;
 	}
@@ -1166,7 +1168,7 @@ public class InsercionService implements InsercionInterface {
 		}
 		for (int i = 0; i < serialesConcentradores.size(); i++) {
 			if (serialesConcentradores.size() == 0) {
-
+					System.out.println("no existe el concentrador");
 			} else {
 
 				if (serialesConcentradores.get(i).equals(jsons03.getDays().get(j).getConcentrator())) {
@@ -1308,8 +1310,30 @@ public class InsercionService implements InsercionInterface {
 				}
 			}
 		}
+		
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
+		
+		boolean validarSerialConcentrador = validarSerialConcentradorG3(jsong3, j);
+		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorG3(jsong3, j);
+		if (validarSerialConcentrador == true) {
+			for (Map<String, Object> map : idConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
+		}
+		else {
+			dao.crearAsociacionCncMet(resultado);
+			
+		}
+
 
 //		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
 //		for (Map<String, Object> map : idProfile) {
@@ -1329,7 +1353,7 @@ public class InsercionService implements InsercionInterface {
 					resultado.add(value);
 				}
 			}
-			trazaID = resultado.get(1).toString();
+			trazaID = resultado.get(2).toString();
 //			medidaResultado.add(trazaID);
 		}
 		else {
@@ -1379,6 +1403,36 @@ public class InsercionService implements InsercionInterface {
 			resultado = true;
 		}
 
+		return resultado;
+	}
+	
+	public boolean validarSerialConcentradorG3(objetoJsonG3 jsong3, int j) {
+		boolean resultado = false;
+		List<String> serialesConcentradores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesConcentradores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesConcentradores.size(); i++) {
+			if (serialesConcentradores.size() == 0) {
+					System.out.println("no existe el concentrador");
+			} else {
+
+				if (serialesConcentradores.get(i).equals(jsong3.getG3().get(j).getConcentrator())) {
+					resultado = true;
+				}
+			}
+		}
+
+		if (resultado == false) {
+			dao.crearConcentradorMedida(jsong3.getG3().get(j).getConcentrator());
+			resultado = true;
+		}
 		return resultado;
 	}
 	
@@ -1466,6 +1520,26 @@ public class InsercionService implements InsercionInterface {
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
 		
+		boolean validarSerialConcentrador = validarSerialConcentradorG3S03(jsong3s03, j);
+		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorG3S03(jsong3s03, j);
+		if (validarSerialConcentrador == true) {
+			for (Map<String, Object> map : idConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
+		}
+		else {
+			dao.crearAsociacionCncMet(resultado);
+			
+		}
+		
 //		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
 //		for (Map<String, Object> map : idProfile) {
 //			for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -1485,7 +1559,7 @@ public class InsercionService implements InsercionInterface {
 					resultado.add(value);
 				}
 			}
-			trazaID = resultado.get(1).toString();
+			trazaID = resultado.get(2).toString();
 //			medidaResultado.add(trazaID);
 		}
 		else {
@@ -1539,6 +1613,36 @@ public class InsercionService implements InsercionInterface {
 			resultado = true;
 		}
 
+		return resultado;
+	}
+	
+	public boolean validarSerialConcentradorG3S03(objetoJsonG3S03 jsong3s03, int j) {
+		boolean resultado = false;
+		List<String> serialesConcentradores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesConcentradores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesConcentradores.size(); i++) {
+			if (serialesConcentradores.size() == 0) {
+					System.out.println("no existe el concentrador");
+			} else {
+
+				if (serialesConcentradores.get(i).equals(jsong3s03.getDaysg3().get(j).getConcentrator())) {
+					resultado = true;
+				}
+			}
+		}
+
+		if (resultado == false) {
+			dao.crearConcentradorMedida(jsong3s03.getDaysg3().get(j).getConcentrator());
+			resultado = true;
+		}
 		return resultado;
 	}
 
@@ -1777,6 +1881,26 @@ public class InsercionService implements InsercionInterface {
 		if(resultado.size() > 0) {
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
+		
+		boolean validarSerialConcentrador = validarSerialEventoMedidorConcentrador(evento, j);
+		List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorEventoMedidor(evento, j);
+		if (validarSerialConcentrador == true) {
+			for (Map<String, Object> map : idConcentrador) {
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					Object value = entry.getValue();
+					resultado.add(value);
+				}
+			}
+		}
+		
+		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		if(idAsoCncMet.size() ==1) {
+			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
+		}
+		else {
+			dao.crearAsociacionCncMet(resultado);
+			
+		}
 
 		//agregando el id de la consulta de la trazabilidad
 		String trazaID = "";
@@ -1789,7 +1913,7 @@ public class InsercionService implements InsercionInterface {
 					resultado.add(value);
 				}
 			}
-			trazaID = resultado.get(1).toString();
+			trazaID = resultado.get(2).toString();
 			//medidaResultado.add(trazaID);
 		}
 		else {
@@ -1838,6 +1962,36 @@ public class InsercionService implements InsercionInterface {
 					resultado = true;
 				}
 			}
+		}
+		return resultado;
+	}
+	
+	public boolean validarSerialEventoMedidorConcentrador(objetoJsonEventoMedidor evento, int j) {
+		boolean resultado = false;
+		List<String> serialesConcentradores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesConcentradores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesConcentradores.size(); i++) {
+			if (serialesConcentradores.size() == 0) {
+					System.out.println("no existe el concentrador");
+			} else {
+
+				if (serialesConcentradores.get(i).equals(evento.getEventoMedidor().get(j).getConcentrator())) {
+					resultado = true;
+				}
+			}
+		}
+
+		if (resultado == false) {
+			dao.crearConcentradorMedida(evento.getEventoMedidor().get(j).getConcentrator());
+			resultado = true;
 		}
 		return resultado;
 	}
@@ -1916,6 +2070,26 @@ public class InsercionService implements InsercionInterface {
 		if(resultado.size() > 0) {
 			//serial medidor
 			medidaResultado.add(resultado.get(0).toString());
+			
+			boolean validarSerialConcentrador = validarSerialEventoMedidorG3Concentrador(evento, j);
+			List<Map<String, Object>> idConcentrador = dao.obtenerIdConcentradorEventoMedidorG3(evento, j);
+			if (validarSerialConcentrador == true) {
+				for (Map<String, Object> map : idConcentrador) {
+					for (Map.Entry<String, Object> entry : map.entrySet()) {
+						Object value = entry.getValue();
+						resultado.add(value);
+					}
+				}
+			}
+			
+			ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+			if(idAsoCncMet.size() ==1) {
+				dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
+			}
+			else {
+				dao.crearAsociacionCncMet(resultado);
+				
+			}
 
 			//agregando el id de la consulta de la trazabilidad
 			String trazaID = "";
@@ -1928,7 +2102,7 @@ public class InsercionService implements InsercionInterface {
 						resultado.add(value);
 					}
 				}
-				trazaID = resultado.get(1).toString();
+				trazaID = resultado.get(2).toString();
 				//medidaResultado.add(trazaID);
 			}
 			else {
@@ -1961,7 +2135,7 @@ public class InsercionService implements InsercionInterface {
 		return medidaResultado;
 	}
 	
-	public boolean validarSerialEventoMedidorG3(objetoJsonEventoMedidorG3 jsong3s03, int j) {
+	public boolean validarSerialEventoMedidorG3(objetoJsonEventoMedidorG3 jsong3, int j) {
 		boolean resultado = false;
 		List<String> serialesMedidores = new ArrayList<String>();
 		// dao.serialMedidores: se trae todos los seriales de los medidores que estan en
@@ -1977,13 +2151,43 @@ public class InsercionService implements InsercionInterface {
 			if (serialesMedidores.size() == 0) {
 				
 			} else {
-				if (serialesMedidores.get(i).equals(jsong3s03.getG3EventoMedidor().get(j).getMeter())) {
+				if (serialesMedidores.get(i).equals(jsong3.getG3EventoMedidor().get(j).getMeter())) {
 					resultado = true;
 				}
 
 			}
 		}
 
+		return resultado;
+	}
+	
+	public boolean validarSerialEventoMedidorG3Concentrador(objetoJsonEventoMedidorG3 jsong3, int j) {
+		boolean resultado = false;
+		List<String> serialesConcentradores = new ArrayList<String>();
+		// dao.serialConcentradores: se trae todos los seriales de los concentradores
+		// que estan en la base de datos.
+		List<Map<String, Object>> concentradores = dao.serialConcentradores();
+		for (Map<String, Object> map : concentradores) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				serialesConcentradores.add((String) value);
+			}
+		}
+		for (int i = 0; i < serialesConcentradores.size(); i++) {
+			if (serialesConcentradores.size() == 0) {
+					System.out.println("no existe el concentrador");
+			} else {
+
+				if (serialesConcentradores.get(i).equals(jsong3.getG3EventoMedidor().get(j).getConcentrator())) {
+					resultado = true;
+				}
+			}
+		}
+
+		if (resultado == false) {
+			dao.crearConcentradorMedida(jsong3.getG3EventoMedidor().get(j).getConcentrator());
+			resultado = true;
+		}
 		return resultado;
 	}
 

@@ -22,7 +22,7 @@ public class EliminarController {
 	@Autowired
 	EliminarService service;
 	
-	@DeleteMapping("/eliminarSistemaExterno/{id}")
+	@PutMapping("/eliminarSistemaExterno/{id}")
 	@CrossOrigin(origins="*")
 	public int eliminarSistemaExterno(@RequestBody SistemExterno se, @PathVariable Long id) {
 		return service.eliminarSistemaExterno(se,id);
@@ -82,7 +82,7 @@ public class EliminarController {
 		return service.eliminarEstado(id);
 	}
 
-	@DeleteMapping("/eliminarTransformador/{id}")
+	@PutMapping("/eliminarTransformador/{id}")
 	@CrossOrigin(origins="*")
 	public int eliminarTransformador(@RequestBody Transformador transformador,@PathVariable Long id) {
 		return service.eliminarTransformador(transformador,id);
@@ -94,13 +94,13 @@ public class EliminarController {
 		return service.eliminarUsuario(id);
 	}
 	
-	@DeleteMapping("/eliminarMedidor/{id}")
+	@PutMapping("/eliminarMedidor/{id}")
 	@CrossOrigin(origins="*")
 	public int eliminarMedidor(@RequestBody modelMeter medidor, @PathVariable Long id) {
 		return service.eliminarMedidor(medidor,id);
 	}
 
-	@DeleteMapping("/eliminarConcentrador/{id}")
+	@PutMapping("/eliminarConcentrador/{id}")
 	@CrossOrigin(origins="*")
 	public int eliminarConcentrador(@RequestBody modelConcentrator concentrador, @PathVariable Long id) {
 		return service.eliminarConcentrador(concentrador, id);
