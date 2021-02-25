@@ -450,6 +450,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "  `Usu_create` INT NOT NULL,\r\n"
 					+ "  `InfoMedidas_ID` INT NOT NULL,\r\n"
 					+ "  `Usu_update` INT NULL DEFAULT NULL,\r\n"
+					+ "  `IdProfile` INT NULL,"
 					+ "  PRIMARY KEY (`ID`),\r\n"
 					+ "  INDEX `fk_Admon_Medida_Medidor1_idx` (`Medidor_ID` ASC) VISIBLE,\r\n"
 					+ "  INDEX `fk_Admon_Medida_Trazabilidad1_idx` (`Trazabilidad_ID` ASC) VISIBLE,\r\n"
@@ -1022,27 +1023,29 @@ public class InsercionDao implements InsercionInterface{
 		int value=0;
 		if(valorInfoMedida.size() == 3) {
 			for (int i = 0; i < 3; i++) {
-				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha , HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
 			}
 		}
 		else {
 			for (int i = 0; i < 7; i++) {
-				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
+				value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
+						+ "VALUES ('" +  resultado.get(0) + "', '" + valorInfoMedida.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idInfoMedidas.get(i)+ "', '" + 60 + "');");
 			}
 		}
 		return value;
 	}
 	
+	/*
+	 * Se omite ingresar el status para un futuro, porque el status hace referencia a un bit de calidad, por este motivo en este momento no se tiene en cuenta
+	 * para ingresar una medida de g3, porque repite los registros a la hora de insertar
+	 */
 	public int crearMedidaG3(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
-		int value=0;
-		System.out.println(resultado.get(1));
-		
-		for (int i = 0; i < 2; i++) {
-			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update)\r\n "
-					+ "VALUES ('" +  resultado.get(0) + "', '" + valorRegister.get(i) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idRegister.get(0)+ "', '" + 60 + "');");
-		}
+		int value=0;		
+		//for (int i = 0; i < 2; i++) {
+			value = template.update("INSERT INTO Inpetel_Cloud.Medidas ( Medidor_ID, Num_val, Fecha, HoraIncio, HoraFin, Trazabilidad_ID, Usu_create, InfoMedidas_ID, Usu_update, IdProfile)\r\n "
+					+ "VALUES ('" +  resultado.get(0) + "', '" + valorRegister.get(0) + "', '" + fechas.get(0) + "', '" + fechas.get(1) + "', '" + fechas.get(2) + "', '" + resultado.get(1) + "', '" + 60 + "','" + idRegister.get(0)+ "', '" + 60 + "', '"+ resultado.get(2)+"');");
+		//}
 		return value;
 	}
 

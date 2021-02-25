@@ -19,6 +19,7 @@ import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
+import com.InpetelCloud.Model.Prueba;
 import com.InpetelCloud.Model.Marca;
 import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
@@ -44,6 +45,10 @@ public class InsercionService implements InsercionInterface {
 
 	@Autowired
 	InsercionDao dao;
+	
+	private Prueba prueba = new Prueba();
+	
+	
 
 	@Override
 	public void schemaCreate(String name) {
@@ -58,10 +63,6 @@ public class InsercionService implements InsercionInterface {
 
 	@Override
 	public int crearRol(Rol rol) {
-
-		System.out.println(agregarHora("14:00"));
-		System.out.println(nombreMedidas());
-
 		return dao.crearRol(rol);
 	}
 
@@ -461,6 +462,8 @@ public class InsercionService implements InsercionInterface {
 			// "activeImport":"0", "activeExpor":"0", "bitOfQuality":"00",
 			// "date":"20201202190000000W", "Q":[0, 0, 0, 0]
 			// }
+			
+			prueba.log("[INFO] Iniciando insercion de medida S02");
 			resultado = validarCreacionMedidas(json, j);
 			for (int i = 0; i < json.getHours().get(j).getInfoMeasure().size(); i++) {
 				if(json.getHours().get(j).getInfoMeasure().size() > 0) {
@@ -510,9 +513,12 @@ public class InsercionService implements InsercionInterface {
 							fechas.remove(0);
 							fechas.remove(0);
 							fechas.remove(0);
+							
 
 						} catch (Exception e) {
+							prueba.log("[ERROR] No se pudo insertar la medida S02 la cual el arreglo Q no esta vacio" + e);
 							e.printStackTrace();
+							
 						}
 					}
 					
@@ -543,6 +549,7 @@ public class InsercionService implements InsercionInterface {
 							fechas.remove(0);
 
 						} catch (Exception e) {
+							prueba.log("[ERROR] No se pudo insertar la medida S02 la cual el arreglo Q esta vacio" + e);
 							e.printStackTrace();
 						}
 						
@@ -552,6 +559,7 @@ public class InsercionService implements InsercionInterface {
 				}
 				
 		}
+		prueba.log("[INFO] Finalizando insercion de medida S02");
 		return medidaCreada;
 	}
 
@@ -567,6 +575,7 @@ public class InsercionService implements InsercionInterface {
 		List<String> medidaResultado = new ArrayList<>();
 
 		boolean validarSerialMedidor = validarSerialMedidor(json, j);
+		//validando el serial del medidor
 		List<Map<String, Object>> idMedidor = dao.obtenerIdMedidor(json, j);
 		if (validarSerialMedidor == true) {
 			for (Map<String, Object> map : idMedidor) {
@@ -576,6 +585,7 @@ public class InsercionService implements InsercionInterface {
 				}
 			}
 		}
+	
 
 		medidaResultado.add(resultado.get(0).toString());
 
@@ -593,10 +603,13 @@ public class InsercionService implements InsercionInterface {
 		// crea el registro en la tabla asociacion de medidor con concentrador
 		
 		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		prueba.log("[INFO] Verificando asociacion con el CNC: " + resultado.get(1).toString() + " y el MET: " + resultado.get(0).toString() );
 		if(idAsoCncMet.size() ==1) {
+			prueba.log("[INFO] La asociacion ya existe, entonces se procede a actualizar la asociacion entre el CNC: " +  resultado.get(1).toString() + "y el MET:"+  resultado.get(0).toString());
 			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
 		else {
+			prueba.log("[INFO] Creando asociacion entre CNC:" +  resultado.get(1).toString() +" y el MET" +  resultado.get(0).toString());
 			dao.crearAsociacionCncMet(resultado);
 			
 		}
@@ -839,18 +852,23 @@ public class InsercionService implements InsercionInterface {
 				serialesMedidores.add((String) value);
 			}
 		}
+		
+		prueba.log("[INFO] Consultando el serial del MET :" + json.getHours().get(j).getMeter());
+
 		for (int i = 0; i < serialesMedidores.size(); i++) {
 			if (serialesMedidores.size() == 0) {
 
 			} else {
 				if (serialesMedidores.get(i).equals(json.getHours().get(j).getMeter())) {
 					resultado = true;
+					prueba.log("[INFO] Serial del MET ya existe");
 				}
 
 			}
 		}
 		if (resultado == false) {
 			dao.crearMedidorMedida(json.getHours().get(j).getMeter());
+			prueba.log("[INFO] Creando medidor con el serial : " + json.getHours().get(j).getMeter() );
 			resultado = true;
 		}
 
@@ -878,6 +896,9 @@ public class InsercionService implements InsercionInterface {
 				serialesConcentradores.add((String) value);
 			}
 		}
+		
+		prueba.log("[INFO] Consultando el serial del CNC : " + json.getHours().get(j).getConcentrator() );
+		
 		for (int i = 0; i < serialesConcentradores.size(); i++) {
 			if (serialesConcentradores.size() == 0) {
 
@@ -885,6 +906,7 @@ public class InsercionService implements InsercionInterface {
 
 				if (serialesConcentradores.get(i).equals(json.getHours().get(j).getConcentrator())) {
 					resultado = true;
+					prueba.log("[INFO] Serial del CNC ya existe");
 				}
 			}
 		}
@@ -892,6 +914,7 @@ public class InsercionService implements InsercionInterface {
 		if (resultado == false) {
 			dao.crearConcentradorMedida(json.getHours().get(j).getConcentrator());
 			resultado = true;
+			prueba.log("[INFO] Creando el CNC con el serial : " + json.getHours().get(j).getConcentrator());
 		}
 		return resultado;
 	}
@@ -1002,7 +1025,6 @@ public class InsercionService implements InsercionInterface {
 									valorInfomedida.remove(0);
 									fechas.remove(0);
 									fechas.remove(0);
-									fechas.remove(0);
 
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -1032,7 +1054,6 @@ public class InsercionService implements InsercionInterface {
 									valorInfomedida.remove(0);
 									valorInfomedida.remove(0);
 									valorInfomedida.remove(0);
-									fechas.remove(0);
 									fechas.remove(0);
 									fechas.remove(0);
 
@@ -1265,7 +1286,7 @@ public class InsercionService implements InsercionInterface {
 					status=jsong3.getG3().get(j).getRegister().get(i).getStatus();
 					idRegister.add(idRegisterValidado.get(0));
 					valorRegister.add(value);
-					valorRegister.add(status);
+					//valorRegister.add(status);
 					//valorRegister.add(unit);
 					fecha = formatFecha(restarCinco(jsong3.getG3().get(j).getRegister().get(i).getDate()));
 					horaInicio = fecha.substring(11,15);
@@ -1276,7 +1297,7 @@ public class InsercionService implements InsercionInterface {
 					medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
 					
 					idRegister.remove(0);
-					valorRegister.remove(0);
+					//valorRegister.remove(0);
 					valorRegister.remove(0);
 					fechas.remove(0);
 					fechas.remove(0);
@@ -1306,6 +1327,7 @@ public class InsercionService implements InsercionInterface {
 			for (Map<String, Object> map : idMedidor) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();
+					//posicion 0
 					resultado.add(value);
 				}
 			}
@@ -1320,6 +1342,7 @@ public class InsercionService implements InsercionInterface {
 			for (Map<String, Object> map : idConcentrador) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();
+					//posicion 1
 					resultado.add(value);
 				}
 			}
@@ -1333,15 +1356,6 @@ public class InsercionService implements InsercionInterface {
 			dao.crearAsociacionCncMet(resultado);
 			
 		}
-
-
-//		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
-//		for (Map<String, Object> map : idProfile) {
-//			for (Map.Entry<String, Object> entry : map.entrySet()) {
-//				Object value = entry.getValue();
-//				resultado.add(value);
-//			}
-//		}
 		
 		String trazaID = "";
 		
@@ -1350,11 +1364,13 @@ public class InsercionService implements InsercionInterface {
 			for (Map<String, Object> map : idTrazabilidad) {
 				for (Map.Entry<String, Object> entry : map.entrySet()) {
 					Object value = entry.getValue();
+					//posicion 2
 					resultado.add(value);
 				}
 			}
 			trazaID = resultado.get(2).toString();
 //			medidaResultado.add(trazaID);
+			
 		}
 		else {
 			
@@ -1368,8 +1384,19 @@ public class InsercionService implements InsercionInterface {
 
 		}
 		
+		List<Map<String, Object>> idProfile = dao.obtenerIdProfile(jsong3, j);
+		for (Map<String, Object> map : idProfile) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				//posicion 3
+				resultado.add(value);
+			}
+		}
+		
 		//agregando el id de la consulta de la trazabilidad
 		medidaResultado.add(trazaID);
+		//agregando el id del idprofile
+		medidaResultado.add(resultado.get(3).toString());
 		
 		return medidaResultado;
 	}
@@ -1470,7 +1497,7 @@ public class InsercionService implements InsercionInterface {
 					status=jsong3s03.getDaysg3().get(j).getRegister().get(i).getStatus();
 					idRegister.add(idRegisterValidado.get(0));
 					valorRegister.add(value);
-					valorRegister.add(status);
+					//valorRegister.add(status);
 					//valorRegister.add(unit);
 					fecha = formatFecha(restarCinco(jsong3s03.getDaysg3().get(j).getRegister().get(i).getDate()));
 					horaInicio = fecha.substring(11,15);
@@ -1482,7 +1509,7 @@ public class InsercionService implements InsercionInterface {
 					
 					idRegister.remove(0);
 					valorRegister.remove(0);
-					valorRegister.remove(0);
+					//valorRegister.remove(0);
 					fechas.remove(0);
 					fechas.remove(0);
 					fechas.remove(0);
@@ -1540,15 +1567,6 @@ public class InsercionService implements InsercionInterface {
 			
 		}
 		
-//		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
-//		for (Map<String, Object> map : idProfile) {
-//			for (Map.Entry<String, Object> entry : map.entrySet()) {
-//				Object value = entry.getValue();
-//				resultado.add(value);
-//			}
-//		}
-		
-		
 		String trazaID = "";
 		
 		List<Map<String, Object>> idTrazabilidad = dao.obtenerIdTrazabilidadMedidaG3Diaria(jsong3s03, j);
@@ -1573,9 +1591,19 @@ public class InsercionService implements InsercionInterface {
 			}
 
 		}
+		List<Map<String, Object>> idProfile = dao.obtenerIdProfileG3Diaria(jsong3s03, j);
+		for (Map<String, Object> map : idProfile) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				Object value = entry.getValue();
+				//posicion 3
+				resultado.add(value);
+			}
+		}
+		
 		//agregando el id de la consulta de la trazabilidad
 		medidaResultado.add(trazaID);
-		
+		//agregando el id del idprofile
+		medidaResultado.add(resultado.get(3).toString());
 		
 
 		

@@ -32,6 +32,7 @@ public interface InsercionInterface {
 	
 	public void schemaCreate(String name);
 	
+	
 	//Metodo para crear un sistema externo
 	public int crearSistemaExterno(SistemExterno se);
 	
