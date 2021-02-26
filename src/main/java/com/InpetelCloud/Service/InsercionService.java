@@ -979,6 +979,7 @@ public class InsercionService implements InsercionInterface {
 					// "activeImport":"0", "activeExpor":"0", "bitOfQuality":"00",
 					// "date":"20201202190000000W", "Q":[0, 0, 0, 0]
 					// }
+					prueba.log("[INFO] Iniciando insercion de medida S03");
 					resultado = validarCreacionMedidasS03(jsons03, j);
 					for (int i = 0; i < jsons03.getDays().get(j).getInfoMeasure().size(); i++) {
 						if(jsons03.getDays().get(j).getInfoMeasure().size() > 0) {
@@ -1029,6 +1030,7 @@ public class InsercionService implements InsercionInterface {
 									fechas.remove(0);
 
 								} catch (Exception e) {
+									prueba.log("[ERROR] No se pudo insertar la medida S03 la cual el arreglo Q no esta vacio" + e);
 									e.printStackTrace();
 								}
 								
@@ -1060,15 +1062,14 @@ public class InsercionService implements InsercionInterface {
 									fechas.remove(0);
 
 								} catch (Exception e) {
+									prueba.log("[ERROR] No se pudo insertar la medida S03 la cual el arreglo Q esta vacio" + e);
 									e.printStackTrace();
 								}
 							}
 						}
-							
-						}
-						}
-					
-				
+					}
+				}
+				prueba.log("[INFO] Finalizando insercion de medida S03");
 				return medidaCreada;
 	}
 	
@@ -1111,10 +1112,13 @@ public class InsercionService implements InsercionInterface {
 		// crea el registro en la tabla asociacion de medidor con concentrador
 
 		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		prueba.log("[INFO] Verificando asociacion con el CNC: " + resultado.get(1).toString() + " y el MET: " + resultado.get(0).toString() );
 		if(idAsoCncMet.size() ==1) {
+			prueba.log("[INFO] La asociacion ya existe, entonces se procede a actualizar la asociacion entre el CNC: " +  resultado.get(1).toString() + "y el MET:"+  resultado.get(0).toString());
 			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
 		else {
+			prueba.log("[INFO] Creando asociacion entre CNC:" +  resultado.get(1).toString() +" y el MET" +  resultado.get(0).toString());
 			dao.crearAsociacionCncMet(resultado);
 			
 		}
@@ -1277,9 +1281,8 @@ public class InsercionService implements InsercionInterface {
 		String horaInicio = "";
 		String horaFin = "";
 		
-		System.out.println(jsong3.toString());
-		
 		for (int j = 0; j < jsong3.getG3().size(); j++) {
+			prueba.log("[INFO] Iniciando insercion de medida G3 Horaria");
 			resultado=validarCreacionMedidasG3(jsong3, j);
 			for (int i = 0; i < jsong3.getG3().get(j).getRegister().size(); i++) {
 				idRegisterValidado= dao.obtenerIdRegister(jsong3.getG3().get(j).getRegister().get(i).getIdRegister().toString());
@@ -1296,26 +1299,29 @@ public class InsercionService implements InsercionInterface {
 					fechas.add(fecha);
 					fechas.add(horaInicio);
 					fechas.add(horaFin);
-					medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
-					
-					idRegister.remove(0);
-					//valorRegister.remove(0);
-					valorRegister.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
+					try {
+						medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
+						
+						idRegister.remove(0);
+						//valorRegister.remove(0);
+						valorRegister.remove(0);
+						fechas.remove(0);
+						fechas.remove(0);
+						fechas.remove(0);
+						
+					} catch (Exception e) {
+						prueba.log("[ERROR] No se pudo insertar la medida G3 Horaria en la cual exista un idRegistro" + e);
+						e.printStackTrace();
+					}
 					
 				}
 				else {
 					medidaCreada=0;
+					prueba.log("[ERROR] No se pudo insertar la medida G3 Horaria porque el codigo OBIS del idRegistro[id de la tabla infomedidas] no existe" );
+
 				}
 				}
 			}
-
-		
-		
-
-
 		return medidaCreada;
 	}
 	
@@ -1351,10 +1357,13 @@ public class InsercionService implements InsercionInterface {
 		}
 		
 		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		prueba.log("[INFO] Verificando asociacion con el CNC: " + resultado.get(1).toString() + " y el MET: " + resultado.get(0).toString() );
 		if(idAsoCncMet.size() ==1) {
+			prueba.log("[INFO] La asociacion ya existe, entonces se procede a actualizar la asociacion entre el CNC: " +  resultado.get(1).toString() + "y el MET:"+  resultado.get(0).toString());
 			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
 		else {
+			prueba.log("[INFO] Creando asociacion entre CNC:" +  resultado.get(1).toString() +" y el MET" +  resultado.get(0).toString());
 			dao.crearAsociacionCncMet(resultado);
 			
 		}
@@ -1491,6 +1500,7 @@ public class InsercionService implements InsercionInterface {
 		String horaFin = "";
 		
 		for (int j = 0; j < jsong3s03.getDaysg3().size(); j++) {
+			prueba.log("[INFO] Iniciando insercion de medida G3 Diaria");
 			resultado=validarCreacionMedidasG3Diaria(jsong3s03, j);
 			for (int i = 0; i < jsong3s03.getDaysg3().get(j).getRegister().size(); i++) {
 				idRegisterValidado= dao.obtenerIdRegister(jsong3s03.getDaysg3().get(j).getRegister().get(i).getIdRegister().toString());
@@ -1507,18 +1517,26 @@ public class InsercionService implements InsercionInterface {
 					fechas.add(fecha);
 					fechas.add(horaInicio);
 					fechas.add(horaFin);
-					medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
 					
-					idRegister.remove(0);
-					valorRegister.remove(0);
-					//valorRegister.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
-					fechas.remove(0);
+					try {
+						medidaCreada = dao.crearMedidaG3(resultado, idRegister, fechas, valorRegister);
+						
+						idRegister.remove(0);
+						valorRegister.remove(0);
+						//valorRegister.remove(0);
+						fechas.remove(0);
+						fechas.remove(0);
+						fechas.remove(0);
+						
+					} catch (Exception e) {
+						prueba.log("[ERROR] No se pudo insertar la medida G3 Diaria en la cual exista un idRegistro" + e);
+						e.printStackTrace();
+					}
 					
 				}
 				else {
 					medidaCreada=0;
+					prueba.log("[ERROR] No se pudo insertar la medida G3 Diaria porque el codigo OBIS del idRegistro[id de la tabla infomedidas] no existe" );
 				}
 				}
 			}
@@ -1561,10 +1579,13 @@ public class InsercionService implements InsercionInterface {
 		}
 		
 		ArrayList<String> idAsoCncMet = dao.validarSerialCncTablaAsociacion(resultado.get(0).toString(), resultado.get(1).toString());
+		prueba.log("[INFO] Verificando asociacion con el CNC: " + resultado.get(1).toString() + " y el MET: " + resultado.get(0).toString() );
 		if(idAsoCncMet.size() ==1) {
+			prueba.log("[INFO] La asociacion ya existe, entonces se procede a actualizar la asociacion entre el CNC: " +  resultado.get(1).toString() + "y el MET:"+  resultado.get(0).toString());
 			dao.updateAsoCncMet(resultado.get(0).toString(), resultado.get(1).toString(), idAsoCncMet.get(0));
 		}
 		else {
+			prueba.log("[INFO] Creando asociacion entre CNC:" +  resultado.get(1).toString() +" y el MET" +  resultado.get(0).toString());
 			dao.crearAsociacionCncMet(resultado);
 			
 		}
