@@ -1015,7 +1015,7 @@ public class InsercionService implements InsercionInterface {
 									// tomandolos directamente de la base de datos
 									// ir a ver el metodo para entender
 									idInfomedidas = nombreMedidas();
-									medidaCreada = dao.crearMedidaPrime(resultado, valorInfomedida, fechas, idInfomedidas);
+									medidaCreada = dao.crearMedidaPrimeDiaria(resultado, valorInfomedida, fechas, idInfomedidas);
 									valorInfomedida.remove(0);
 									valorInfomedida.remove(0);
 									valorInfomedida.remove(0);
