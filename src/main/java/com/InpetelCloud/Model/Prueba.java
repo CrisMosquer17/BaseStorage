@@ -16,8 +16,8 @@ public class Prueba {
 		try {
 			//Ruta para trabajar local
 			//String ruta = "C:\\Basestorage\\logs\\LogBS[" + fechaActual() + "].txt";
-			//Ruta aws /home/ubuntu/environment/BaseStorage/logs
-			String ruta = "/home/ubuntu/environment/BaseStorage/logs/logsBS[" + fechaActual() + "].txt";
+			//Ruta aws /home/ubuntu/environment/temp/logs
+			String ruta = "/home/ubuntu/environment/temp/logs/logsBS[" + fechaActual() + "].txt";
 
 			File archivo = new File(ruta);
 
