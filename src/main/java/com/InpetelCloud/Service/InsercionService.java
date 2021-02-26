@@ -494,6 +494,7 @@ public class InsercionService implements InsercionInterface {
 						fechas.add(fecha);
 						fechas.add(horaInicio);
 						fechas.add(horaFin);
+ 						
 						try {
 							// obtengo tanto el id del medidor y el id de la trazabilidad en la lista
 							// resultado y se envia al dao
@@ -785,6 +786,7 @@ public class InsercionService implements InsercionInterface {
 	 */
 	public String agregarHora(String horaInicio) {
 		String horaFormateada = "";
+		
 		try {
 
 			SimpleDateFormat hora = new SimpleDateFormat("HH:mm");
