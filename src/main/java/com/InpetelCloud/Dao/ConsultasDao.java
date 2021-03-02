@@ -364,7 +364,7 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> trafosCnc() {
-		List<Map<String,Object>>view = template.queryForList("SELECT TF.Codigo as CodigoTF, CNC.Serial FROM Inpetel_Cloud.Transformador TF,\r\n"
+		List<Map<String,Object>>view = template.queryForList("SELECT TF.Codigo as CodigoTF, CNC.Serial, CNC.ID AS IdCnc FROM Inpetel_Cloud.Transformador TF,\r\n"
 				+ " Inpetel_Cloud.Concentrador CNC WHERE TF.Concentrador_ID = CNC.ID;");
 		return view;
 	}
