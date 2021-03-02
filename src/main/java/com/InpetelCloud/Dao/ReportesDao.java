@@ -32,7 +32,7 @@ public class ReportesDao implements ReportesInterface {
 				+ "(SUBSTRING(MS.Fecha, 1, 20)) as Fecha,\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '8', MS.Num_val ,NULL)) AS 'BC',\r\n"
 				+ "M.Magnitud,\r\n"
-				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID='2' , MS.Num_val ,NULL )) AS 'AE',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID='2' , MS.Num_val ,NULL )) AS 'AI',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '3' , MS.Num_val  ,NULL)) AS 'AE',\r\n"
 				+ "GROUP_CONCAT(IF(MS.InfoMedidas_ID = '4' , MS.Num_val , NULL)) AS 'R1',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '5' , MS.Num_val , NULL)) AS 'R2',\r\n"
