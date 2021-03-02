@@ -371,7 +371,7 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> medidoresCnc() {
-		List<Map<String,Object>>view = template.queryForList("SELECT CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
+		List<Map<String,Object>>view = template.queryForList("SELECT MET.ID AS IdMEt, CNC.ID AS IdCnc, CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
 				+ "CNC.user, CNC.pass,\r\n"
 				+ "MET.Serial AS MET_Serial,\r\n"
 				+ "MET.logicalName\r\n"
@@ -385,7 +385,7 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> medidoresDeUnCnc(String serialCnc) {
-		List<Map<String,Object>>view = template.queryForList("SELECT CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
+		List<Map<String,Object>>view = template.queryForList("SELECT MET.ID AS IdMEt, CNC.ID AS IdCnc, CNC.Ip_real, CNC.Serial AS CNC_Serial,\r\n"
 				+ "CNC.user, CNC.pass,\r\n"
 				+ "MET.Serial AS MET_Serial,\r\n"
 				+ "MET.logicalName\r\n"

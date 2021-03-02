@@ -1,5 +1,6 @@
 package com.InpetelCloud.Dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,46 +9,75 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ReportesInterface;
+import com.InpetelCloud.Model.Prueba;
 
 @Repository
 public class ReportesDao implements ReportesInterface {
 	
 	@Autowired
 	JdbcTemplate template;
-
-	@Override
-	public List<Map<String, Object>> curvaHoraria(String reporte, String fechaInicio, String fechaFin, String medidores) {
-		System.out.println(fechaInicio);
-		System.out.println(fechaFin);
-		System.out.println(medidores);
-		//medidores= medidores.replaceAll("[]","");
+	
+	private Prueba prueba = new Prueba();
 
 
+	
+	public List<Map<String, Object>> curvaHoraria(String reporte, String serialCnc, String fechaInicio, String fechaFin, String medidores) {
 		List<Map<String,Object>>view = template.queryForList ("SELECT\r\n"
 				+ "M.Serial,\r\n"
 				+ "(SUBSTRING(MS.Fecha, 1, 20)) as Fecha,\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '8', MS.Num_val ,NULL)) AS 'BC',\r\n"
+				+ "M.Magnitud,\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID='2' , MS.Num_val ,NULL )) AS 'AE',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '3' , MS.Num_val  ,NULL)) AS 'AE',\r\n"
 				+ "GROUP_CONCAT(IF(MS.InfoMedidas_ID = '4' , MS.Num_val , NULL)) AS 'R1',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '5' , MS.Num_val , NULL)) AS 'R2',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '6' , MS.Num_val , NULL)) AS 'R3',\r\n"
 				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '7' , MS.Num_val , NULL )) AS 'R4',\r\n"
-				+ "GROUP_CONCAT(IF( MS.IdProfile = '11' , 'Es curva diaria' , NULL )) AS 'Load Profile 1'\r\n"
+				+ "GROUP_CONCAT(IF( MS.IdProfile = '11' , 'Es curva horaria' , NULL )) AS 'Load Profile 1'\r\n"
 				+ " fROM  Inpetel_Cloud.Medidor M,\r\n"
 				+ " Inpetel_Cloud.InfoMedidas IM,\r\n"
 				+ " Inpetel_Cloud.Medidas MS\r\n"
 				+ " WHERE\r\n"
+				//+ " MS.IdProfile = '11' AND\r\n"
 				+ " M.ID = MS.Medidor_ID AND\r\n"
 				+ " IM.ID = MS.InfoMedidas_ID AND\r\n"
 				+ " MS.Fecha >= '"+ fechaInicio +"' AND MS.Fecha < '"+ fechaFin +"' AND\r\n"
 				+ " MS.Medidor_ID IN ("+ medidores +")\r\n"
 				+ " GROUP BY M.Serial, MS.Fecha;" );
+		
+		return view;
+	}
+	
+	
+	public List<Map<String, Object>> curvaDiaria(String reporte, String serialCnc, String fechaInicio, String fechaFin,
+			String medidores) {
+		List<Map<String,Object>>view = template.queryForList ("SELECT\r\n"
+				+ "M.Serial,\r\n"
+				+ "(SUBSTRING(MS.Fecha, 1, 20)) as Fecha,\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '8', MS.Num_val ,NULL)) AS 'BC',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID='2' , MS.Num_val ,NULL )) AS 'AI',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '3' , MS.Num_val  ,NULL)) AS 'AE',\r\n"
+				+ "GROUP_CONCAT(IF(MS.InfoMedidas_ID = '4' , MS.Num_val , NULL)) AS 'R1',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '5' , MS.Num_val , NULL)) AS 'R2',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '6' , MS.Num_val , NULL)) AS 'R3',\r\n"
+				+ "GROUP_CONCAT(IF( MS.InfoMedidas_ID = '7' , MS.Num_val , NULL )) AS 'R4',\r\n"
+				+ "GROUP_CONCAT(IF( MS.IdProfile = '12' , 'Es curva diaria' , NULL )) AS 'Load Profile 2'\r\n"
+				+ "\r\n"
+				+ " fROM  Inpetel_Cloud.Medidor M,\r\n"
+				+ " Inpetel_Cloud.InfoMedidas IM,\r\n"
+				+ " Inpetel_Cloud.Medidas MS\r\n"
+				+ " WHERE\r\n"
+				//+ " MS.IdProfile = '12' AND\r\n"
+				+ " M.ID = MS.Medidor_ID AND\r\n"
+				+ " IM.ID = MS.InfoMedidas_ID AND\r\n"
+				+ " MS.Fecha >= '"+ fechaInicio +"' AND MS.Fecha < '"+ fechaFin +"' AND\r\n"
+				+ " MS.Medidor_ID IN ("+ medidores +")\r\n"
+				+ "  GROUP BY M.Serial, MS.Fecha;");
 		return view;
 	}
 
-	@Override
-	public List<Map<String, Object>> eventoMedidor(String reporte, String fechaInicio, String fechaFin,
+	
+	public List<Map<String, Object>> eventoMedidor(String reporte,String serialCnc, String fechaInicio, String fechaFin,
 			String medidores) {
 		List<Map<String,Object>>view = template.queryForList ("SELECT CNC.Serial AS Serial_Cnc, M.Serial AS Serial_Met,  (SUBSTRING(EV.Fecha, 1, 20)) as Fecha, Descripcion AS Descripcion_Evento\r\n"
 				+ "FROM Inpetel_Cloud.EventoMedidor EV,\r\n"
@@ -64,5 +94,38 @@ public class ReportesDao implements ReportesInterface {
 				+ " EV.Medidor_ID IN ("+ medidores +");");
 		return view;
 	}
+
+
+	@Override
+	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String fechaFin,
+			String medidores) {
+		
+		List<Map<String, Object>> resultado = new ArrayList<Map<String,Object>>();
+		
+		if(reporte.equals("")) {
+			prueba.log("[INFO] El nombre del reporte que esta tratando de mandar esta vacio");
+		}
+		else {
+			if(reporte.equals("CurvaHoraria")) {
+				prueba.log("[INFO] Creando reporte de curva horaria");
+				resultado = curvaHoraria(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+			}
+			else if(reporte.equals("CurvaDiaria")) {
+				prueba.log("[INFO] Creando reporte de curva diaria");
+				resultado = curvaDiaria(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+			}
+			else if(reporte.equals("EventosMedidor")) {
+				prueba.log("[INFO] Creando reporte de eventos del medidor");
+				resultado = eventoMedidor(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+			}
+			else {
+				prueba.log("[INFO] Creando reporte de eventos del concentrador");
+			}
+		}
+		
+		return resultado;
+	}
+
+	
 
 }

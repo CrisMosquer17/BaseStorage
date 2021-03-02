@@ -19,16 +19,27 @@ public class ReportesController {
 	@Autowired
 	ReportesService service;
 	
-	@GetMapping("/curvaHoraria")
-	@CrossOrigin(origins="*")
-	public List<Map<String, Object>> curvaHoraria(@RequestParam("reporte") String reporte,@RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores ) {
-		return service.curvaHoraria(reporte, fechaInicio, fechaFin, medidores);
-	}
+//	@GetMapping("/curvaHoraria")
+//	@CrossOrigin(origins="*")
+//	public List<Map<String, Object>> curvaHoraria(@RequestParam("reporte") String reporte,@RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores ) {
+//		return service.curvaHoraria(reporte, fechaInicio, fechaFin, medidores);
+//	}
+//	@GetMapping("/curvaDiaria")
+//	@CrossOrigin(origins="*")
+//	public List<Map<String, Object>> curvaDiaria(@RequestParam("reporte") String reporte,@RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores ) {
+//		return service.curvaDiaria(reporte, fechaInicio, fechaFin, medidores);
+//	}
+//	
+//	@GetMapping("/eventoMedidor")
+//	@CrossOrigin(origins="*")
+//	public List<Map<String, Object>> eventoMedidor(@RequestParam("reporte") String reporte,@RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores) {
+//		return service.eventoMedidor(reporte, fechaInicio, fechaFin, medidores);
+//	}
 	
-	@GetMapping("/eventoMedidor")
+	@GetMapping("/reportes")
 	@CrossOrigin(origins="*")
-	public List<Map<String, Object>> eventoMedidor(@RequestParam("reporte") String reporte,@RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores) {
-		return service.eventoMedidor(reporte, fechaInicio, fechaFin, medidores);
+	public List<Map<String, Object>> eventoMedidor(@RequestParam("reporte") String reporte, @RequestParam("reporte") String serialCnc, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("medidores")String medidores) {
+		return service.reporte(reporte, serialCnc, fechaInicio, fechaFin, medidores);
 	}
 
 }

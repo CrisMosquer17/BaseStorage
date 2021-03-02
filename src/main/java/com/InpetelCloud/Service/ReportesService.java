@@ -20,14 +20,28 @@ public class ReportesService implements ReportesInterface {
     private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
-	public List<Map<String, Object>> curvaHoraria(String reporte, String fechaInicio, String fechaFin, String medidores) {
-		return dao.curvaHoraria(reporte, fechaInicio, fechaFin, medidores);
+	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String fechaFin,
+			String medidores) {
+		return dao.reporte(reporte, serialCnc, fechaInicio, fechaFin, medidores);
 	}
 
-	@Override
-	public List<Map<String, Object>> eventoMedidor(String reporte, String fechaInicio, String fechaFin, String medidores) {
-		return dao.eventoMedidor(reporte, fechaInicio, fechaFin, medidores);
-	}
+//	@Override
+//	public List<Map<String, Object>> curvaHoraria(String reporte, String fechaInicio, String fechaFin, String medidores) {
+//		return dao.curvaHoraria(reporte, fechaInicio, fechaFin, medidores);
+//	}
+//	
+//	@Override
+//	public List<Map<String, Object>> curvaDiaria(String reporte, String fechaInicio, String fechaFin,
+//			String medidores) {
+//		return dao.curvaDiaria(reporte, fechaInicio, fechaFin, medidores);
+//	}         
+//
+//	@Override
+//	public List<Map<String, Object>> eventoMedidor(String reporte, String fechaInicio, String fechaFin, String medidores) {
+//		return dao.eventoMedidor(reporte, fechaInicio, fechaFin, medidores);
+//	}
+
+	
 
 
 }
