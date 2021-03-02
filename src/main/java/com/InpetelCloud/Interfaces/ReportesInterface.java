@@ -14,7 +14,7 @@ public interface ReportesInterface {
 //	List<Map<String, Object>> eventoMedidor(String reporte,String fechaInicio, String fechaFin
 //			, String medidores);
 	
-	List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String fechaFin
-			, String medidores);
+	List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String horaInicio, String fechaFin
+			, String horaFin, String medidores);
 
 }

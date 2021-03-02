@@ -38,8 +38,8 @@ public class ReportesController {
 	
 	@GetMapping("/reportes")
 	@CrossOrigin(origins="*")
-	public List<Map<String, Object>> eventoMedidor(@RequestParam("reporte") String reporte, @RequestParam("serialCnc") String serialCnc, @RequestParam("fechaInicio") String fechaInicio,@RequestParam("fechaFin") String fechaFin,  @RequestParam("medidores")String medidores) {
-		return service.reporte(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+	public List<Map<String, Object>> eventoMedidor(@RequestParam("reporte") String reporte, @RequestParam("serialCnc") String serialCnc, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("horaInicio") String horaInicio, @RequestParam("fechaFin") String fechaFin, @RequestParam("horaFin") String horaFin, @RequestParam("medidores")String medidores) {
+		return service.reporte(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 	}
 
 }

@@ -21,7 +21,12 @@ public class ReportesDao implements ReportesInterface {
 
 
 	
-	public List<Map<String, Object>> curvaHoraria(String reporte, String serialCnc, String fechaInicio, String fechaFin, String medidores) {
+	public List<Map<String, Object>> curvaHoraria(String reporte, String serialCnc, String fechaInicio,String horaInicio, String fechaFin
+			, String horaFin, String medidores) {
+		String fechaI = fechaInicio + " "+ horaInicio;
+		String fechaF = fechaFin + " "+ horaFin;
+
+	
 		List<Map<String,Object>>view = template.queryForList ("SELECT\r\n"
 				+ "M.Serial,\r\n"
 				+ "(SUBSTRING(MS.Fecha, 1, 20)) as Fecha,\r\n"
@@ -41,7 +46,7 @@ public class ReportesDao implements ReportesInterface {
 				//+ " MS.IdProfile = '11' AND\r\n"
 				+ " M.ID = MS.Medidor_ID AND\r\n"
 				+ " IM.ID = MS.InfoMedidas_ID AND\r\n"
-				+ " MS.Fecha >= '"+ fechaInicio +"' AND MS.Fecha < '"+ fechaFin +"' AND\r\n"
+				+ " MS.Fecha >= '"+ fechaI +"' AND MS.Fecha < '"+ fechaF +"' AND\r\n"
 				+ " MS.Medidor_ID IN ("+ medidores +")\r\n"
 				+ " GROUP BY M.Serial, MS.Fecha;" );
 		
@@ -49,8 +54,11 @@ public class ReportesDao implements ReportesInterface {
 	}
 	
 	
-	public List<Map<String, Object>> curvaDiaria(String reporte, String serialCnc, String fechaInicio, String fechaFin,
+	public List<Map<String, Object>> curvaDiaria(String reporte, String serialCnc, String fechaInicio, String horaInicio, String fechaFin
+			, String horaFin,
 			String medidores) {
+		String fechaI = fechaInicio + " "+ horaInicio;
+		String fechaF = fechaFin + " "+ horaFin;
 		List<Map<String,Object>>view = template.queryForList ("SELECT\r\n"
 				+ "M.Serial,\r\n"
 				+ "(SUBSTRING(MS.Fecha, 1, 20)) as Fecha,\r\n"
@@ -70,15 +78,18 @@ public class ReportesDao implements ReportesInterface {
 				//+ " MS.IdProfile = '12' AND\r\n"
 				+ " M.ID = MS.Medidor_ID AND\r\n"
 				+ " IM.ID = MS.InfoMedidas_ID AND\r\n"
-				+ " MS.Fecha >= '"+ fechaInicio +"' AND MS.Fecha < '"+ fechaFin +"' AND\r\n"
+				+ " MS.Fecha >= '"+ fechaI +"' AND MS.Fecha < '"+ fechaF +"' AND\r\n"
 				+ " MS.Medidor_ID IN ("+ medidores +")\r\n"
 				+ "  GROUP BY M.Serial, MS.Fecha;");
 		return view;
 	}
 
 	
-	public List<Map<String, Object>> eventoMedidor(String reporte,String serialCnc, String fechaInicio, String fechaFin,
+	public List<Map<String, Object>> eventoMedidor(String reporte,String serialCnc, String fechaInicio,String horaInicio, String fechaFin
+			, String horaFin,
 			String medidores) {
+		String fechaI = fechaInicio + " "+ horaInicio;
+		String fechaF = fechaFin + " "+ horaFin;
 		List<Map<String,Object>>view = template.queryForList ("SELECT CNC.Serial AS Serial_Cnc, M.Serial AS Serial_Met,  (SUBSTRING(EV.Fecha, 1, 20)) as Fecha, Descripcion AS Descripcion_Evento\r\n"
 				+ "FROM Inpetel_Cloud.EventoMedidor EV,\r\n"
 				+ "Inpetel_Cloud.Medidor M,\r\n"
@@ -90,15 +101,15 @@ public class ReportesDao implements ReportesInterface {
 				+ "EV.InfoEventos_ID = IE.ID AND\r\n"
 				+ "ASO.Medidor_ID = M.ID AND\r\n"
 				+ "ASO.Concentrador_ID = CNC.ID AND\r\n"
-				+ "EV.Fecha >= '"+ fechaInicio +"' AND EV.Fecha < '"+ fechaFin +"' AND\r\n"
+				+ "EV.Fecha >= '"+ fechaI +"' AND EV.Fecha < '"+ fechaF +"' AND\r\n"
 				+ " EV.Medidor_ID IN ("+ medidores +");");
 		return view;
 	}
 
 
 	@Override
-	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String fechaFin,
-			String medidores) {
+	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String horaInicio, String fechaFin
+			, String horaFin,String medidores) {
 		
 		List<Map<String, Object>> resultado = new ArrayList<Map<String,Object>>();
 		
@@ -108,15 +119,15 @@ public class ReportesDao implements ReportesInterface {
 		else {
 			if(reporte.equals("CurvaHoraria")) {
 				prueba.log("[INFO] Creando reporte de curva horaria");
-				resultado = curvaHoraria(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+				resultado = curvaHoraria(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 			}
 			else if(reporte.equals("CurvaDiaria")) {
 				prueba.log("[INFO] Creando reporte de curva diaria");
-				resultado = curvaDiaria(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+				resultado = curvaDiaria(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 			}
 			else if(reporte.equals("EventosMedidor")) {
 				prueba.log("[INFO] Creando reporte de eventos del medidor");
-				resultado = eventoMedidor(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+				resultado = eventoMedidor(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 			}
 			else {
 				prueba.log("[INFO] Creando reporte de eventos del concentrador");

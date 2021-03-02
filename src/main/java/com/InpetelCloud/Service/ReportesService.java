@@ -20,9 +20,9 @@ public class ReportesService implements ReportesInterface {
     private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
-	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio, String fechaFin,
-			String medidores) {
-		return dao.reporte(reporte, serialCnc, fechaInicio, fechaFin, medidores);
+	public List<Map<String, Object>> reporte(String reporte, String serialCnc, String fechaInicio,String horaInicio, String fechaFin
+			, String horaFin, String medidores) {
+		return dao.reporte(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 	}
 
 //	@Override
