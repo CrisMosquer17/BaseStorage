@@ -1777,7 +1777,7 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		//serial concentrador
-		if(resultado.size() > 0) {
+//		if(resultado.size() > 0) {
 			//serial medidor
 			medidaResultado.add(resultado.get(0).toString());
 
@@ -1809,11 +1809,11 @@ public class InsercionService implements InsercionInterface {
 			
 			//id de trazabilidad
 			medidaResultado.add(trazaID);
-			}
-			else{
-				System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
-
-			}
+//			}
+//			else{
+//				System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
+//
+//			}
 		
 		return medidaResultado;
 	}
@@ -1833,13 +1833,17 @@ public class InsercionService implements InsercionInterface {
 		}
 		for (int i = 0; i < serialesConcentradores.size(); i++) {
 			if (serialesConcentradores.size() == 0) {
-
+				System.out.println("No existe el concentrador en la base de datos");
 			} else {
 
 				if (serialesConcentradores.get(i).equals(evento.getEventoConcentrador().get(j).getConcentrator())) {
 					resultado = true;
 				}
 			}
+		}
+		if(resultado == false) {
+			dao.crearConcentradorMedida(evento.getEventoConcentrador().get(j).getConcentrator());
+			resultado = true;
 		}
 		return resultado;
 	}
@@ -1929,7 +1933,7 @@ public class InsercionService implements InsercionInterface {
 				}
 			}
 		}
-		if(resultado.size() > 0) {
+//		if(resultado.size() > 0) {
 		//serial medidor
 		medidaResultado.add(resultado.get(0).toString());
 		
@@ -1981,11 +1985,11 @@ public class InsercionService implements InsercionInterface {
 		}
 		medidaResultado.add(trazaID);
 		
-		}
-		else{
-			System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
-
-		}
+//		}
+//		else{
+//			System.out.println("no deberia crear el medidor, porque son eventos, solo debería obtener datos");
+//
+//		}
 		
 		
 		return medidaResultado;
@@ -1997,8 +2001,8 @@ public class InsercionService implements InsercionInterface {
 		List<String> serialesMedidores = new ArrayList<String>();
 		// dao.serialConcentradores: se trae todos los seriales de los concentradores
 		// que estan en la base de datos.
-		List<Map<String, Object>> concentradores = dao.serialMedidores();
-		for (Map<String, Object> map : concentradores) {
+		List<Map<String, Object>> medidores = dao.serialMedidores();
+		for (Map<String, Object> map : medidores) {
 			for (Map.Entry<String, Object> entry : map.entrySet()) {
 				Object value = entry.getValue();
 				serialesMedidores.add((String) value);
@@ -2013,6 +2017,10 @@ public class InsercionService implements InsercionInterface {
 					resultado = true;
 				}
 			}
+		}
+		if(resultado == false) {
+			dao.crearMedidorMedida(evento.getEventoMedidor().get(j).getMeter());
+			resultado = true;
 		}
 		return resultado;
 	}
@@ -2118,7 +2126,7 @@ public class InsercionService implements InsercionInterface {
 			}
 		}
 		//serial medidor
-		if(resultado.size() > 0) {
+	//	if(resultado.size() > 0) {
 			//serial medidor
 			medidaResultado.add(resultado.get(0).toString());
 			
@@ -2171,7 +2179,7 @@ public class InsercionService implements InsercionInterface {
 			medidaResultado.add(trazaID);
 			
 		
-		}
+		//}
 //		List<Map<String, Object>> idProfile = dao.obtenerIdProfileEventoMedidorG3(evento, j);
 //		for (Map<String, Object> map : idProfile) {
 //			for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -2207,6 +2215,11 @@ public class InsercionService implements InsercionInterface {
 				}
 
 			}
+		}
+		
+		if(resultado == false) {
+			dao.crearMedidorMedida(jsong3.getG3EventoMedidor().get(j).getMeter());
+			resultado = true;
 		}
 
 		return resultado;

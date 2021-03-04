@@ -1560,14 +1560,14 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearEventoMedidorG3Prueba(List<String> resultado,List<String> idRegister,List<String> fechas,List<String> valorRegister) {
 		int value=0;
-		if(resultado.size() == 2) {
+		//if(resultado.size() == 2) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "','" + 60 + "', '" + idRegister.get(0)+ "', '" + valorRegister.get(0) + "');");
-			}
-		else {
-			System.out.println("no agrega");
-			value = 4;
-		}
+//			}
+//		else {
+//			System.out.println("no agrega");
+//			value = 4;
+		//}
 		return value;
 	}
 
@@ -1591,13 +1591,13 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearEventoM(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
 		int value=0;
-		if(resultado.size() == 2) {
+		//if(resultado.size() == 2) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
-			}
-		else {
-			value = 4;
-		}
+//			}
+//		else {
+//			value = 4;
+//		}
 	
 		return value;
 	}
@@ -1616,13 +1616,13 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearEventoMedidorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoMedidor evento, int j) {
 		int value=0;
-		if(resultado.size() == 3) {
+		//if(resultado.size() == 3) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoMedidor ( Medidor_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
-			}
-		else {
-			value = 4;
-		}
+			//}
+		//else {
+		//	value = 4;
+		//}
 
 		return value;
 	}
@@ -1640,13 +1640,13 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearEventoC(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
 		int value=0;
-		if(resultado.size() == 3) {
+		//if(resultado.size() == 3) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + observacion + "');");
-			}
-		else {
-			value = 4;
-		}
+			//}
+		//else {
+			//value = 4;
+		//}
 	
 		return value;
 	}
@@ -1665,13 +1665,13 @@ public class InsercionDao implements InsercionInterface{
 	 */
 	public int crearEventoConcentradorSinObservacion(List<String> resultado,List<String> eventoC,List<String> fechas,List<String> eventGroup, String observacion, objetoJsonEventoConcentrador evento, int j) {
 		int value=0;
-		if(resultado.size() == 2) {
+		//if(resultado.size() == 2) {
 			value = template.update("INSERT INTO Inpetel_Cloud.EventoConcentrador ( Concentrador_ID, Fecha, Trazabilidad_ID, Usu_create, InfoEventos_ID, CodigoEvento, Observaciones)\r\n "
 					+ "VALUES ('" +  resultado.get(0) + "', '" + fechas.get(0) + "', '" + resultado.get(1) + "', '" + 56 + "', '" + eventGroup.get(0) + "',  '" + eventoC.get(0) + "', '" + "-" + "');");
-			}
-		else {
-			value = 4;
-		}
+			//}
+//		else {
+//			value = 4;
+//		}
 	
 		return value;
 	}

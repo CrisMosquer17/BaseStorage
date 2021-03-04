@@ -83,6 +83,8 @@ public class ReportesDao implements ReportesInterface {
 				+ "  GROUP BY M.Serial, MS.Fecha;");
 		return view;
 	}
+	
+	
 
 	
 	public List<Map<String, Object>> eventoMedidor(String reporte,String serialCnc, String fechaInicio,String horaInicio, String fechaFin
@@ -103,6 +105,27 @@ public class ReportesDao implements ReportesInterface {
 				+ "ASO.Concentrador_ID = CNC.ID AND\r\n"
 				+ "EV.Fecha >= '"+ fechaI +"' AND EV.Fecha < '"+ fechaF +"' AND\r\n"
 				+ " EV.Medidor_ID IN ("+ medidores +");");
+		return view;
+	}
+	
+	public List<Map<String, Object>> eventoConcentrador(String reporte,String serialCnc, String fechaInicio,String horaInicio, String fechaFin
+			, String horaFin,
+			String medidores) {
+		String fechaI = fechaInicio + " "+ horaInicio;
+		String fechaF = fechaFin + " "+ horaFin;
+		List<Map<String,Object>>view = template.queryForList ("SELECT cnc.Serial AS Serial_Cnc,  (SUBSTRING(EC.Fecha, 1, 20)) as Fecha, Descripcion AS Descripcion_Evento\r\n"
+				+ "FROM Inpetel_Cloud.EventoConcentrador EC,\r\n"
+				+ "Inpetel_Cloud.InfoEventos IE,\r\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor aso,\r\n"
+				+ "Inpetel_Cloud.Concentrador cnc\r\n"
+				+ "WHERE\r\n"
+				+ "EC.Concentrador_ID = cnc.ID AND\r\n"
+				+ "EC.InfoEventos_ID = IE.ID AND\r\n"
+				+ "aso.Concentrador_ID = cnc.ID AND\r\n"
+				+ "EC.Fecha >='"+ fechaI +"' AND EC.Fecha < '"+ fechaF + "'AND\r\n"
+				+ " EC.Concentrador_ID IN ( " + serialCnc + ")\r\n"
+				+ "GROUP BY EC.Fecha;\r\n"
+				+ ";");
 		return view;
 	}
 
@@ -129,8 +152,13 @@ public class ReportesDao implements ReportesInterface {
 				prueba.log("[INFO] Creando reporte de eventos del medidor");
 				resultado = eventoMedidor(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
 			}
-			else {
+			else if(reporte.equals("EventosConcentrador")) {
 				prueba.log("[INFO] Creando reporte de eventos del concentrador");
+				resultado = eventoConcentrador(reporte, serialCnc, fechaInicio, horaInicio, fechaFin, horaFin, medidores);
+			}
+			else {
+				prueba.log("[INFO] El nombre del reporte no coincide con ningun reporte establecido por ahora");
+
 			}
 		}
 		
