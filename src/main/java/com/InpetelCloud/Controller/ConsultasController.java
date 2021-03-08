@@ -45,8 +45,6 @@ public class ConsultasController {
 	public List<Map<String, Object>> Medidores(){
 		return service.Medidores();
 	}
-	
-
 
 	@GetMapping("/verMedidoresNoAsociados")
 	@CrossOrigin(origins="*")

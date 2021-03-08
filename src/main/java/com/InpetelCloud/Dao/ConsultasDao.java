@@ -19,6 +19,28 @@ public class ConsultasDao implements ConsultasInterface{
 
 	@Autowired
 	JdbcTemplate template;
+	
+	@Override
+	public List<Map<String, Object>> Concentradores() {
+		List<Map<String, Object>> view = template.queryForList("SELECT c.ID,c.Ip_real, NombreConcentrador,\r\n"
+				+ "(SELECT tp.Nombre FROM Inpetel_Cloud.TipoComunicacion tp WHERE tp.ID = c.TipoComunicacion_ID)Comunicacion,\r\n"
+				+ "c.Imei,\r\n"
+				+ "c.Serial,\r\n"
+				+ "(SELECT tc.ComStatus FROM Inpetel_Cloud.TiempoConectado tc WHERE tc.ID = c.TiempoConectado_ID)Conectado,\r\n"
+				+ "c.Modem_Embedido,\r\n"
+				+ "c.IOmodule,\r\n"
+				+ "c.Modem_ID,\r\n"
+				+ "(SELECT m.Imei FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )ModemImei,\r\n"
+				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = c.Marca_ID)Marca,\r\n"
+				+ "c.Marca_ID,\r\n"
+				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
+				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = c.Marca_ID)Tecnologia,\r\n"
+				+ "c.user, c.pass, c.States_ID,\r\n"
+				+ "(SELECT es.Nombre_Est FROM Inpetel_Cloud.Estados es WHERE es.ID = c.States_ID)Estado,\r\n"
+				+ "c.Observacion\r\n"
+				+ "FROM Inpetel_Cloud.Concentrador c;");
+		return view;
+	}
 
 	@Override
 	public List<Map<String, Object>> Usuarios() {
@@ -48,27 +70,7 @@ public class ConsultasDao implements ConsultasInterface{
 		return view;
 	}
 
-	@Override
-	public List<Map<String, Object>> Concentradores() {
-		List<Map<String, Object>> view = template.queryForList("SELECT c.ID,c.Ip_real, NombreConcentrador,\r\n"
-				+ "(SELECT tp.Nombre FROM Inpetel_Cloud.TipoComunicacion tp WHERE tp.ID = c.TipoComunicacion_ID)Comunicacion,\r\n"
-				+ "c.Imei,\r\n"
-				+ "c.Serial,\r\n"
-				+ "(SELECT tc.ComStatus FROM Inpetel_Cloud.TiempoConectado tc WHERE tc.ID = c.TiempoConectado_ID)Conectado,\r\n"
-				+ "c.Modem_Embedido,\r\n"
-				+ "c.IOmodule,\r\n"
-				+ "c.Modem_ID,\r\n"
-				+ "(SELECT m.Imei FROM Inpetel_Cloud.Modem m WHERE m.ID = c.Modem_ID )ModemImei,\r\n"
-				+ "(SELECT mr.Nombre_Marca FROM Inpetel_Cloud.Marca mr WHERE mr.ID = c.Marca_ID)Marca,\r\n"
-				+ "c.Marca_ID,\r\n"
-				+ "(SELECT tr.Nombre_Tecnologia FROM Inpetel_Cloud.Marca mt, Inpetel_Cloud.TecnologiaComponente tr\r\n"
-				+ "WHERE tr.ID = mt.TecnologiaComponente_ID AND mt.ID = c.Marca_ID)Tecnologia,\r\n"
-				+ "c.user, c.pass, c.States_ID,\r\n"
-				+ "(SELECT es.Nombre_Est FROM Inpetel_Cloud.Estados es WHERE es.ID = c.States_ID)Estado,\r\n"
-				+ "c.Observacion\r\n"
-				+ "FROM Inpetel_Cloud.Concentrador c;");
-		return view;
-	}
+	
 	
 	@Override
 	public boolean Concentradores(modelConcentrator cnc) {

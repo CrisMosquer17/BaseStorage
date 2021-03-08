@@ -26,6 +26,11 @@ public class ConsultasService implements ConsultasInterface {
 	
 	
     private Logger log = LoggerFactory.getLogger(getClass());
+    
+    @Override
+	public List<Map<String, Object>> Concentradores() {
+		return dao.Concentradores();
+	}
 
 	@Override
 	public List<Map<String, Object>> Usuarios() {
@@ -44,10 +49,7 @@ public class ConsultasService implements ConsultasInterface {
 		}
 	}
 
-	@Override
-	public List<Map<String, Object>> Concentradores() {
-		return dao.Concentradores();
-	}
+	
 	@Override
 	public List<Map<String, Object>> verConcentradorIndividual(Long id) {
 		List<Map<String, Object>> concentradores = dao.verConcentradorIndividual(id);
