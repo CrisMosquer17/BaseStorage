@@ -7,22 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
-import com.InpetelCloud.Model.Evento;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
-import com.InpetelCloud.Model.modelMeter;
-import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
-import com.InpetelCloud.Model.objetoJsonEventoMedidor;
-import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
-import com.InpetelCloud.Model.objetoJsonG3;
-import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.ObjetoJson;
 import com.InpetelCloud.Model.ObjetoJsonS03;
@@ -35,6 +27,13 @@ import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
+import com.InpetelCloud.Model.objetoJsonEventoConcentrador;
+import com.InpetelCloud.Model.objetoJsonEventoMedidor;
+import com.InpetelCloud.Model.objetoJsonEventoMedidorG3;
+import com.InpetelCloud.Model.objetoJsonG3;
+import com.InpetelCloud.Model.objetoJsonG3S03;
 import com.InpetelCloud.Service.InsercionService;
 
 @RestController
@@ -169,6 +168,12 @@ public class InsercionController {
 	@CrossOrigin(origins = "*")
 	public int crearConcentradorV(@RequestBody modelConcentrator concentrador) {
 		return service.crearConcentradorVista(concentrador);
+	}
+	
+	@PostMapping("/crearBalance/")
+	@CrossOrigin(origins="*")
+	public int crearBalance(@RequestBody Balance balance) {
+		return service.crearBalance(balance);
 	}
 	
 	@PostMapping("/crearMedidaG3/")

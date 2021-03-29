@@ -1,12 +1,11 @@
 package com.InpetelCloud.Interfaces;
 
 
-import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
-import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -17,6 +16,8 @@ import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 
 public interface ModificacionInterface {
 		
@@ -75,6 +76,8 @@ public interface ModificacionInterface {
 	public int modificarMedidor(Long id, modelMeter medidor);
 	
 	public int modificarMedidorVista(Long id, modelMeter medidor);
+	
+	public int modificarBalance(Long id, Balance balance);
 
 
 

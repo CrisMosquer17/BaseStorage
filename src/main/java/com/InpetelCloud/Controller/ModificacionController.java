@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
 import com.InpetelCloud.Model.Marca;
-import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.Rol;
 import com.InpetelCloud.Model.SistemExterno;
@@ -24,6 +23,8 @@ import com.InpetelCloud.Model.TipoMedidor;
 import com.InpetelCloud.Model.TipoPuerto;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.Usuarios;
+import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.modelMeter;
 import com.InpetelCloud.Service.ModificacionService;
 
 @RestController
@@ -127,6 +128,12 @@ public class ModificacionController {
 	@CrossOrigin(origins="*")
 	public void modificarMedidor(@PathVariable Long id, @RequestBody modelMeter medidor) {
 		service.modificarMedidor(id, medidor);
+	}
+	
+	@PutMapping("modificarBalance/{id}")
+	@CrossOrigin(origins="*")
+	public void modificarBalance(@PathVariable Long id, @RequestBody Balance balance) {
+		service.modificarBalance(id, balance);
 	}
 	
 	//no va el logicname

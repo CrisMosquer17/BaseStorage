@@ -16,6 +16,7 @@ import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -412,6 +413,29 @@ public class InsercionService implements InsercionInterface {
 		
 		return crea;
 	}
+	
+	/**
+	 * Return: 1, se creo el balance exitosamente.
+	 * 4, el registro ya existe en la base de datos.
+	 *
+	 */
+	@Override
+	public int crearBalance(Balance balance) {
+		int validate = 0;
+		List<String> idMet = dao.idMedidor(balance.getIdMedidor());
+		List<String> idTrafo =dao.idTransformadorPorCodigo(balance.getIdTrafo());
+		boolean validarRegistro = dao.validarRegistroBalance(idMet.get(0), idTrafo.get(0));
+		if(validarRegistro == true) {
+			System.out.println("el registro ya existe en la base de datos");
+			validate = 4;
+		}
+		else {
+			validate = dao.crearBalance(balance);
+			}
+		
+		return validate;
+	}
+
 	
 	
 /**
@@ -2294,6 +2318,7 @@ public class InsercionService implements InsercionInterface {
 		return crea;
 	}
 
+	
 	
 
 }

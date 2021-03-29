@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -112,6 +113,17 @@ public class ModificacionDao implements ModificacionInterface{
 		}
 		return resultado;
 	}
+	
+	public ArrayList<String> idTransformadorPorCodigo(String codigo) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Transformador WHERE Codigo='"+ codigo +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
 
 
 	@Override
@@ -152,6 +164,25 @@ public class ModificacionDao implements ModificacionInterface{
 		List<String> tipoMet = tipoMedidor(medidor);
 		List<String> marcaId = marcaMedidor(medidor);
 		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"', logicalName='"+medidor.getLogicalName()+"'  where ID="+ id +";");
+		return value;
+	}
+	
+	@Override
+	public int modificarBalance(Long id, Balance balance) {
+		int value = 0;
+		List<String> idMet = idMedidor(balance.getIdMedidor());
+		List<String> idTrafo =idTransformadorPorCodigo(balance.getIdTrafo());
+		if(idMet.size() < 1) {
+			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
+			value = 2;
+		}
+		else if(idTrafo.size() < 1) {
+			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
+			value = 3;
+		}
+		else {
+			value = template.update("UPDATE Inpetel_Cloud.Balance set Medidor_ID='"+ idMet.get(0) +"', Usuarios_ID='"+ balance.getIdMedidor() +"', Transformador_ID='"+ idTrafo.get(0) +"', Fh_update=now() where ID="+ id +";");
+			}
 		return value;
 	}
 	
@@ -309,6 +340,8 @@ public class ModificacionDao implements ModificacionInterface{
 		int value= template.update("UPDATE Inpetel_Cloud.Medidor set TipoMedidor_ID='"+ tipoMet.get(0) +"', Magnitud='"+medidor.getMagnitud()+"', NumCuadrantes='"+medidor.getNumberQuadrants()+"', TipoPuerto_ID='"+medidor.getTipoPuertoId()+"', Prepago='"+medidor.getPrepago()+"', Sync_reloj='"+medidor.getSyncReloj()+"', Modelo='"+medidor.getModel()+"', Serial='"+medidor.getMeter()+"', Marca_ID='"+marcaId.get(0)+"',States_ID='"+medidor.getEstadoId()+"'  where ID="+ id +";");
 		return value;
 	}
+	
+	
 
 	
 

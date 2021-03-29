@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.InpetelCloud.Dao.ModificacionDao;
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -138,6 +139,11 @@ public class ModificacionService implements ModificacionInterface{
 	@Override
 	public int modificarMedidorVista(Long id, modelMeter medidor) {
 		return dao.modificarMedidorVista(id, medidor);
+	}
+
+	@Override
+	public int modificarBalance(Long id, Balance balance) {
+		return dao.modificarBalance(id, balance);
 	}
 
 	

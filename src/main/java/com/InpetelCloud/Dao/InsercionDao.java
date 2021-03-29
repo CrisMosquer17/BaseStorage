@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
+import com.InpetelCloud.Model.Balance;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -47,13 +48,6 @@ public class InsercionDao implements InsercionInterface{
 	  
 		try {
 			template.execute("CREATE SCHEMA IF NOT EXISTS `"+ name +"`");
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Estados` (\r\n"
-					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Nombre_Est` VARCHAR(120) NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`))\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 1");
-			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TiempoConectado` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `ComStatus` VARCHAR(25) NULL DEFAULT NULL,\r\n"
@@ -70,6 +64,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "ENGINE = InnoDB\r\n"
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
+			
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Marca` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
@@ -96,6 +91,15 @@ public class InsercionDao implements InsercionInterface{
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Estados` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Nombre_Est` VARCHAR(120) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoComunicacion` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre` VARCHAR(120) NULL DEFAULT NULL,\r\n"
@@ -104,13 +108,7 @@ public class InsercionDao implements InsercionInterface{
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Estados` (\r\n"
-					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Nombre_Est` VARCHAR(120) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`))\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 1\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
+			
 			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Concentrador` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
@@ -309,6 +307,110 @@ public class InsercionDao implements InsercionInterface{
 					+ "ENGINE = InnoDB\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoTrafo` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `NombreTrafo` VARCHAR(150) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Transformador` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Address` VARCHAR(30) NULL DEFAULT NULL,\r\n"
+					+ "  `Codigo` VARCHAR(120) NULL DEFAULT NULL,\r\n"
+					+ "  `Capacidad` INT NULL DEFAULT NULL,\r\n"
+					+ "  `Nodo` INT NULL DEFAULT NULL,\r\n"
+					+ "  `CargaAforada` INT NULL DEFAULT NULL,\r\n"
+					+ "  `TipoTrafo` INT NOT NULL,\r\n"
+					+ "  `Concentrador_ID` INT NOT NULL,\r\n"
+					+ "  `States_ID` INT NOT NULL,\r\n"
+					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`),\r\n"
+					+ "  INDEX `fk_Transformador_Concentrador1_idx` (`Concentrador_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Transformador_States_idx` (`States_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Transformador_TipoTrafo1_idx` (`TipoTrafo` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `fk_Transformador_Concentrador1`\r\n"
+					+ "    FOREIGN KEY (`Concentrador_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Concentrador` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Transformador_States`\r\n"
+					+ "    FOREIGN KEY (`States_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Transformador_TipoTrafo1`\r\n"
+					+ "    FOREIGN KEY (`TipoTrafo`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`TipoTrafo` (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Balance` (\r\n"
+					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Medidor_ID` INT NOT NULL,\r\n"
+					+ "  `Usuarios_ID` INT NOT NULL,\r\n"
+					+ "  `Transformador_ID` INT NOT NULL,\r\n"
+					+ "  `Fh_create` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  `Fh_update` TIMESTAMP NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`),\r\n"
+					+ "  INDEX `fk_Balance_Transformador1_idx` (`Transformador_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Balance_Medidor1_idx` (`Medidor_ID` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Balance_Usuarios1_idx` (`Usuarios_ID` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `fk_Balance_Medidor1`\r\n"
+					+ "    FOREIGN KEY (`Medidor_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Medidor` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Balance_Transformador1`\r\n"
+					+ "    FOREIGN KEY (`Transformador_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Transformador` (`ID`),\r\n"
+					+ "  CONSTRAINT `fk_Balance_Usuarios1`\r\n"
+					+ "    FOREIGN KEY (`Usuarios_ID`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "AUTO_INCREMENT = 1\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;\r\n"
+					+ "");
+			
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`EstadoPeticion` (\r\n"
+					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `Nombre` VARCHAR(150) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`))\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Corte_Reconeccion` (\r\n"
+					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
+					+ "  `ID_Met` INT(11) NOT NULL,\r\n"
+					+ "  `Valor_envio` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Estado_Final` INT(11) NULL DEFAULT NULL,\r\n"
+					+ "  `Estado_Peticion` INT(11) NOT NULL,\r\n"
+					+ "  `Usu_crea` INT(11) NOT NULL,\r\n"
+					+ "  `Fecha_inicio` DATETIME NULL DEFAULT NULL,\r\n"
+					+ "  `Fecha_fin` DATETIME NULL DEFAULT NULL,\r\n"
+					+ "  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
+					+ "  PRIMARY KEY (`ID`),\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_Medidor1_idx` (`ID_Met` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_Usuarios_idx` (`Usu_crea` ASC) VISIBLE,\r\n"
+					+ "  INDEX `fk_Corte_Reconeccion_EstadoPeticion_idx` (`Estado_Peticion` ASC) VISIBLE,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_Medidor1`\r\n"
+					+ "    FOREIGN KEY (`ID_Met`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Medidor` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_Usuarios`\r\n"
+					+ "    FOREIGN KEY (`Usu_crea`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION,\r\n"
+					+ "  CONSTRAINT `fk_Corte_Reconeccion_EstadoPeticion`\r\n"
+					+ "    FOREIGN KEY (`Estado_Peticion`)\r\n"
+					+ "    REFERENCES `"+ name +"`.`EstadoPeticion` (`ID`)\r\n"
+					+ "    ON DELETE NO ACTION\r\n"
+					+ "    ON UPDATE NO ACTION)\r\n"
+					+ "ENGINE = InnoDB\r\n"
+					+ "DEFAULT CHARACTER SET = utf8;");
+			
+			
+			
+			
 			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`InfoEventos` (\r\n"
 					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
 					+ "  `Nombre` VARCHAR(50) NULL DEFAULT NULL,\r\n"
@@ -476,81 +578,6 @@ public class InsercionDao implements InsercionInterface{
 					+ "AUTO_INCREMENT = 1\r\n"
 					+ "DEFAULT CHARACTER SET = utf8;");
 			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`TipoTrafo` (\r\n"
-					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `NombreTrafo` VARCHAR(150) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`))\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 1\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
-			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Transformador` (\r\n"
-					+ "  `ID` INT NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Address` VARCHAR(30) NULL DEFAULT NULL,\r\n"
-					+ "  `Codigo` VARCHAR(120) NULL DEFAULT NULL,\r\n"
-					+ "  `Capacidad` INT NULL DEFAULT NULL,\r\n"
-					+ "  `Nodo` INT NULL DEFAULT NULL,\r\n"
-					+ "  `CargaAforada` INT NULL DEFAULT NULL,\r\n"
-					+ "  `TipoTrafo` INT NOT NULL,\r\n"
-					+ "  `Concentrador_ID` INT NOT NULL,\r\n"
-					+ "  `States_ID` INT NOT NULL,\r\n"
-					+ "  `Observacion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`),\r\n"
-					+ "  INDEX `fk_Transformador_Concentrador1_idx` (`Concentrador_ID` ASC) VISIBLE,\r\n"
-					+ "  INDEX `fk_Transformador_States_idx` (`States_ID` ASC) VISIBLE,\r\n"
-					+ "  INDEX `fk_Transformador_TipoTrafo1_idx` (`TipoTrafo` ASC) VISIBLE,\r\n"
-					+ "  CONSTRAINT `fk_Transformador_Concentrador1`\r\n"
-					+ "    FOREIGN KEY (`Concentrador_ID`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Concentrador` (`ID`),\r\n"
-					+ "  CONSTRAINT `fk_Transformador_States`\r\n"
-					+ "    FOREIGN KEY (`States_ID`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Estados` (`ID`),\r\n"
-					+ "  CONSTRAINT `fk_Transformador_TipoTrafo1`\r\n"
-					+ "    FOREIGN KEY (`TipoTrafo`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`TipoTrafo` (`ID`))\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "AUTO_INCREMENT = 1\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
-			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`EstadoPeticion` (\r\n"
-					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `Nombre` VARCHAR(150) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`))\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
-			
-			template.execute("CREATE TABLE IF NOT EXISTS `"+ name +"`.`Corte_Reconeccion` (\r\n"
-					+ "  `ID` INT(11) NOT NULL AUTO_INCREMENT,\r\n"
-					+ "  `ID_Met` INT(11) NOT NULL,\r\n"
-					+ "  `Valor_envio` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `Estado_Final` INT(11) NULL DEFAULT NULL,\r\n"
-					+ "  `Estado_Peticion` INT(11) NOT NULL,\r\n"
-					+ "  `Usu_crea` INT(11) NOT NULL,\r\n"
-					+ "  `Fecha_inicio` DATETIME NULL DEFAULT NULL,\r\n"
-					+ "  `Fecha_fin` DATETIME NULL DEFAULT NULL,\r\n"
-					+ "  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,\r\n"
-					+ "  PRIMARY KEY (`ID`),\r\n"
-					+ "  INDEX `fk_Corte_Reconeccion_Medidor1_idx` (`ID_Met` ASC) VISIBLE,\r\n"
-					+ "  INDEX `fk_Corte_Reconeccion_Usuarios_idx` (`Usu_crea` ASC) VISIBLE,\r\n"
-					+ "  INDEX `fk_Corte_Reconeccion_EstadoPeticion_idx` (`Estado_Peticion` ASC) VISIBLE,\r\n"
-					+ "  CONSTRAINT `fk_Corte_Reconeccion_Medidor1`\r\n"
-					+ "    FOREIGN KEY (`ID_Met`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Medidor` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION,\r\n"
-					+ "  CONSTRAINT `fk_Corte_Reconeccion_Usuarios`\r\n"
-					+ "    FOREIGN KEY (`Usu_crea`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`Usuarios` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION,\r\n"
-					+ "  CONSTRAINT `fk_Corte_Reconeccion_EstadoPeticion`\r\n"
-					+ "    FOREIGN KEY (`Estado_Peticion`)\r\n"
-					+ "    REFERENCES `"+ name +"`.`EstadoPeticion` (`ID`)\r\n"
-					+ "    ON DELETE NO ACTION\r\n"
-					+ "    ON UPDATE NO ACTION)\r\n"
-					+ "ENGINE = InnoDB\r\n"
-					+ "DEFAULT CHARACTER SET = utf8;");
-			
 		}catch(Exception ex) {
 			System.out.println(ex);
 		}
@@ -692,6 +719,34 @@ public class InsercionDao implements InsercionInterface{
 		return value;
 	}
 	
+	/**
+	 * Retorno: si es 2, el idMet no esta en la bd. Si es 3 el idTrafo no está en la bd
+	 * Comentario: El id del usuario se entiende que viene el numero.
+	 */
+	@Override
+	public int crearBalance(Balance balance) {
+		int value = 0;
+		List<String> idMet = idMedidor(balance.getIdMedidor());
+		List<String> idTrafo =idTransformadorPorCodigo(balance.getIdTrafo());
+		
+		if(idMet.size() < 1) {
+			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
+			value = 2;
+		}
+		else if(idTrafo.size() < 1) {
+			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
+			value = 3;
+		}
+		
+		else {
+			value = template.update("INSERT INTO Inpetel_Cloud.Balance (Medidor_ID, Usuarios_ID, Transformador_ID, Fh_create)\r\n"
+					+ " VALUES ('"+ idMet.get(0) + "', '"+ balance.getIdUsuario() + "',  '" + idTrafo.get(0) + "' , now());");
+			}
+
+		return value;
+	}
+
+	
 	public List<Map<String,Object>> validarUsuario(Usuarios usuario) {
 		List<Map<String,Object>>validacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Usuarios where Login='"+ usuario.getLogin() +"';");
 		return validacion;
@@ -764,6 +819,8 @@ public class InsercionDao implements InsercionInterface{
 		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Concentrador WHERE Serial='"+ cnsS +"';");
 		return view;
 	}
+	
+	
 	
 	public ArrayList<String> idConcentrador(String cncS) {
 		ArrayList<String> resultado = new ArrayList<String>();
@@ -1698,11 +1755,22 @@ public class InsercionDao implements InsercionInterface{
 		}
 		return existe;
 	}
-
-
 	
-	
-	
+	/**
+	 * Description: Validar que el registro con el medidor y el trafo que llegan no se encuentre en la bd
+	 * @param idMedidor
+	 * @param idTrafo
+	 * @return
+	 */
+	public boolean validarRegistroBalance(String idMedidor, String idTrafo ) {
+		boolean existe = false;
+		//valida que ya exista el registro de ese medidor con ese trafo
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Balance where Medidor_ID='"+ idMedidor +"' and Transformador_ID='"+ idTrafo +"' ;");
+		if(asociacion.size() >= 1) {
+			existe = true;
+		}
+		return existe;
+	}
 	
 
 	
