@@ -365,7 +365,16 @@ public class ConsultasDao implements ConsultasInterface{
 	
 	@Override
 	public List<Map<String, Object>> Macros() {
-		List<Map<String,Object>>macros = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro");
+		List<Map<String,Object>>macros = template.queryForList("SELECT ma.ID AS ID, tr.Codigo AS Transformador, cnc.Serial AS Concentrador, me.Serial AS MacroMedidor \n"
+				+ "FROM Inpetel_Cloud.Macro ma,\n"
+				+ "Inpetel_Cloud.Medidor me,\n"
+				+ "Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Concentrador cnc\n"
+				+ "where\n"
+				+ "ma.Concentrador_ID = cnc.ID and\n"
+				+ "ma.Medidor_ID = me.ID and\n"
+				+ "ma.Transformador_ID = tr.ID\n"
+				+ ";");
 		return macros;
 	}
 	
