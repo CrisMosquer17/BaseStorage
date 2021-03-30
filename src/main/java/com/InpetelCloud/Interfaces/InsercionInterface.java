@@ -2,7 +2,7 @@ package com.InpetelCloud.Interfaces;
 
 
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -108,7 +108,7 @@ public interface InsercionInterface {
 	
 	public int crearEventoMedidorG3(objetoJsonEventoMedidorG3 evento);
 	
-	public int crearBalance(Balance balance);
+	public int crearMacro(Macro macro);
 
 
 	

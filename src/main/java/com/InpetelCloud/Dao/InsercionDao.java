@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -720,27 +720,33 @@ public class InsercionDao implements InsercionInterface{
 	}
 	
 	/**
-	 * Retorno: si es 2, el idMet no esta en la bd. Si es 3 el idTrafo no está en la bd
+	 * Retorno: si es 2, el idCnc  no esta en la bd. Si es 3 el idMet no está en la bd, Si es 3 el idTrafo no está en la bd
 	 * Comentario: El id del usuario se entiende que viene el numero.
 	 */
 	@Override
-	public int crearBalance(Balance balance) {
+	public int crearMacro(Macro macro) {
 		int value = 0;
-		List<String> idMet = idMedidor(balance.getIdMedidor());
-		List<String> idTrafo =idTransformadorPorCodigo(balance.getIdTrafo());
+		List<String> idCnc = idConcentrador(macro.getIdConcentrador());
+		List<String> idMet = idMedidor(macro.getIdMedidor());
+		List<String> idTrafo =idTransformadorPorCodigo(macro.getIdTrafo());
 		
-		if(idMet.size() < 1) {
-			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
+		if(idCnc.size() < 1) {
+			System.out.println("El id del cnc que esta tratando de mandar no existe en la base de datos");
 			value = 2;
+		}
+		
+		else if(idMet.size() < 1) {
+			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
+			value = 3;
 		}
 		else if(idTrafo.size() < 1) {
 			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
-			value = 3;
+			value = 4;
 		}
 		
 		else {
-			value = template.update("INSERT INTO Inpetel_Cloud.Balance (Medidor_ID, Usuarios_ID, Transformador_ID, Fh_create)\r\n"
-					+ " VALUES ('"+ idMet.get(0) + "', '"+ balance.getIdUsuario() + "',  '" + idTrafo.get(0) + "' , now());");
+			value = template.update("INSERT INTO Inpetel_Cloud.Macro (Concentrador_ID, Medidor_ID, Usuarios_ID, Transformador_ID, Fh_create)\r\n"
+					+ " VALUES ('"+ idCnc.get(0) + "', '"+ idMet.get(0) + "', '"+ macro.getIdUsuario() + "',  '" + idTrafo.get(0) + "' , now());");
 			}
 
 		return value;
@@ -1765,7 +1771,7 @@ public class InsercionDao implements InsercionInterface{
 	public boolean validarRegistroBalance(String idMedidor, String idTrafo ) {
 		boolean existe = false;
 		//valida que ya exista el registro de ese medidor con ese trafo
-		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Balance where Medidor_ID='"+ idMedidor +"' and Transformador_ID='"+ idTrafo +"' ;");
+		List<Map<String,Object>>asociacion = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro where Medidor_ID='"+ idMedidor +"' and Transformador_ID='"+ idTrafo +"' ;");
 		if(asociacion.size() >= 1) {
 			existe = true;
 		}

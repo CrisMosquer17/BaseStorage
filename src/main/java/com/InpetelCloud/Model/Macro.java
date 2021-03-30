@@ -2,11 +2,12 @@ package com.InpetelCloud.Model;
 
 import javax.persistence.Id;
 
-public class Balance {
+public class Macro {
 
 	// ATRIBUTOS
 		@Id
 		private int id;
+		private String idConcentrador;
 		private String idMedidor;
 		private String idUsuario;
 		private String idTrafo;
@@ -14,13 +15,14 @@ public class Balance {
 //		private String fechaUpdate;
 		
 		//Constructor vacio
-		public Balance() {
+		public Macro() {
 			super();
 		}
 
 		//Constructor para crear un balance
-		public Balance(String idMedidor, String idUsuario, String idTrafo, String fechaCreate) {
+		public Macro(String idConcentrador,String idMedidor, String idUsuario, String idTrafo, String fechaCreate) {
 			super();
+			this.idConcentrador = idConcentrador;
 			this.idMedidor = idMedidor;
 			this.idUsuario = idUsuario;
 			this.idTrafo = idTrafo;
@@ -28,12 +30,23 @@ public class Balance {
 		}
 		
 		//Constructor para actualizar un balance(no se usa el id)
-		public Balance(int id,String idMedidor, String idUsuario, String idTrafo, String fechaUpdate) {
+		public Macro(int id,String idConcentrador,String idMedidor, String idUsuario, String idTrafo, String fechaUpdate) {
 			super();
+			this.idConcentrador = idConcentrador;
 			this.idMedidor = idMedidor;
 			this.idUsuario = idUsuario;
 			this.idTrafo = idTrafo;
 //			this.fechaUpdate = fechaUpdate;
+		}
+		
+		
+
+		public String getIdConcentrador() {
+			return idConcentrador;
+		}
+
+		public void setIdConcentrador(String idConcentrador) {
+			this.idConcentrador = idConcentrador;
 		}
 
 		public String getIdMedidor() {

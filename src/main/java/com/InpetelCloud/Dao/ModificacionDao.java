@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ModificacionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -167,24 +167,24 @@ public class ModificacionDao implements ModificacionInterface{
 		return value;
 	}
 	
-	@Override
-	public int modificarBalance(Long id, Balance balance) {
-		int value = 0;
-		List<String> idMet = idMedidor(balance.getIdMedidor());
-		List<String> idTrafo =idTransformadorPorCodigo(balance.getIdTrafo());
-		if(idMet.size() < 1) {
-			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
-			value = 2;
-		}
-		else if(idTrafo.size() < 1) {
-			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
-			value = 3;
-		}
-		else {
-			value = template.update("UPDATE Inpetel_Cloud.Balance set Medidor_ID='"+ idMet.get(0) +"', Usuarios_ID='"+ balance.getIdMedidor() +"', Transformador_ID='"+ idTrafo.get(0) +"', Fh_update=now() where ID="+ id +";");
-			}
-		return value;
-	}
+//	@Override
+//	public int modificarBalance(Long id, Macro balance) {
+//		int value = 0;
+//		List<String> idMet = idMedidor(balance.getIdMedidor());
+//		List<String> idTrafo =idTransformadorPorCodigo(balance.getIdTrafo());
+//		if(idMet.size() < 1) {
+//			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
+//			value = 2;
+//		}
+//		else if(idTrafo.size() < 1) {
+//			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
+//			value = 3;
+//		}
+//		else {
+//			value = template.update("UPDATE Inpetel_Cloud.Balance set Medidor_ID='"+ idMet.get(0) +"', Usuarios_ID='"+ balance.getIdMedidor() +"', Transformador_ID='"+ idTrafo.get(0) +"', Fh_update=now() where ID="+ id +";");
+//			}
+//		return value;
+//	}
 	
 	public List<String> tipoMedidor(modelMeter medidor){
 		List<Map<String, Object>> tipoMedidor = new ArrayList<>();

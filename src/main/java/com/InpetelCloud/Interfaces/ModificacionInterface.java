@@ -1,7 +1,7 @@
 package com.InpetelCloud.Interfaces;
 
 
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -77,7 +77,7 @@ public interface ModificacionInterface {
 	
 	public int modificarMedidorVista(Long id, modelMeter medidor);
 	
-	public int modificarBalance(Long id, Balance balance);
+	//public int modificarBalance(Long id, Macro balance);
 
 
 

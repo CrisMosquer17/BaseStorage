@@ -1,5 +1,6 @@
 package com.InpetelCloud.Interfaces;
 
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -46,6 +47,8 @@ public interface EliminarInterface {
 	public int eliminarMedidor(modelMeter medidor,Long id);
 	
 	public int eliminarConcentrador(modelConcentrator concentrador, Long id);
+	
+	public int eliminarMacro(Long id);
 
 
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -130,11 +130,11 @@ public class ModificacionController {
 		service.modificarMedidor(id, medidor);
 	}
 	
-	@PutMapping("modificarBalance/{id}")
-	@CrossOrigin(origins="*")
-	public void modificarBalance(@PathVariable Long id, @RequestBody Balance balance) {
-		service.modificarBalance(id, balance);
-	}
+//	@PutMapping("modificarBalance/{id}")
+//	@CrossOrigin(origins="*")
+//	public void modificarBalance(@PathVariable Long id, @RequestBody Macro balance) {
+//		service.modificarBalance(id, balance);
+//	}
 	
 	//no va el logicname
 	@PutMapping("modificarMedidorVista/{id}")

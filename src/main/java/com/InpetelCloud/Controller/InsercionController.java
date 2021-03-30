@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -170,10 +170,10 @@ public class InsercionController {
 		return service.crearConcentradorVista(concentrador);
 	}
 	
-	@PostMapping("/crearBalance/")
+	@PostMapping("/crearMacro/")
 	@CrossOrigin(origins="*")
-	public int crearBalance(@RequestBody Balance balance) {
-		return service.crearBalance(balance);
+	public int crearMacro(@RequestBody Macro macro) {
+		return service.crearMacro(macro);
 	}
 	
 	@PostMapping("/crearMedidaG3/")

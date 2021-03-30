@@ -16,7 +16,7 @@ import com.InpetelCloud.Dao.InsercionDao;
 import com.InpetelCloud.Interfaces.InsercionInterface;
 import com.InpetelCloud.Model.modelConcentrator;
 import com.InpetelCloud.Model.AsociacionConcentradorMedidor;
-import com.InpetelCloud.Model.Balance;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.CyR;
 import com.InpetelCloud.Model.Estados;
 import com.InpetelCloud.Model.Ftp;
@@ -420,17 +420,18 @@ public class InsercionService implements InsercionInterface {
 	 *
 	 */
 	@Override
-	public int crearBalance(Balance balance) {
+	public int crearMacro(Macro macro) {
 		int validate = 0;
-		List<String> idMet = dao.idMedidor(balance.getIdMedidor());
-		List<String> idTrafo =dao.idTransformadorPorCodigo(balance.getIdTrafo());
+		//List<String> idCnc = dao.idConcentrador(macro.getIdConcentrador());
+		List<String> idMet = dao.idMedidor(macro.getIdMedidor());
+		List<String> idTrafo =dao.idTransformadorPorCodigo(macro.getIdTrafo());
 		boolean validarRegistro = dao.validarRegistroBalance(idMet.get(0), idTrafo.get(0));
 		if(validarRegistro == true) {
 			System.out.println("el registro ya existe en la base de datos");
 			validate = 4;
 		}
 		else {
-			validate = dao.crearBalance(balance);
+			validate = dao.crearMacro(macro);
 			}
 		
 		return validate;

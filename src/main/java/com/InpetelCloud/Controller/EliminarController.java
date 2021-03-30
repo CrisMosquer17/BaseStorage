@@ -105,5 +105,11 @@ public class EliminarController {
 	public int eliminarConcentrador(@RequestBody modelConcentrator concentrador, @PathVariable Long id) {
 		return service.eliminarConcentrador(concentrador, id);
 	}
+	
+	@DeleteMapping("/eliminarMacro/{id}")
+	@CrossOrigin(origins="*")
+	public int eliminarMacro(@PathVariable Long id) {
+		return service.eliminarMacro(id);
+	}
 
 }

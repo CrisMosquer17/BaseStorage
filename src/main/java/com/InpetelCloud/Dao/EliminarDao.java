@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.EliminarInterface;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
 import com.InpetelCloud.Model.modelConcentrator;
@@ -169,6 +170,12 @@ int value = 0;
 		}
 		
 		
+		return value;
+	}
+
+	@Override
+	public int eliminarMacro(Long id) {
+		int value = template.update("DELETE FROM  Inpetel_Cloud.Macro where ID="+ id +";");
 		return value;
 	}
 

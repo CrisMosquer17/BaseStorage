@@ -87,5 +87,10 @@ public class EliminarService implements EliminarInterface {
 		return dao.eliminarConcentrador(concentrador, id);
 	}
 
+	@Override
+	public int eliminarMacro(Long id) {
+		return dao.eliminarMacro(id);
+	}
+
 
 }
