@@ -81,6 +81,9 @@ public interface ConsultasInterface {
 	
 	public List<Map<String, Object>> ModemsNoAsociados();
 	
+	public List<Map<String, Object>> Macros();
+
+	
 	//TRANSFORMADORES ASOCIADOS A UN CNC
 	public List<Map<String, Object>> trafosCnc();
 	
@@ -94,6 +97,8 @@ public interface ConsultasInterface {
 	public boolean validarSerialConcentrador(String cnc);
 	
 	public boolean validarSerialMedidor(String met);
+	
+	
 	
 	
 

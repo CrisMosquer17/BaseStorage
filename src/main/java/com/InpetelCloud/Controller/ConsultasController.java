@@ -284,6 +284,12 @@ public class ConsultasController {
 		return service.medidoresDeUnCnc(serialCnc);
 	}
 	
+	@GetMapping("/verMacros")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> Macros(){
+		return service.Macros();
+	}
+	
 	
 	@PostMapping("/users/login")
 	@CrossOrigin(origins="*")

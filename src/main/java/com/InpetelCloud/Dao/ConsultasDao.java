@@ -363,6 +363,12 @@ public class ConsultasDao implements ConsultasInterface{
 		return view;
 	}
 	
+	@Override
+	public List<Map<String, Object>> Macros() {
+		List<Map<String,Object>>macros = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro");
+		return macros;
+	}
+	
 	
 	@Override
 	public List<Map<String, Object>> trafosCnc() {
@@ -405,6 +411,8 @@ public class ConsultasDao implements ConsultasInterface{
 	public boolean MUnRepeat(Modem m) {
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
+
+	
 
 	
 

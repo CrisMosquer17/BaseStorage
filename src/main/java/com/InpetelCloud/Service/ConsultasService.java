@@ -260,6 +260,11 @@ public class ConsultasService implements ConsultasInterface {
 	public List<Map<String, Object>> ModemsNoAsociados() {
 		return dao.ModemsNoAsociados();
 	}
+	
+	@Override
+	public List<Map<String, Object>> Macros() {
+		return dao.Macros();
+	}
 
 	public boolean MUnRepeat(Modem m) {
 		return dao.MUnRepeat(m);
@@ -305,9 +310,7 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.medidoresDeUnCnc(serialCnc);
 	}
 
-
-
-
+	
 
 
 }
