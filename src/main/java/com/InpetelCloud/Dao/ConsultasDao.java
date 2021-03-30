@@ -421,6 +421,21 @@ public class ConsultasDao implements ConsultasInterface{
 		return template.queryForList("SELECT * FROM Inpetel_Cloud.Modem WHERE Serial = '"+m.getSerial()+"'  OR Imei = '"+m.getImei()+"';").size()> 0;
 	}
 
+	@Override
+	public List<Map<String, Object>> verMacroIndividual(Long id) {
+		List<Map<String,Object>>view = template.queryForList (" SELECT ma.ID AS ID, tr.Codigo AS Transformador, cnc.Serial AS Concentrador, me.Serial AS MacroMedidor \n"
+				+ "FROM Inpetel_Cloud.Macro ma,\n"
+				+ "Inpetel_Cloud.Medidor me,\n"
+				+ "Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Concentrador cnc\n"
+				+ "where\n"
+				+ "ma.Concentrador_ID = cnc.ID and\n"
+				+ "ma.Medidor_ID = me.ID and\n"
+				+ "ma.Transformador_ID = tr.ID and\n"
+				+ "ma.ID = '"+id+"';" );
+		return view;
+	}
+
 	
 
 	

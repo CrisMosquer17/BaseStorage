@@ -290,6 +290,12 @@ public class ConsultasController {
 		return service.Macros();
 	}
 	
+	@GetMapping("/verMacros/{id}")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> verMacros(@PathVariable Long id){
+		return service.verMacroIndividual(id);
+	}
+	
 	
 	@PostMapping("/users/login")
 	@CrossOrigin(origins="*")

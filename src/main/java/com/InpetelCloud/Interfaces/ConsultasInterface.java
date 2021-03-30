@@ -98,9 +98,7 @@ public interface ConsultasInterface {
 	
 	public boolean validarSerialMedidor(String met);
 	
-	
-	
-	
+	public List<Map<String, Object>> verMacroIndividual(Long id);
 
 	/*CNC Y MET SERIAL */
 	

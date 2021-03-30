@@ -310,6 +310,11 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.medidoresDeUnCnc(serialCnc);
 	}
 
+	@Override
+	public List<Map<String, Object>> verMacroIndividual(Long id) {
+		return dao.verMacroIndividual(id);
+	}
+
 	
 
 
