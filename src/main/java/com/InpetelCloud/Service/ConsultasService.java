@@ -315,6 +315,11 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.verMacroIndividual(id);
 	}
 
+	@Override
+	public List<Map<String, Object>> concentradoresDeUnTrafo(String codigo) {
+		return dao.concentradoresDeUnTrafo(codigo);
+	}
+
 	
 
 

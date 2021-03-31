@@ -414,6 +414,18 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "AND CNC.Serial = '"+ serialCnc + "';");
 		return view;
 	}
+	
+	@Override
+	public List<Map<String, Object>> concentradoresDeUnTrafo(String codigo) {
+		List<Map<String,Object>>view = template.queryForList("SELECT cnc.Serial AS Serial_CNC, cnc.ID  \n"
+				+ "FROM Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Concentrador cnc\n"
+				+ "where\n"
+				+ "tr.Concentrador_ID = cnc.ID and\n"
+				+ "tr.Codigo = '"+ codigo + "';");
+		return view;
+	}
+
 
 
 
@@ -435,15 +447,5 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "ma.ID = '"+id+"';" );
 		return view;
 	}
-
-	
-
-	
-
-	
-	
-
-
-
 	
 }

@@ -284,6 +284,12 @@ public class ConsultasController {
 		return service.medidoresDeUnCnc(serialCnc);
 	}
 	
+	@GetMapping("/verConcentradoresDeUnTrafo/{codigo}")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> concentradoresDeUnTrafo(@PathVariable String codigo){
+		return service.concentradoresDeUnTrafo(codigo);
+	}
+	
 	@GetMapping("/verMacros")
 	@CrossOrigin(origins="*")
 	public List <Map<String, Object>> Macros(){

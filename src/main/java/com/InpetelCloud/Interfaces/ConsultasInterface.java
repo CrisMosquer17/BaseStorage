@@ -106,6 +106,10 @@ public interface ConsultasInterface {
 	
 	public List<Map<String,Object>>metSerial(String metS);
 	
+	/*DEVUELVE LOS CONCENTRADORES(POR EL MOMENTO 1) ASOCIADOS A UN TRANSFORMADOR*/
+	public List<Map<String, Object>> concentradoresDeUnTrafo(String codigo);
+
+	
 	/* USUARIOS */
 	public boolean login(Usuarios u);
 	
