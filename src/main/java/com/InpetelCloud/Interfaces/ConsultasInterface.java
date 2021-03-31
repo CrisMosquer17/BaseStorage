@@ -108,6 +108,9 @@ public interface ConsultasInterface {
 	
 	/*DEVUELVE LOS CONCENTRADORES(POR EL MOMENTO 1) ASOCIADOS A UN TRANSFORMADOR*/
 	public List<Map<String, Object>> concentradoresDeUnTrafo(String codigo);
+	
+	/*MUESTRA EL TRAFO Y EL MEDIDOR DE LA TABLA MACRO*/
+	public List<Map<String, Object>> macros();
 
 	
 	/* USUARIOS */

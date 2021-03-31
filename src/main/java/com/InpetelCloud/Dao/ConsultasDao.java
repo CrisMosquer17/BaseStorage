@@ -378,6 +378,18 @@ public class ConsultasDao implements ConsultasInterface{
 		return macros;
 	}
 	
+	@Override
+	public List<Map<String, Object>> macros() {
+		List<Map<String,Object>>macros = template.queryForList("SELECT ma.ID, tr.Codigo AS Codigo_Trafo, me.Serial AS Serial_MET, me.ID AS IdMedidor\n"
+				+ "FROM Inpetel_Cloud.Macro ma,\n"
+				+ "Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Medidor me\n"
+				+ "where\n"
+				+ "ma.Medidor_ID = me.ID and\n"
+				+ "ma.Transformador_ID = tr.ID;");
+		return macros;
+	}
+	
 	
 	@Override
 	public List<Map<String, Object>> trafosCnc() {

@@ -320,6 +320,11 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.concentradoresDeUnTrafo(codigo);
 	}
 
+	@Override
+	public List<Map<String, Object>> macros() {
+		return dao.macros();
+	}
+
 	
 
 

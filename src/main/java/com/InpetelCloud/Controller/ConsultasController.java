@@ -296,6 +296,12 @@ public class ConsultasController {
 		return service.Macros();
 	}
 	
+	@GetMapping("/verMacrosDetallado")
+	@CrossOrigin(origins="*")
+	public List <Map<String, Object>> macros(){
+		return service.macros();
+	}
+	
 	@GetMapping("/verMacros/{id}")
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> verMacros(@PathVariable Long id){

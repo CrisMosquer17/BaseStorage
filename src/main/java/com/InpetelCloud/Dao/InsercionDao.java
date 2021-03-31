@@ -724,7 +724,7 @@ public class InsercionDao implements InsercionInterface{
 	}
 	
 	/**
-	 * Retorno: si es 2, el idCnc  no esta en la bd. Si es 3 el idMet no está en la bd, Si es 3 el idTrafo no está en la bd
+	 * Retorno: si es 2, el trafo ya se encuentra en la tabla macro de la bd. Si es 3 el idMet ya esta creado en la tabla macro de la base de datos
 	 * Comentario: El id del usuario se entiende que viene el numero.
 	 */
 	@Override
@@ -734,27 +734,60 @@ public class InsercionDao implements InsercionInterface{
 		List<String> idMet = idMedidor(macro.getIdMedidor());
 		List<String> idTrafo =idTransformadorPorCodigo(macro.getIdTrafo());
 		
-		if(idCnc.size() < 1) {
-			System.out.println("El id del cnc que esta tratando de mandar no existe en la base de datos");
-			value = 2;
-		}
+		//List<String> idCncMacro = idConcentradorMacro(macro.getIdConcentrador());
+		List<String> idTrafoMacro = idTransformadorMacro(idTrafo.get(0));
+		List<String> idMetMacro =idMedidorMacro(idMet.get(0));
 		
-		else if(idMet.size() < 1) {
-			System.out.println("El id del medidor que esta tratando de mandar no existe en la base de datos");
-			value = 3;
+		if(idTrafoMacro.size() >= 1) {
+			System.out.println("El transformador ya esta creado en la tabla macro de la base de datos");
+			value=2;
 		}
-		else if(idTrafo.size() < 1) {
-			System.out.println("El id del trafo que esta tratando de mandar no existe en la base de datos");
-			value = 4;
+		else if(idMetMacro.size() >=1) {
+			System.out.println("El medidor ya esta creado en la tabla macro de la base de datos");
+			value=3;
 		}
-		
 		else {
+			
 			value = template.update("INSERT INTO Inpetel_Cloud.Macro (Concentrador_ID, Medidor_ID, Usuarios_ID, Transformador_ID, Fh_create)\r\n"
 					+ " VALUES ('"+ idCnc.get(0) + "', '"+ idMet.get(0) + "', '"+ macro.getIdUsuario() + "',  '" + idTrafo.get(0) + "' , now());");
 			}
-
 		return value;
 	}
+	
+	public ArrayList<String> idConcentradorMacro(String cncS) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro WHERE Concentrador_ID='"+ cncS +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
+	public ArrayList<String> idTransformadorMacro(String id) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro WHERE Transformador_ID='"+ id +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
+	public ArrayList<String> idMedidorMacro(String id) {
+		ArrayList<String> resultado = new ArrayList<String>();
+		List<Map<String,Object>>view = template.queryForList("SELECT ID FROM Inpetel_Cloud.Macro WHERE Medidor_ID='"+ id +"';");
+		if(view.size() == 1) {
+			for (int i = 0; i < view.size(); i++) {
+				resultado.add(view.get(i).get("ID").toString());
+			}
+		}
+		return resultado;
+	}
+	
+	
 
 	
 	public List<Map<String,Object>> validarUsuario(Usuarios usuario) {
