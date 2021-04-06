@@ -336,6 +336,7 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.valoresMetAsociadoTrafo(macro);
 	}
 
+	//Retorna porcentaje del balance
 	@Override
 	public ArrayList<Integer> balanceDiario(Macro macro){
 		List<Map<String, Object>> macroM = valoresMacromedidor(macro);
@@ -351,7 +352,6 @@ public class ConsultasService implements ConsultasInterface {
 			macroMString.add(macroM.get(j).get("AI").toString());
 			}
 		
-		
 		ArrayList<Double> metTrafoDouble =  new ArrayList<Double>();
 		for (int n = 0; n < metTrafoString.size(); n++) {
 			metTrafoDouble.add(Double.parseDouble(metTrafoString.get(n)));
@@ -365,19 +365,19 @@ public class ConsultasService implements ConsultasInterface {
 		ArrayList<Integer> macroMInteger = getIntegerArray(macroMString);
 		ArrayList<Integer> resta = new ArrayList<>();
 
-		
+		//
 		for (int l = 0; l < metTrafoInteger.size(); l++) {
-				resta.add(metTrafoInteger.get(l) - macroMInteger.get(l));
+				resta.add((metTrafoInteger.get(l)/ macroMInteger.get(l))*100);
+				}
+		try {
 			
-			
+		} catch (Exception e) {
+			System.out.println("No se puede dividir con cero");
 		}
 		
-		for (int m = 0; m < resta.size(); m++) {
-			System.out.println(resta.get(m));
-		}
-		
-
-		
+//		for (int m = 0; m < resta.size(); m++) {
+//			System.out.println(resta.get(m));
+//		}
 		return resta;
 	}
 	
