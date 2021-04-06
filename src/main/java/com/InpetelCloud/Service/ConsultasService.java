@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.InpetelCloud.Dao.ConsultasDao;
 import com.InpetelCloud.Interfaces.ConsultasInterface;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
@@ -325,7 +326,73 @@ public class ConsultasService implements ConsultasInterface {
 		return dao.macros();
 	}
 
+	@Override
+	public List<Map<String, Object>> valoresMacromedidor(Macro macro) {
+		return dao.valoresMacromedidor(macro);
+	}
+
+	@Override
+	public List<Map<String, Object>> valoresMetAsociadoTrafo(Macro macro) {
+		return dao.valoresMetAsociadoTrafo(macro);
+	}
+
+	@Override
+	public ArrayList<Integer> balanceDiario(Macro macro){
+		List<Map<String, Object>> macroM = valoresMacromedidor(macro);
+		List<Map<String, Object>> metTrafo = valoresMetAsociadoTrafo(macro);
+		
+		ArrayList<String> metTrafoString = new ArrayList<String>();
+		ArrayList<String> macroMString = new ArrayList<String>();
+		
+		for (int i = 0; i < metTrafo.size(); i++) {
+			metTrafoString.add(metTrafo.get(i).get("medidoresMasCargaAforada").toString());
+			}
+		for (int j = 0; j < macroM.size(); j++) {
+			macroMString.add(macroM.get(j).get("AI").toString());
+			}
+		
+		
+		ArrayList<Double> metTrafoDouble =  new ArrayList<Double>();
+		for (int n = 0; n < metTrafoString.size(); n++) {
+			metTrafoDouble.add(Double.parseDouble(metTrafoString.get(n)));
+		}
+		
+		ArrayList<Integer> metTrafoInteger =  new ArrayList<Integer>();
+		for(Double d : metTrafoDouble){
+			metTrafoInteger.add(d.intValue());
+		}
+		
+		ArrayList<Integer> macroMInteger = getIntegerArray(macroMString);
+		ArrayList<Integer> resta = new ArrayList<>();
+
+		
+		for (int l = 0; l < metTrafoInteger.size(); l++) {
+				resta.add(metTrafoInteger.get(l) - macroMInteger.get(l));
+			
+			
+		}
+		
+		for (int m = 0; m < resta.size(); m++) {
+			System.out.println(resta.get(m));
+		}
+		
+
+		
+		return resta;
+	}
 	
+	private ArrayList<Integer> getIntegerArray(ArrayList<String> stringArray) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for(String stringValue : stringArray) {
+            try {
+                //Convert String to Integer, and store it into integer array list.
+                result.add(Integer.parseInt(stringValue));
+            } catch(NumberFormatException nfe) {
+               //System.out.println("Could not parse " + nfe);
+            } 
+        }       
+        return result;
+    }
 
 
 }

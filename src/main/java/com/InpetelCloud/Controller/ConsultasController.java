@@ -1,5 +1,6 @@
 package com.InpetelCloud.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
@@ -306,6 +308,24 @@ public class ConsultasController {
 	@CrossOrigin(origins="*")
 	public List<Map<String, Object>> verMacros(@PathVariable Long id){
 		return service.verMacroIndividual(id);
+	}
+	
+	@PostMapping("/verValoresMacromedidor")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> valoresMacromedidor(@RequestBody Macro macro){
+		return service.valoresMacromedidor(macro);
+	}
+	
+	@PostMapping("/verValoresMetAsociadosAunTrafo")
+	@CrossOrigin(origins="*")
+	public List<Map<String, Object>> valoresMetAsociadoTrafo(@RequestBody Macro macro){
+		return service.valoresMetAsociadoTrafo(macro);
+	}
+	
+	@PostMapping("/verBalanceDiario")
+	@CrossOrigin(origins="*")
+	public ArrayList<Integer> balanceDiario(@RequestBody Macro macro){
+		return service.balanceDiario(macro);
 	}
 	
 	

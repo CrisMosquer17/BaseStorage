@@ -1,8 +1,10 @@
 package com.InpetelCloud.Interfaces;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
@@ -111,6 +113,16 @@ public interface ConsultasInterface {
 	
 	/*MUESTRA EL TRAFO Y EL MEDIDOR DE LA TABLA MACRO*/
 	public List<Map<String, Object>> macros();
+	
+	//BALANCE diario de la macro, se envía solo el macromedidor
+	public List<Map<String, Object>> valoresMacromedidor(Macro macro);
+	
+	//BALANCE Consulta para traer los datos de los medidores asociados al trafo, sin macromedidor 
+	public List<Map<String, Object>> valoresMetAsociadoTrafo(Macro macro);
+
+	//BALANCE diario 
+	public ArrayList<Integer> balanceDiario(Macro macro);
+
 
 	
 	/* USUARIOS */

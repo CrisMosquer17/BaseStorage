@@ -1,5 +1,6 @@
 package com.InpetelCloud.Dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.InpetelCloud.Interfaces.ConsultasInterface;
+import com.InpetelCloud.Model.Macro;
 import com.InpetelCloud.Model.Modem;
 import com.InpetelCloud.Model.SistemExterno;
 import com.InpetelCloud.Model.Transformador;
@@ -459,5 +461,77 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "ma.ID = '"+id+"';" );
 		return view;
 	}
+	
+//	public ArrayList<String> idTransformadorPorCodigo(String serialMacromedidor) {
+//		ArrayList<String> resultado = new ArrayList<String>();
+//		List<Map<String,Object>>view = template.queryForList("SELECT * FROM Inpetel_Cloud.Macro WHERE Codigo='"+ codigo +"';");
+//		if(view.size() == 1) {
+//			for (int i = 0; i < view.size(); i++) {
+//				resultado.add(view.get(i).get("ID").toString());
+//			}
+//		}
+//		return resultado;
+//	}
+
+	@Override
+	public List<Map<String, Object>> valoresMacromedidor(Macro macro) {
+		
+		String fechaI = macro.getFechaInicio() + " "+ macro.getHoraInicio();
+		String fechaF = macro.getFechaFin() + " "+ macro.getHoraFin();
+
+		List<Map<String,Object>>view = template.queryForList ("SELECT medidor.Serial AS Serial_MET,  me.Num_val AS AI, tr.Codigo AS codigo_TRAFO, tr.CargaAforada, (SUBSTRING(me.Fecha, 1, 10)) Fecha\n"
+				+ "FROM \n"
+				+ "Inpetel_Cloud.Medidas me,\n"
+				+ "Inpetel_Cloud.Medidor medidor,\n"
+				+ "Inpetel_Cloud.Macro ma,\n"
+				+ "Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor ACM,\n"
+				+ "Inpetel_Cloud.Concentrador CNC\n"
+				+ "where \n"
+				+ "ma.Medidor_ID = '"+ macro.getIdMedidor() +"' and\n"
+				+ "ma.Medidor_ID = me.Medidor_ID and\n"
+				+ "me.InfoMedidas_ID='2' and \n"
+				+ "tr.Concentrador_ID = ACM.Concentrador_ID and\n"
+				+ "ACM.Concentrador_ID = CNC.ID and \n"
+				+ "ACM.Medidor_ID = medidor.ID and\n"
+				+ "medidor.ID = me.Medidor_ID and\n"
+				+ "ma.Medidor_ID = medidor.ID and\n"
+				+ "ma.Transformador_ID = tr.ID and\n"
+				+ "(me.Fecha >=('"+ fechaI +"') AND me.Fecha <('"+ fechaF +"'))and \n"
+				+ "me.HoraIncio is null \n"
+				+ "group by me.Fecha\n"
+				+ "order by me.Fecha ASC;");
+		return view;
+	}
+
+	@Override
+	public List<Map<String, Object>> valoresMetAsociadoTrafo(Macro macro) {
+
+		String fechaI = macro.getFechaInicio() + " "+ macro.getHoraInicio();
+		String fechaF = macro.getFechaFin() + " "+ macro.getHoraFin();
+
+		List<Map<String,Object>>view = template.queryForList ("Select C.Concentrador_ID Cnc, M.ID met, M.Serial Serial_MET, Me.Num_val AI, T.Codigo codigo_TRAFO, T.CargaAforada, (SUBSTRING(Me.Fecha, 1, 10)) Fecha, Me.Num_val+T.CargaAforada medidoresMasCargaAforada\n"
+				+ " from Inpetel_Cloud.Medidor M, Inpetel_Cloud.Medidas Me, Inpetel_Cloud.Transformador T, Inpetel_Cloud.Asoc_concen_medidor C where\n"
+				+ " M.ID IN ( (SELECT  me.ID\n"
+				+ "FROM Inpetel_Cloud.Transformador tr,\n"
+				+ "Inpetel_Cloud.Asoc_concen_medidor aso,\n"
+				+ "Inpetel_Cloud.Medidor me\n"
+				+ "where tr.ID='"+ macro.getIdTrafo() +"' and\n"
+				+ "tr.Concentrador_ID = aso.Concentrador_ID and\n"
+				+ "aso.Medidor_ID = me.ID and\n"
+				+ "me.ID NOT IN(SELECT Medidor_ID FROM Inpetel_Cloud.Macro))) and M.ID = Me.Medidor_ID and C.Medidor_ID = M.ID and C.Concentrador_ID = T.Concentrador_ID\n"
+				+ " and Me.Fecha >=('"+ fechaI +"') AND Me.Fecha <('"+ fechaF +"') and Me.InfoMedidas_ID = '2' and Me.HoraIncio is null group by Me.Fecha"
+						+ " order by Me.Fecha ASC;\n"
+						+ ";");
+		return view;
+	}
+
+	@Override
+	public ArrayList<Integer> balanceDiario(Macro macro) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

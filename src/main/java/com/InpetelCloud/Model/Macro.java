@@ -11,6 +11,10 @@ public class Macro {
 		private String idMedidor;
 		private String idUsuario;
 		private String idTrafo;
+		private String fechaInicio;
+		private String horaInicio;
+		private String fechaFin;
+		private String horaFin;
 //		private String fechaCreate;
 //		private String fechaUpdate;
 		
@@ -72,6 +76,40 @@ public class Macro {
 		public void setIdTrafo(String idTrafo) {
 			this.idTrafo = idTrafo;
 		}
+
+		public String getFechaInicio() {
+			return fechaInicio;
+		}
+
+		public void setFechaInicio(String fechaInicio) {
+			this.fechaInicio = fechaInicio;
+		}
+
+		public String getHoraInicio() {
+			return horaInicio;
+		}
+
+		public void setHoraInicio(String horaInicio) {
+			this.horaInicio = horaInicio;
+		}
+
+		public String getFechaFin() {
+			return fechaFin;
+		}
+
+		public void setFechaFin(String fechaFin) {
+			this.fechaFin = fechaFin;
+		}
+
+		public String getHoraFin() {
+			return horaFin;
+		}
+
+		public void setHoraFin(String horaFin) {
+			this.horaFin = horaFin;
+		}
+		
+		
 
 //		public String getFechaCreate() {
 //			return fechaCreate;
