@@ -120,8 +120,11 @@ public interface ConsultasInterface {
 	//BALANCE Consulta para traer los datos de los medidores asociados al trafo, sin macromedidor 
 	public List<Map<String, Object>> valoresMetAsociadoTrafo(Macro macro);
 
-	//BALANCE diario 
-	public ArrayList<Integer> balanceDiario(Macro macro);
+	//BALANCE diario en porcentaje 
+	public ArrayList<Double> balanceDiarioPorcentaje(Macro macro);
+	
+	//BALANCE diario perdida tecnica 
+	public ArrayList<Double> balanceDiarioPerdidaTecnica(Macro macro);
 
 
 	

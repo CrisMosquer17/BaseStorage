@@ -322,10 +322,16 @@ public class ConsultasController {
 		return service.valoresMetAsociadoTrafo(macro);
 	}
 	
-	@PostMapping("/verBalanceDiario")
+	@PostMapping("/verBalanceDiarioPorcentaje")
 	@CrossOrigin(origins="*")
-	public ArrayList<Integer> balanceDiario(@RequestBody Macro macro){
-		return service.balanceDiario(macro);
+	public ArrayList<Double> balanceDiarioPorcentaje(@RequestBody Macro macro){
+		return service.balanceDiarioPorcentaje(macro);
+	}
+	
+	@PostMapping("/verBalanceDiarioPerdidaTecnica")
+	@CrossOrigin(origins="*")
+	public ArrayList<Double> balanceDiarioPerdidaTecnica(@RequestBody Macro macro){
+		return service.balanceDiarioPerdidaTecnica(macro);
 	}
 	
 	

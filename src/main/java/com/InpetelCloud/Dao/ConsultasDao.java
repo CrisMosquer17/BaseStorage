@@ -487,7 +487,7 @@ public class ConsultasDao implements ConsultasInterface{
 				+ "and Ma.Concentrador_ID = A.Concentrador_ID)) and Co.ID = C.Concentrador_ID\n"
 				+ "and M.ID = Me.Medidor_ID and C.Medidor_ID = M.ID and C.Concentrador_ID = T.Concentrador_ID\n"
 				+ "and Me.Fecha >=('"+ fechaI +"') AND Me.Fecha <=('"+ fechaF +"')\n"
-				+ "and Me.HoraIncio is null and Me.InfoMedidas_ID = '2' group by Me.Fecha Order By Serial_MET, Fecha;\n"
+				+ "and Me.HoraIncio is null and Me.InfoMedidas_ID = '2' group by Me.Fecha Order By Fecha;\n"
 				+ " ");
 		return view;
 	}
@@ -504,13 +504,19 @@ public class ConsultasDao implements ConsultasInterface{
 				+ " Inpetel_Cloud.Macro Ma Where\n"
 				+ " A.Concentrador_ID = '"+ macro.getIdConcentrador()+"' and M.ID = A.Medidor_ID and M.ID != Ma.Medidor_ID\n"
 				+ " and Ma.Concentrador_ID = A.Concentrador_ID) and M.ID = Me.Medidor_ID and C.Medidor_ID = M.ID and C.Concentrador_ID = T.Concentrador_ID\n"
-				+ " and Me.Fecha >=('"+ fechaI +"') AND Me.Fecha <('"+ fechaF +"') and Me.InfoMedidas_ID = '2' and Me.HoraIncio is null group by Me.Fecha ;\n"
+				+ " and Me.Fecha >=('"+ fechaI +"') AND Me.Fecha <('"+ fechaF +"') and Me.InfoMedidas_ID = '2' and Me.HoraIncio is null group by Me.Fecha Order By Fecha ;\n"
 				+ " ");
 		return view;
 	}
 
 	@Override
-	public ArrayList<Integer> balanceDiario(Macro macro) {
+	public ArrayList<Double> balanceDiarioPorcentaje(Macro macro) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Double> balanceDiarioPerdidaTecnica(Macro macro) {
 		// TODO Auto-generated method stub
 		return null;
 	}

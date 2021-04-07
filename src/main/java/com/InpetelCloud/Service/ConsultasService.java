@@ -338,7 +338,7 @@ public class ConsultasService implements ConsultasInterface {
 
 	//Retorna porcentaje del balance
 	@Override
-	public ArrayList<Integer> balanceDiario(Macro macro){
+	public ArrayList<Double> balanceDiarioPorcentaje(Macro macro){
 		List<Map<String, Object>> macroM = valoresMacromedidor(macro);
 		List<Map<String, Object>> metTrafo = valoresMetAsociadoTrafo(macro);
 		
@@ -357,17 +357,23 @@ public class ConsultasService implements ConsultasInterface {
 			metTrafoDouble.add(Double.parseDouble(metTrafoString.get(n)));
 		}
 		
-		ArrayList<Integer> metTrafoInteger =  new ArrayList<Integer>();
-		for(Double d : metTrafoDouble){
-			metTrafoInteger.add(d.intValue());
+		ArrayList<Double> macroMDouble =  new ArrayList<Double>();
+		for (int p = 0; p < macroMString.size(); p++) {
+			macroMDouble.add(Double.parseDouble(macroMString.get(p)));
 		}
 		
-		ArrayList<Integer> macroMInteger = getIntegerArray(macroMString);
-		ArrayList<Integer> resta = new ArrayList<>();
+//		ArrayList<Integer> metTrafoInteger =  new ArrayList<Integer>();
+//		for(Double d : metTrafoDouble){
+//			metTrafoInteger.add(d.intValue());
+//		}
+		
+		//ArrayList<Integer> macroMInteger = getIntegerArray(macroMString);
+		ArrayList<Double> resta = new ArrayList<>();
 
 		//
-		for (int l = 0; l < metTrafoInteger.size(); l++) {
-				resta.add((metTrafoInteger.get(l)/ macroMInteger.get(l))*100);
+		for (int l = 0; l < metTrafoDouble.size(); l++) {
+				resta.add((metTrafoDouble.get(l)/ macroMDouble.get(l))*100);
+				//resta.add((metTrafoInteger.get(l)- macroMInteger.get(l)));	
 				}
 		try {
 			
@@ -375,9 +381,9 @@ public class ConsultasService implements ConsultasInterface {
 			System.out.println("No se puede dividir con cero");
 		}
 		
-//		for (int m = 0; m < resta.size(); m++) {
-//			System.out.println(resta.get(m));
-//		}
+		for (int m = 0; m < resta.size(); m++) {
+			System.out.println(resta.get(m));
+		}
 		return resta;
 	}
 	
@@ -393,6 +399,51 @@ public class ConsultasService implements ConsultasInterface {
         }       
         return result;
     }
+
+	@Override
+	public ArrayList<Double> balanceDiarioPerdidaTecnica(Macro macro) {
+		List<Map<String, Object>> macroM = valoresMacromedidor(macro);
+		List<Map<String, Object>> metTrafo = valoresMetAsociadoTrafo(macro);
+		
+		ArrayList<String> metTrafoString = new ArrayList<String>();
+		ArrayList<String> macroMString = new ArrayList<String>();
+		
+		for (int i = 0; i < metTrafo.size(); i++) {
+			metTrafoString.add(metTrafo.get(i).get("medidoresMasCargaAforada").toString());
+			}
+		for (int j = 0; j < macroM.size(); j++) {
+			macroMString.add(macroM.get(j).get("AI").toString());
+			}
+		
+		ArrayList<Double> metTrafoDouble =  new ArrayList<Double>();
+		for (int n = 0; n < metTrafoString.size(); n++) {
+			metTrafoDouble.add(Double.parseDouble(metTrafoString.get(n)));
+		}
+		
+		ArrayList<Double> macroMDouble =  new ArrayList<Double>();
+		for (int p = 0; p < macroMString.size(); p++) {
+			macroMDouble.add(Double.parseDouble(macroMString.get(p)));
+		}
+		
+//		ArrayList<Integer> metTrafoInteger =  new ArrayList<Integer>();
+//		for(Double d : metTrafoDouble){
+//			metTrafoInteger.add(d.intValue());
+//		}
+		
+		//ArrayList<Integer> macroMInteger = getIntegerArray(macroMString);
+		ArrayList<Double> resta = new ArrayList<>();
+
+		//
+		for (int l = 0; l < metTrafoDouble.size(); l++) {
+				//resta.add((metTrafoDouble.get(l)/ macroMDouble.get(l))*100);
+				resta.add((metTrafoDouble.get(l)- macroMDouble.get(l)));	
+		}
+		
+		for (int m = 0; m < resta.size(); m++) {
+			System.out.println(resta.get(m));
+		}
+		return resta;
+	}
 
 
 }
