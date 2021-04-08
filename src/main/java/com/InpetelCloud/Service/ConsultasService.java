@@ -439,9 +439,9 @@ public class ConsultasService implements ConsultasInterface {
 				resta.add((metTrafoDouble.get(l)- macroMDouble.get(l)));	
 		}
 		
-		for (int m = 0; m < resta.size(); m++) {
-			System.out.println(resta.get(m));
-		}
+//		for (int m = 0; m < resta.size(); m++) {
+//			System.out.println(resta.get(m));
+//		}
 		return resta;
 	}
 
